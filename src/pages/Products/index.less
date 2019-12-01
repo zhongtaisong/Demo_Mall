@@ -1,0 +1,49 @@
+.dm_Products {
+    padding-bottom: 30px;
+    .ant-row {
+        .ant-col-6 {
+            width: calc(25% - 15px);
+            margin: 0 20px 20px 0;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            &:nth-child(4n) {
+                margin-right: 0;
+            }
+            .ant-card {
+                .ant-card-cover {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    >img {
+                        width: 74%;
+                    }
+                }
+                .ant-card-body {
+                    padding: 0 24px 24px;
+                    .ant-card-meta-title {
+                        margin-bottom: 0;
+                        .ant-typography {
+                            margin-bottom: 0;
+                            color: #1890ff;
+                        }
+                    }
+                    .ant-card-meta-description {
+                        >a {
+                            color: #808080;
+                            font-size: 12px;
+                        }
+                        &:hover {
+                            >a {
+                                color: #1890ff;
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .ant-pagination {
+        text-align: right;
+        padding: 10px 0;
+    }
+}

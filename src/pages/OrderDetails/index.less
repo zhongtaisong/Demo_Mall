@@ -1,0 +1,63 @@
+.dm_OrderDetails {
+    height: 100%;
+    background: #fff;
+    margin-bottom: 30px !important;
+    border: solid 1px #e6e6e6;
+    padding: 20px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    .table_title {
+        h4 {
+            margin-bottom: 0;
+        }
+        div {
+            display: flex;
+            padding: 10px 0;
+            i {
+                font-style: normal;
+                font-weight: bold;
+                padding: 0 4px;
+            }
+        }
+    }
+    .imgs-style {
+        width: 100%;
+        cursor: pointer;
+    }
+    .title-style {
+        >p {
+            margin: 0;
+            cursor: pointer;
+            &:hover {
+                color: #40A9FF;
+                text-decoration: underline;
+            }
+        }
+        >span {
+            font-size: 12px;
+            color: #999;
+        }
+    }
+    .orider_details {
+        .ant-col-12 {
+            padding: 10px 30px;
+            dl {
+                dt {
+                    font-size: 14px;
+                    padding: 10px 0;
+                    font-weight: bold;
+                }
+                dd {
+                    display: flex;
+                    justify-content: flex-start;
+                    line-height: 24px;
+                    div {
+                        width: 72px;
+                    }
+                    p {
+                        flex: 1;
+                    }
+                }
+            }
+        }
+    }
+}

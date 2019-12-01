@@ -1,0 +1,38 @@
+@import '~@com/index.less';
+
+.dm_recommend {
+    display: flex;
+    margin: 30px 0;
+    .ant-col-8 {
+        width: 32%;
+        padding: 20px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        border: solid 1px #e6e6e6;
+        background-position: center;
+        position: relative;
+        background: #fff;
+        cursor: pointer;
+        &:not(:last-child) {
+            margin-right: 2%;
+        }
+        >img {
+            height: 120px;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            opacity: 0.2;
+            transform: translateY(-50%);
+        }
+        >div {
+            text-align: right;
+            >div {
+                font-size: 20px;
+                color: @font-color-blue;
+            }
+            p {
+                margin: 0;
+                padding: 10px 0;
+            }
+        }
+    }
+}

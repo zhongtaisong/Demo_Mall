@@ -1,0 +1,105 @@
+@import '~@com/index.less';
+@import "~slick-carousel/slick/slick.css"; 
+@import "~slick-carousel/slick/slick-theme.css";
+
+.dm_HotThisWeek {
+    .title {
+        width: 100%;
+        height: 92px;
+        line-height: 92px;
+        background: #fff;
+        text-align: center;
+        font-size: 26px;
+        color: @font-color-blue;
+        border: solid 1px #e6e6e6;
+        border-left: 0 none;
+        border-right: 0 none;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    }
+    .hot_content {
+        margin: 30px 0;
+        .slick-slider {
+            height: 338px;
+            .slick-arrow {
+                width: 50px;
+                height: 50px;
+                &::before {
+                    font-size: 50px;
+                    color: #d6d6d6;
+                }
+                &.slick-prev {
+                    left: -50px;
+                }
+                &.slick-next {
+                    right: -50px;
+                }
+            }
+            .slick-list {
+                width: 100%;
+                height: 100%;
+                .slick-track {
+                    width: 100% !important;
+                    height: 100%;
+                    display: flex;
+                    .slick-slide {
+                        width: 200px !important;
+                        margin: 0 10px;
+                        >div {
+                            >.ant-card {
+                                box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+                                border: solid 1px #e6e6e6;
+                                .ant-card-cover {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    height: 180px;
+                                    max-height: 180px;
+                                    cursor: move;
+                                    >img {
+                                        opacity: 0.8;
+                                        width: 90%;
+                                    }
+                                }
+                                .ant-card-body {
+                                    padding: 20px 24px;
+                                    .ant-card-meta-title {
+                                        >span {
+                                            font-weight: bold;
+                                            color: @font-color-555;
+                                            text-overflow: ellipsis;
+                                            overflow: hidden;
+                                            white-space: nowrap;
+                                            font-size: 16px;
+                                        }
+                                        &:hover {
+                                            span {
+                                                text-decoration: underline;
+                                            }
+                                        }
+                                    }
+                                    .ant-card-meta-description {
+                                        span {
+                                            display: block;
+                                            &.detials {
+                                                height: 54px;
+                                                max-height: 54px;
+                                                overflow: hidden;
+                                                text-align: justify;
+                                            }
+                                            &.price {
+                                                font-size: 18px;
+                                                color: @font-color-blue;
+                                                padding: 4px 0;
+                                                font-weight: bold;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
