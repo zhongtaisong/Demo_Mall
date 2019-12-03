@@ -11,7 +11,7 @@ import commoditySpecificationState from '@pages/ProductsDetail/components/Commod
 // 用户中心 - 上传头像 - 数据
 import headPhotoState from '@pages/UserCenter/components/HeadPhoto/state';
 // url前缀
-const PUBLIC_URL = 'http://127.0.0.1:8000/api/';
+const PUBLIC_URL = 'https://dmall.applinzi.com/api/';
 // 加密key
 const PWD_KEY = 'fjreqjklnvmsn9u9084931jj雨色轻风意柔情怜花殇12612132212';
 // 路由黑名单

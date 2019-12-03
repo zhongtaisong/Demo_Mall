@@ -1,6 +1,7 @@
 {
   "name": "demo_mall-pc-client",
   "version": "0.1.0",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@babel/core": "7.6.0",
@@ -152,6 +153,5 @@
     "presets": [
       "react-app"
     ]
-  },
-  "proxy": "http://localhost:8000/api/"
+  }
 }
