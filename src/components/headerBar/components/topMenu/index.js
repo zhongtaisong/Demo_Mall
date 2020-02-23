@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Row, Col, Icon } from 'antd';
+import { Row, Col, Icon, message } from 'antd';
 import { observer } from 'mobx-react';
 // 数据
 import state from './state';
@@ -14,25 +14,34 @@ class TopMenu extends React.Component {
 
     // 跳转到目标页面
     intoTargetPage = (that) => {
+        const { oauthCode, admin } = $state;
         if( that == 'login' ){
             this.props.history.push('/login');
         }else if( that == 'register' ){
             this.props.history.push('/register');
-        }else if( that == 'order' ){
-            this.props.history.push('/views/products/order');
-        }else if( that == 'collection' ){
-            this.props.history.push('/views/products/collection');
-        }else if( that == 'userCenter' ){
-            this.props.history.push('/views/user');
         }else if( that == 'logout' ){
             state.logoutData();
-        }else if( that == 'admin' ){
-            this.props.history.push('/admin');
+        }else{
+            if( oauthCode && oauthCode != 401 ){
+                if( that == 'admin' ){
+                    if( admin == 1 ){
+                        this.props.history.push(`/views/${that}`);
+                    }else{
+                        message.error('您不是管理员，无权进入后台！');
+                    }
+                }else{
+                    this.props.history.push(`/views/${that}`);
+                }
+            }else{
+                message.error('尚未登录，无法访问该页面！点击logo跳转首页');
+                this.props.history.replace('/login');
+            }
         }
     }
 
     render() {
-        const { uname } = $state;
+        const { uname, admin } = $state;
+        const { pathname } = this.props.location;
         return (
             <div className='dm_topMenu'>
                 <Row className='common_width'>
@@ -54,10 +63,20 @@ class TopMenu extends React.Component {
                                 </Fragment>
                             )
                         }
-                        <span onClick={ this.intoTargetPage.bind(this, 'order') }>我的订单</span>
-                        <span onClick={ this.intoTargetPage.bind(this, 'collection') }>我的收藏</span>
-                        <span onClick={ this.intoTargetPage.bind(this, 'userCenter') }>用户中心</span>
-                        <span onClick={ this.intoTargetPage.bind(this, 'admin') }>Demo_Mall 后台管理系统</span>
+                        {
+                            !pathname.includes('/views/admin') ? (
+                                <Fragment>
+                                    <span onClick={ this.intoTargetPage.bind(this, 'order') }>我的订单</span>
+                                    <span onClick={ this.intoTargetPage.bind(this, 'collection') }>我的收藏</span>
+                                    <span onClick={ this.intoTargetPage.bind(this, 'user') }>用户中心</span>
+                                    {
+                                        admin == 1 ? (
+                                            <span onClick={ this.intoTargetPage.bind(this, 'admin') }>商城后台</span>
+                                        ) : ''
+                                    }
+                                </Fragment>
+                            ) : ''
+                        }
                     </Col>
                 </Row>
             </div>

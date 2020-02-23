@@ -1,83 +1,107 @@
-import { observable, action, toJS } from "mobx";
-import service from './service';
+import { observable, action } from "mobx";
 import { message } from "antd";
+// 接口服务
+import service from './service';
 
 class State {
 
+    // 收货地址
     @observable dataSource01 = [];
     @action setDataSource01 = (data = []) => {
         this.dataSource01 = data;
     }
 
+    // 选择收件人
+    @observable selectAddress = {};
+    @action setSelectAddress = (data = {}) => {
+        this.selectAddress = data;
+    }
+
+    // 商品详情
     @observable dataSource02 = [];
     @action setDataSource02 = (data = []) => {
         this.dataSource02 = data;
     }
 
-    @observable selectedRowKeys = [];
-    @action setSelectedRowKeys = (data = []) => {
-        this.selectedRowKeys = data;
+    // 商品总数
+    @observable num = 1;
+    @action setNum = (data = 1) => {
+        this.num = data;
     }
 
-    @observable selectedRows = [];
-    @action setSelectedRows = (data = []) => {
-        this.selectedRows = data;
+    // 商品总价
+    @observable totalprice = 0;
+    @action setTotalprice = (data = 0) => {
+        this.totalprice = data;
     }
 
-    @observable consigneeInfo = {};
-    @action setConsigneeInfo = (data = {}) => {
-        if( data.phone ) {
-            let phone = data.phone.slice(-8, -4);
-            data.phone = data.phone.replace(new RegExp(phone), '****');
-        }
-        this.consigneeInfo = data;
+    // 每件商品对应的数量
+    @observable nums = null;
+    @action setNums = (data = null) => {
+        this.nums = data;
     }
 
-    selAddressData = async () => {
-        const res = await service.selAddressData({
-            uname: sessionStorage.getItem('uname')
-        });
-        try{
-            if( res.data.code === 200 ){
-                this.setDataSource01( res.data.data );
-                let defaultId = res.data.data.filter(item => item.isDefault == 1);
-                this.setSelectedRowKeys( [defaultId[0].id] );
-                this.setConsigneeInfo( defaultId[0] );
-                this.setSelectedRows( defaultId );
-            }
-        }catch(err) {
-            console.log(err);
-        }
-    }
-
-    addorderData = async ({productsList, consigneeInfo} = {}) => {
-        const res = await service.addorderData({
+    // 查询结算页，收货地址，商品详情
+    settlementData = async (id, type, num) => {
+        const res = await service.settlementData({
             uname: sessionStorage.getItem('uname'),
-            productsList,
-            consigneeInfo
+            id, type
         });
         try{
             if( res.data.code === 200 ){
-                message.success('提交订单成功')
+                let { address, productsInfo=[] } = res.data.data || {};
+                if( type == 'detail' ){
+                    productsInfo[0].num = num;
+                }
+                this.setDataSource01(address);
+                this.setDataSource02(productsInfo);
+                // 默认收件人
+                let df = address.filter(item => item.isDefault == 1);
+                df.length && this.setSelectAddress(df[0]);
+
+                // 商品总价
+                let totalprice = productsInfo.reduce((total, item, index, arr) => {
+                    return total + item.price * item.num;
+                }, 0);
+                this.setTotalprice(totalprice);
+
+                // 商品总数
+                let tNum = productsInfo.reduce((total, item, index, arr) => {
+                    return total + item.num;
+                }, 0);
+                this.setNum( tNum );
+
+                // 每件商品对应的数量
+                let nums = productsInfo.map(item => item.num);
+                nums = nums.join(',');
+                this.setNums(nums);
             }
-            return res.data.code;
         }catch(err) {
             console.log(err);
         }
     }
 
-    delcartData = async (addorderData = {}, ids = []) => {
-        const res = await service.delcartData({
-            uname: sessionStorage.getItem('uname'),
-            ids,
-        });
+    // 提交订单
+    addorderData = async (values = {}) => {
+        const res = await service.addorderData(values);
         try{
             if( res.data.code === 200 ){
-                return this.addorderData( addorderData );
+                message.success(res.data.msg);
+                return res.data.data;
             }
         }catch(err) {
             console.log(err);
         }
+    }
+
+    // 清除mobx数据
+    clearMobxData = () => {
+        this.setDataSource01();
+        this.setSelectAddress();
+        this.setDataSource02();
+        this.setNum();
+        this.setTotalprice();
+        this.setNums();
     }
 }
 

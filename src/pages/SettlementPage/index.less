@@ -18,40 +18,35 @@
             margin: 10px 0;
         }
     }
-    .imgs-style {
+    .imgs_style {
         width: 100%;
         cursor: pointer;
     }
-    .title-style {
-        >p {
-            margin: 0;
-            cursor: pointer;
-            &:hover {
-                color: #40A9FF;
-                text-decoration: underline;
-            }
-        }
-        >span {
-            font-size: 12px;
-            color: #999;
-        }
-    }
     .pay_info {
-        padding: 12px 0;
-        .ant-col-24 {
-            font-size: 14px;
-            padding: 6px 0;
-            display: flex;
-            justify-content: flex-end;
-            i {
-                font-style: normal;
-                color: @font-color-blue;
-                font-weight: bold;
+        width: 86%;
+        margin: 10px auto;
+        .ant-col-12 {
+            padding: 0 20px;
+            >div {
+                line-height: 2rem;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                .pay_info_select {
+                    width: 100px;
+                    padding: 6px 0;
+                }
             }
-            &:first-child {
-                i {
-                    padding-right: 4px;
-                }              
+            &.pay_money {
+                >div {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    span {
+                        color: @font-color-blue;
+                        padding: 0 2px;
+                    }
+                }
             }
         }
     }

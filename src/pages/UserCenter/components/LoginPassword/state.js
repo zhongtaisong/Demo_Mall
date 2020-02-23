@@ -1,7 +1,9 @@
-import service from './service';
 import { message } from 'antd';
 import { observable, action } from 'mobx';
-import moment from 'moment';
+// 全局公共方法
+import { session } from '@utils';
+// 接口服务
+import service from './service';
 
 class State {
 
@@ -10,31 +12,16 @@ class State {
         this.history = data;
     }
 
-    logData = async (values = {}) => {
-        const res = await service.logData({
-            uname: sessionStorage.getItem('uname'),
-            upwd: values.upwd,
-            isUser: true
+    // 修改登录密码
+    updateUpwdData = async (obj = {}) => {
+        const res = await service.updateUpwdData({
+            uname: session.getItem('uname'),
+            ...obj
         });
         try{
             if( res.data.code === 200 ){
-                this.cpwdData( values.newUpwd );
-            }
-        }catch(err) {
-            console.log(err);
-        }
-    }
-
-    cpwdData = async (newUpwd = '') => {
-        const res = await service.cpwdData({
-            uname: sessionStorage.getItem('uname'),
-            newUpwd
-        });
-        try{
-            if( res.data.code === 200 ){
-                message.success('登录密码更新成功!');        
-                sessionStorage.clear();
-                this.history.push('/login');
+                message.success(res.data.msg);
+                window.location.replace('/login');
             }
         }catch(err) {
             console.log(err);

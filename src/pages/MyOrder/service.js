@@ -1,17 +1,35 @@
 import axios from '@axios';
-// 订单查询
-const cselOrdersUrl = 'cart/selOrders';
+// 查询
+const selOrdersUrl = 'order/select';
+// 删除
+const deleteOrderUrl = 'order/delete';
 
 class Service {
+
     selOrdersData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.post(cselOrdersUrl, req).then(res => {
+            axios.get(selOrdersUrl, {
+                params: req
+            }).then(res => {
                 resolve(res);
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
+
+    deleteOrderData = (req = {}) => {
+        return new Promise((resolve, reject) => {
+            axios.get(deleteOrderUrl, {
+                params: req
+            }).then(res => {
+                resolve(res);
+            }).catch(err => {
+                console.log(err);
+            });
+        });
+    }
+
 }
 
 export default new Service();

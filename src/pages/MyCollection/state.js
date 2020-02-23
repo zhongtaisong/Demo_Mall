@@ -2,6 +2,8 @@ import { observable, action, toJS } from "mobx";
 import { message } from 'antd';
 // 接口服务
 import service from './service';
+// 全局设置
+import { searchAreaState } from '@config';
 
 class State {
 
@@ -18,16 +20,17 @@ class State {
     }
 
     // 获取我的收藏列表数据 - 发起请求
-    selcolsListData = async () => {
-        const res = await service.selcolsListData({
-            uname: sessionStorage.getItem('uname')
+    cartLisData = async () => {
+        const res = await service.cartLisData({
+            uname: sessionStorage.getItem('uname'),
+            collection: 1
         });
         try{
             if( res.data.code === 200 ){
                 if( res.data.data ){
                     this.setDataSource( res.data.data );
                 }
-
+                searchAreaState.productNumData();
             }
         }catch(err) {
             console.log(err);
@@ -35,17 +38,15 @@ class State {
     }
 
     // 取消收藏指定id数据
-    delcolsData = async (ids = [], that) => {
-        const res = await service.delcolsData({
+    delcartData = async (ids = []) => {
+        const res = await service.delcartData({
             uname: sessionStorage.getItem('uname'),
             ids
         });
         try{
             if( res.data.code === 200 ){
-                if( that != 'cart' ){
-                    message.success('取消收藏成功！')
-                }
-                this.selcolsListData();
+                message.success(res.data.msg);
+                this.cartLisData();
             }
         }catch(err) {
             console.log(err);
@@ -53,14 +54,16 @@ class State {
     }
 
     // 加入购物车
-    addcartData = async (ids = [], selectedRows = []) => {
-        const res = await service.addcartData({ 
+    addcolsData = async (cartId = []) => {
+        const res = await service.addcolsData({ 
             uname: sessionStorage.getItem('uname'), 
-            cartList: selectedRows
+            ids: cartId,
+            collection: 0
         });
         try{
             if( res.data.code === 200 ){
-                this.delcolsData( ids, 'cart' );
+                message.success(res.data.msg);
+                this.cartLisData();
             }
         }catch(err) {
             console.log(err);

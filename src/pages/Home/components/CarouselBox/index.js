@@ -27,16 +27,14 @@ class CarouselBox extends React.Component {
                 <div className='dm_CarouselBox'>
                     {
                         toJS( carouselList ).length ? (
-                            <Carousel autoplay={false} effect="fade">
+                            <Carousel autoplay={ false } effect="fade">
                                 {
                                     toJS( carouselList ).map( item => {
                                         return (
-                                            <Link key={ item.cid } 
-                                                to={{ pathname: '/views/products/detail', state: {
-                                                    lid: item.lid
-                                                } }}
+                                            <Link key={ item.id } 
+                                                to={'/views/products/detail/' + item.id}
                                             >
-                                                <img src={ `${ PUBLIC_URL }${ item.img }` } alt={ item.titile } />
+                                                <img src={ `${ PUBLIC_URL }${ item.bannerPic }` } alt='' title={ item.description } />
                                             </Link>
                                         );
                                     } )

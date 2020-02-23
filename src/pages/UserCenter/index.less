@@ -1,9 +1,11 @@
+@import '~@com/index.less';
+
 .dm_UserCenter {
     height: 100%;
     background: #fff;
     margin-bottom: 30px !important;
     border: solid 1px #e6e6e6;
-    padding: 20px;
+    padding: 10px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
     .dm_PersonalInformation, .dm_LoginPassword {
         .ant-row {
@@ -49,22 +51,20 @@
         a {
             padding: 0 4px;
             &:hover {
-                text-decoration: underline;
+                color: @font-color-blue;
             }
         }
     }
     .table_title {
+        display: flex;
+        padding: 0px 0 6px 10px;
+        border-bottom: 1px solid #f0f0f0;
         h4 {
             margin-bottom: 0;
         }
-        div {
-            display: flex;
-            padding: 10px 0;
-            i {
-                font-style: normal;
-                font-weight: bold;
-                padding: 0 4px;
-            }
+        >.ant-select {
+            min-width: 12%;
+            margin-left: 20px;
         }
     }
 }

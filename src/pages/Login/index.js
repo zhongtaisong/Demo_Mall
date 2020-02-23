@@ -23,7 +23,7 @@ import './index.less';
 const loginBg = {
     background: `url(${bigImg}) no-repeat`,
     backgroundSize: 'cover'
-}
+};
 
 // 登录、忘记密码、新密码
 @observer
@@ -34,7 +34,7 @@ class Login extends React.Component {
         super(props);
         this.state = {
             code: 0
-        }
+        };
     }
 
     componentDidMount() {
@@ -59,7 +59,7 @@ class Login extends React.Component {
         if( that === 'forget' ){
             this.setState({
                 code: 1
-            })
+            });
         }else if( that === 'newPwd' ){
             this.props.form.validateFields(async (err, values) => {
                 if (!err) {
@@ -69,7 +69,7 @@ class Login extends React.Component {
                     if( code === 200 ){
                         this.setState({
                             code: 2
-                        })
+                        });
                     }
                 }
             });
@@ -81,7 +81,7 @@ class Login extends React.Component {
                     if( code === 200 ){
                         this.setState({
                             code: 0
-                        })
+                        });
                     }
                 }
             });
@@ -97,7 +97,7 @@ class Login extends React.Component {
         return (
             <div className='dm_Login'>
                 <div className='common_width logo'>
-                    <Link to='/'>
+                    <Link to='/' title='首页'>
                         <img src={ logoImg } alt='logo' />
                     </Link>
                 </div>

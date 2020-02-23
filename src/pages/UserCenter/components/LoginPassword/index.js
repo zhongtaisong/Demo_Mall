@@ -34,12 +34,29 @@ class LoginPassword extends React.Component {
                     message.error('两次输入的新密码不一致');
                     return;
                 }else{
-                    values.upwd = this.$md5( values.upwd + PWD_KEY );
-                    values.newUpwd = this.$md5( values.newUpwd + PWD_KEY );
-                    state.logData( values );
+                    values.oldUpwd = this.$md5(values.oldUpwd + PWD_KEY);
+                    values.newUpwd = this.$md5(values.newUpwd + PWD_KEY);
+                    delete values['confirmNewUpwd'];
+                    state.updateUpwdData(values);
                 }
             }
         });
+    }
+
+    // 校验两次输入的新密码是否一致
+    validateUpwd = (rule, value, callback) => {
+        const { fullField } = rule || {};
+        const { getFieldValue } = this.props.form;
+        if( fullField == 'newUpwd' ){
+            if( getFieldValue && getFieldValue('confirmNewUpwd') && getFieldValue('confirmNewUpwd') != value ){
+                callback('两次输入的新密码不一致');
+            }
+        }else if( fullField == 'confirmNewUpwd' ){
+            if( getFieldValue && getFieldValue('newUpwd') && getFieldValue('newUpwd') != value ){
+                callback('两次输入的新密码不一致');
+            }
+        }
+        callback();
     }
 
     componentWillUnmount() {
@@ -55,7 +72,7 @@ class LoginPassword extends React.Component {
                         <Col span={ 12 }>
                             <Form.Item label="旧密码">
                                 {
-                                    getFieldDecorator('upwd', {
+                                    getFieldDecorator('oldUpwd', {
                                         rules: [{ 
                                             required: true, 
                                             whitespace: true,
@@ -76,6 +93,8 @@ class LoginPassword extends React.Component {
                                             required: true,
                                             whitespace: true,
                                             message: '必填' 
+                                        },{
+                                            validator: this.validateUpwd
                                         }]
                                     }
                                     )(
@@ -94,6 +113,8 @@ class LoginPassword extends React.Component {
                                             required: true,
                                             whitespace: true,
                                             message: '必填' 
+                                        },{
+                                            validator: this.validateUpwd
                                         }]
                                     }
                                     )(

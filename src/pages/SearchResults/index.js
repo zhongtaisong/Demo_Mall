@@ -20,7 +20,7 @@ class SearchResults extends React.Component {
                 <Table 
                     columns={ columns } 
                     dataSource={ searchResultList } 
-                    rowKey={ (record) => record.key }
+                    rowKey={ (record) => record.id }
                     pagination={ false }
                     scroll={{ x: false, y: false }}
                     showHeader={ false }

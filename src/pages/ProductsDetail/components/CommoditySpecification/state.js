@@ -14,10 +14,10 @@ class State {
     }
 
     // 加入购物车 - 发起请求
-    addcartData = async (lid, cartList = []) => {
+    addcartData = async (list = []) => {
         const res = await service.addcartData({ 
             uname: sessionStorage.getItem('uname'), 
-            cartList
+            list
         });
         try{
             if( res.data.code === 200 ){

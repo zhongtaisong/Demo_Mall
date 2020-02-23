@@ -8,6 +8,12 @@ class State {
         this.uname = data;
     }
 
+    // 是否有超级管理员权限
+    @observable admin = 0;
+    @action setAdmin = (data = 0) => {
+        this.admin = data;
+    }
+
     // 认证code
     @observable oauthCode = null;
     @action setOauthCode = (data = null) => {
@@ -24,6 +30,12 @@ class State {
     @observable isLoading = false;
     @action setIsLoading = (data = false) => {
         this.isLoading = data;
+    }
+
+    // 菜单 和 按钮 权限
+    @observable adminObj = {};
+    @action setAdminObj = (data = {}) => {
+        this.adminObj = data;
     }
 
 }

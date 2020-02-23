@@ -9,48 +9,93 @@ import MyEvaluation from '@pages/MyEvaluation';
 import MyOrder from '@pages/MyOrder';
 import WebsiteDescription from '@pages/WebsiteDescription';
 import UserCenter from '@pages/UserCenter';
-import ResultPages from '@pages/ResultPages';
 import Message from '@pages/Message';
+import Admin from '@pages/Admin';
+import BrandList from '@pages/Admin/productsManage/brandList';
+import ProductList from '@pages/Admin/productsManage/productList/list';
+import OrdersList from '@pages/Admin/ordersManage/orderList/list';
+import UsersManageList from '@pages/Admin/usersManage/userList/list';
+import CommentsManageList from '@pages/Admin/commentsManage/commentList/list';
+import AdminList from '@pages/Admin/adminList';
 
 // auth 登录权限
 // noDirectAccess 禁止直接访问
 export default [
     { 
-        id: 0,
+        id: 1,
         path: '/views',
         redirect: '/views/home',
         title: '首页'
     },
     { 
-        id: 1,
+        id: 2,
         path: '/views/home',
         name: 'Home',
         component: Home,
         title: '首页'
     },
     { 
-        id: 2,
+        id: 3,
         path: '/views/products',
         name: 'Products',
         component: Products,
         title: '杂货铺'
     },
     { 
-        id: 3,
-        path: '/views/products/detail',
+        id: 4,
+        path: '/views/web',
+        name: 'WebsiteDescription',
+        component: WebsiteDescription,
+        title: '网站说明'
+    },
+    { 
+        id: 5,
+        path: '/views/message',
+        name: 'Message',
+        component: Message,
+        title: '留言'
+    },
+    { 
+        id: 6,
+        path: '/views/cart',
+        name: 'MyShoppingCart',
+        component: MyShoppingCart,
+        title: '我的购物车',
+        noDirectAccess: true
+    },
+    { 
+        id: 7,
+        path: '/views/order',
+        name: 'MyOrder',
+        component: MyOrder,
+        title: '我的订单',
+        noDirectAccess: true
+    },
+    { 
+        id: 8,
+        path: '/views/collection',
+        name: 'MyCollection',
+        component: MyCollection,
+        title: '我的收藏',
+        noDirectAccess: true
+    },
+    { 
+        id: 9,
+        path: '/views/user',
+        name: 'UserCenter',
+        component: UserCenter,
+        title: '用户中心',
+        noDirectAccess: true
+    },
+    { 
+        id: 10,
+        path: '/views/products/detail/:id',
         name: 'ProductsDetail',
         component: ProductsDetail,
         title: '商品详情'
     },
     { 
-        id: 4,
-        path: '/views/products/cart',
-        name: 'MyShoppingCart',
-        component: MyShoppingCart,
-        title: '我的购物车'
-    },
-    { 
-        id: 5,
+        id: 11,
         path: '/views/products/cart/settlement',
         name: 'SettlementPage',
         component: SettlementPage,
@@ -58,7 +103,7 @@ export default [
         noDirectAccess: true
     },
     { 
-        id: 6,
+        id: 12,
         path: '/views/products/cart/orderDetails',
         name: 'OrderDetails',
         component: OrderDetails,
@@ -66,7 +111,7 @@ export default [
         noDirectAccess: true
     },
     { 
-        id: 7,
+        id: 13,
         path: '/views/products/cart/evaluate',
         name: 'MyEvaluation',
         component: MyEvaluation,
@@ -74,45 +119,52 @@ export default [
         noDirectAccess: true
     },
     { 
-        id: 8,
-        path: '/views/products/collection',
-        name: 'MyCollection',
-        component: MyCollection,
-        title: '我的收藏'
+        id: 14,
+        path: '/views/admin',
+        redirect: '/views/admin/brand',
+        title: '商城后台',
+        noDirectAccess: true
     },
-    { 
-        id: 9,
-        path: '/views/products/order',
-        name: 'MyOrder',
-        component: MyOrder,
-        title: '我的订单'
+    {
+        id: 15,
+        path: '/views/admin/brand',
+        name: 'BrandList',
+        component: BrandList,
+        title: '商品管理-品牌'
     },
-    { 
-        id: 10,
-        path: '/views/web',
-        name: 'WebsiteDescription',
-        component: WebsiteDescription,
-        title: '网站说明'
+    {
+        id: 16,
+        path: '/views/admin/product',
+        name: 'ProductList',
+        component: ProductList,
+        title: '商品管理-商品'
     },
-    { 
-        id: 11,
-        path: '/views/user',
-        name: 'UserCenter',
-        component: UserCenter,
-        title: '用户中心'
+    {
+        id: 17,
+        path: '/views/admin/order',
+        name: 'OrdersList',
+        component: OrdersList,
+        title: '订单管理-订单'
     },
-    { 
-        id: 12,
-        path: '/views/message',
-        name: 'Message',
-        component: Message,
-        title: '留言'
+    {
+        id: 18,
+        path: '/views/admin/user',
+        name: 'UsersManageList',
+        component: UsersManageList,
+        title: '用户管理-用户'
     },
-    { 
-        id: 99,
-        path: '/views/401',
-        name: 'ResultPages',
-        component: ResultPages,
-        title: '401无权限'
+    {
+        id: 19,
+        path: '/views/admin/comment',
+        name: 'CommentsManageList',
+        component: CommentsManageList,
+        title: '评论管理-评论'
+    },
+    {
+        id: 20,
+        path: '/views/admin/adminList',
+        name: 'AdminList',
+        component: AdminList,
+        title: '管理员列表'
     }
 ];

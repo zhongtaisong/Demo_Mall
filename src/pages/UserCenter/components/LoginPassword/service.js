@@ -1,27 +1,19 @@
 import axios from '@axios';
-
-const logUrl = 'users/log';
-const cpwdUrl = 'users/vali/cpwd';
+// 修改登录密码
+const updateUpwdUrl = 'users/update/upwd';
 
 class Service {
-    logData = (req = {}) => {
+
+    updateUpwdData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.post(logUrl, req).then(res => {
+            axios.post(updateUpwdUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
                 reject(err);
             });
-        })
+        });
     }
-    cpwdData = (req = {}) => {
-        return new Promise((resolve, reject) => {
-            axios.post(cpwdUrl, req).then(res => {
-                resolve(res);
-            }).catch(err => {
-                reject(err);
-            });
-        })
-    }
+
 }
 
 export default new Service();

@@ -18,6 +18,10 @@ import state from './state';
 // 全局数据
 import $state from '@store';
 
+function Bus() {
+    return <h3>Bus</h3>;
+  }
+
 // 根页面
 @observer
 class Index extends React.Component {
@@ -26,12 +30,17 @@ class Index extends React.Component {
         this.props.history && state.setHistory( this.props.history );
     }
 
-    componentDidMount() {
+    initDid = () => {
         state.oauthData();
+        state.adminData();
+    }
+
+    componentDidMount() {
+        this.initDid();
     }
 
     componentWillReceiveProps() {
-        state.oauthData();
+        this.initDid();
     }
 
     render() {
@@ -46,39 +55,33 @@ class Index extends React.Component {
                         !isShowResultPage ? (
                             <Switch>
                                 {
-                                    Routes && Routes[0] && Routes[0].path && Routes[0].redirect ? (
-                                        <Redirect exact from={ Routes[0].path } to={ Routes[0].redirect } />
-                                    ) : ''
-                                }
-                                {
                                     Routes.map(item => {
-                                        return (
-                                            <Route exact path={ item.path } key={ item.id }
-                                                render={
-                                                    props => {
-                                                        let obj = {};
-                                                        if( window.location.pathname == '/views/401' ){
-                                                            obj = { 
-                                                                status: '401', 
-                                                                title: '401', 
-                                                                subTitle: '很抱歉，尚未登录没有权限访问！', 
-                                                                isSmallPage: true 
+                                        if( item.redirect ){
+                                            if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
+                                                return (<Redirect from={ this.props.location.pathname } to={ '/login' } key={ item.id } />);
+                                            }else{
+                                                return (<Redirect exact from={ item.path } to={ item.redirect } key={ item.id } />);
+                                            }
+                                        }else{
+                                            return (
+                                                <Route exact path={ item.path } key={ item.id }
+                                                    render={
+                                                        props => {
+                                                            if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
+                                                                return (<Redirect from={ props.location.pathname } to={ '/login' } />);
+                                                            }else{
+                                                                return (<item.component {...props} />);
                                                             }
                                                         }
-                                                        if( item.noDirectAccess && oauthCode == 401 ){
-                                                            props.history.goBack();
-                                                        }else{
-                                                            return (<item.component {...props} {...obj} />);
-                                                        }
-                                                        return (<item.component {...props} {...obj} />);
                                                     }
-                                                }
-                                            />
-                                        );
+                                                />
+                                            );
+                                        }
                                     })
                                 }
+                                <Route path='/views/admin/pm/brands/list' component={ Bus } />
                                 {/* 所有错误路由跳转页面 */}
-                                <Route component={ ResultPages } />
+                                {/* <Route component={ ResultPages } /> */}
                             </Switch>
                         ) : (
                             <SearchResults 

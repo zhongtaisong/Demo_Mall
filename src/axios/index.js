@@ -1,13 +1,13 @@
 import axios from "axios";
 import { message } from 'antd';
 // 设置
-import { PUBLIC_URL, BLACK_LIST_PATH, topMenuState } from '@config';
+import { PUBLIC_URL, BLACK_LIST_PATH } from '@config';
 // 全局数据
 import $state from '@store';
 
 const $axios = axios.create({
     baseURL: PUBLIC_URL,
-    timeout: 10 * 1000,
+    timeout: 60 * 1000,
     withCredentials: true
     // headers: {'X-Custom-Header': 'foobar'}
 });
@@ -15,7 +15,6 @@ const $axios = axios.create({
 // 添加请求拦截器
 $axios.interceptors.request.use(
     config => {
-        $state.setIsLoading( true );
         return config;
     }, 
     error => {
@@ -28,23 +27,7 @@ $axios.interceptors.request.use(
 $axios.interceptors.response.use(
     response => {
         const { config: { url }, data } = response || {};
-        const { pathname } = window.location || {};
         if( data ){
-            const { code, msg } = data;
-            if( code !== 200 ){
-                if( BLACK_LIST_PATH.includes( pathname ) ){
-                    message.error( msg );
-                    if( url.includes('/users/oauth') ){
-                        window.location.replace('/not');
-                    }
-                }
-            }else{
-                if( url.includes('/users/oauth') ){
-                    if( pathname == '/login' || pathname == '/register' ){
-                        window.location.replace('/');
-                    }
-                }
-            }
             $state.setIsLoading( false );
         }
         // 对响应数据做点什么
@@ -62,10 +45,11 @@ $axios.interceptors.response.use(
             switch (status) {
                 case 401:
                     // 返回 401 清除token信息并跳转到404页面
-                    topMenuState.logoutData();
+                    // topMenuState.logoutData();
                     if( BLACK_LIST_PATH.includes( pathname ) ){
-                        window.location.replace('/views/401');
+                        // window.location.replace('/views/401');
                     }
+                    // window.location.replace('/login');
                     break;
                 case 404:
                     message.error(data.msg );

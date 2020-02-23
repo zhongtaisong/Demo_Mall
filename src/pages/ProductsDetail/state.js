@@ -3,49 +3,47 @@ import { observable, action } from 'mobx';
 
 class State {
 
-    // 产品lid
-    @observable lid = null
-    @action setLid = (data = null) => {
-        this.lid = data;
+    // 基本信息
+    @observable basicInfo = {};
+    @action setBasicInfo = (data = {}) => {
+        this.basicInfo = data;
     }
 
-    // 产品展示图片
-    @observable pics = [];
-    @action setPics = (data = []) => {
-        this.pics = data;
+    // 商品属性
+    @observable params = {};
+    @action setParams = (data = {}) => {
+        this.params = data;
     }
 
-    // 当前产品信息
-    @observable product = [];
-    @action setProduct = (data = []) => {
-        this.product = data;
+    // 商品图片
+    @observable imgList = [];
+    @action setImgList = (data = []) => {
+        this.imgList = data;
     }
 
-    // 规格
+    // 商品规格
     @observable specs = [];
     @action setSpecs = (data = []) => {
         this.specs = data;
     }
 
-    // 当前产品规格
-    @observable oneSpecs = [];
-    @action setOneSpecs = (data = []) => {
-        this.oneSpecs = data;
+    // 商品详情图片
+    @observable detailsPic = [];
+    @action setDetailsPic = (data = []) => {
+        this.detailsPic = data;
     }
 
-    // 查询商品规格
-    specificationData = async () => {
-        const res = await service.specificationData({
-            lid: this.lid
-        });
+    // 查询商品详情
+    selectProductsDetailData = async (params = {}) => {
+        const res = await service.selectProductsDetailData(params);
         try{
             if( res.data.code === 200 ){
-                let { pics, product, specs } = res.data.data;
-                this.setPics( pics );
-                this.setProduct( product );
-                this.setSpecs( specs );
-                let oneSpecs = specs.filter(item => this.lid == item.lid);
-                this.setOneSpecs( oneSpecs );
+                const { basicInfo, imgList, params, specs, detailsPic } = res.data.data || {};
+                basicInfo && this.setBasicInfo(basicInfo);
+                params && this.setParams(params);
+                imgList && this.setImgList(imgList);
+                specs && this.setSpecs(specs);
+                detailsPic && this.setDetailsPic(detailsPic);
             }
         }catch(err) {
             console.log(err);

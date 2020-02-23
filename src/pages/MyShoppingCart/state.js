@@ -38,17 +38,23 @@ class State {
 
     // 获取购物车列表数据 - 发起请求
     cartLisData = async () => {
+        if( !sessionStorage.getItem('uname') ){
+            return;
+        };
+
         const res = await service.cartLisData({
-            uname: sessionStorage.getItem('uname')
+            uname: sessionStorage.getItem('uname'),
+            collection: 0
         });
+
         try{
             if( res.data.code === 200 ){
                 if( res.data.data ){
                     this.setDataSource( res.data.data );
                     let sum = 0;
                     res.data.data.forEach(item => {
-                        sum += item.pNum;
-                    })
+                        sum += item.num;
+                    });
                     this.setAllProductsSize( sum );
                 }
                 searchAreaState.productNumData();
@@ -59,16 +65,14 @@ class State {
     }
 
     // 删除购物车指定id数据
-    delcartData = async (ids = [], that) => {
+    delcartData = async (ids = []) => {
         const res = await service.delcartData({
             uname: sessionStorage.getItem('uname'),
             ids
         });
         try{
             if( res.data.code === 200 ){
-                if( that != 'collection' ){
-                    message.success('删除成功！')
-                }
+                message.success(res.data.msg);
                 this.cartLisData();
             }
         }catch(err) {
@@ -77,14 +81,16 @@ class State {
     }
 
     // 加入收藏
-    addcolsData = async (ids = [], selectedRows = []) => {
+    addcolsData = async (cartId = []) => {
         const res = await service.addcolsData({ 
             uname: sessionStorage.getItem('uname'), 
-            collectionList: selectedRows
+            ids: cartId,
+            collection: 1
         });
         try{
             if( res.data.code === 200 ){
-                this.delcartData( ids, 'collection' );
+                message.success(res.data.msg);
+                this.cartLisData();
             }
         }catch(err) {
             console.log(err);
@@ -92,12 +98,10 @@ class State {
     }
 
     // 更新购物车数据
-    updatecartData = async (id, pNum, totalPrice) => {
+    updatecartData = async (id, num, totalprice) => {
         const res = await service.updatecartData({ 
             uname: sessionStorage.getItem('uname'), 
-            id,
-            pNum,
-            totalPrice
+            id, num, totalprice
         });
         try{
             if( res.data.code === 200 ){

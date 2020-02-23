@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Tabs } from 'antd';
 import { observer } from 'mobx-react';
 // 规格参数
 import Parameter from './../Parameter';
@@ -7,29 +7,10 @@ import Parameter from './../Parameter';
 import Pictures from './../Pictures';
 // 商品评价
 import CommodityEvaluation from './../CommodityEvaluation';
-// tab标题
-const tabListNoTitle = [
-    {
-      key: 'detail',
-      tab: '商品详情',
-    },
-    {
-      key: 'evaluate',
-      tab: '商品评价',
-    }
-];
-// tab内容
-const contentListNoTitle = {
-    detail(props) {
-        return (<div>
-            <Parameter {...props} />
-            <Pictures {...props} />
-        </div>);
-    },
-    evaluate(props) {
-        return (<CommodityEvaluation {...props} />);
-    }
-};
+// less样式
+import './index.less';
+const { TabPane } = Tabs;
+
 // 商品详情区域
 @observer
 class CommodityDetails extends React.Component {
@@ -37,30 +18,35 @@ class CommodityDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            noTitleKey: 'detail',
-        }
+            key: 1
+        };
     }
 
     // 监听tab
-    onTabChange = (key, type) => {
-        this.setState({ [type]: key });
-    };
+    tabsChange = (activeKey) => {
+        this.setState({
+            key: activeKey
+        });
+    }
 
     render() {
+        const { params, detailsPic } = this.props;
+        const { key } = this.state;
         return (
             <div className='CommodityDetails'>
-                <Card
-                    style={{ width: '100%' }}
-                    tabList={ tabListNoTitle }
-                    activeTabKey={ this.state.noTitleKey }
-                    onTabChange={ key => {
-                        this.onTabChange(key, 'noTitleKey');
-                    }}
-                >
-                    {
-                        contentListNoTitle[ this.state.noTitleKey ](this.props)
-                    }
-                </Card>
+                <Tabs defaultActiveKey="1" style={{ padding: '0 20px', color: '#666' }} onChange={ this.tabsChange }>
+                    <TabPane tab={ <span className='tab_title'>商品介绍</span> } key={ 1 }>
+                        <Parameter params={ params } />
+                        <Pictures detailsPic={ detailsPic } />
+                    </TabPane>
+                    <TabPane tab={ <span className='tab_title'>商品评价</span> } key={ 2 } >
+                        {
+                            key == 2 ? (
+                                <CommodityEvaluation pid={ params.id || '' } />
+                            ) : ''
+                        }
+                    </TabPane>
+                </Tabs>
             </div>
         );
     }

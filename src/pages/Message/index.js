@@ -1,143 +1,156 @@
-import React from 'react';
-import { Input, Comment, Icon, Tooltip, Form, Button } from 'antd';
-import moment from 'moment';
-
+import React, { Fragment } from 'react';
+import { Comment, Avatar, Empty, Icon, Button, Input, message, Row, Col } from 'antd';
+import { observer } from 'mobx-react';
+import { toJS } from 'mobx';
+// 全局设置
+import { PUBLIC_URL } from '@config';
+// 全局公共方法
+import { session } from '@utils';
+// 数据
+import state from './state';
+// 全局数据
+import $state from '@store';
+// less样式
 import './index.less';
-
 const { TextArea  } = Input;
 
-const Editor = ({ onChange, onSubmit, submitting, value }) => (
-    <div>
-      <Form.Item>
-        <TextArea rows={4} onChange={onChange} value={value} />
-      </Form.Item>
-      <Form.Item>
-        <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
-          发表留言
-        </Button>
-      </Form.Item>
-    </div>
-);
+// 留言
+@observer
+class Index extends React.Component {
 
-class Message extends React.Component {
-    state = {
-        likes: 0,
-        dislikes: 0,
-        action: null,
-        comments: [],
-        submitting: false,
-        value: '',
-    };
-
-    like = () => {
-        this.setState({
-            likes: 1,
-            dislikes: 0,
-            action: 'liked',
-        });
-    };
-
-    dislike = () => {
-        this.setState({
-            likes: 0,
-            dislikes: 1,
-            action: 'disliked',
-        });
-    };
-
-    handleSubmit = () => {
-        if (!this.state.value) {
-          return;
-        }
-    
-        this.setState({
-          submitting: true,
-        });
-    
-        setTimeout(() => {
-          this.setState({
+    constructor(props) {
+        super(props);
+        this.state = {
+            action: null,
             submitting: false,
-            value: '',
-            comments: [
-              {
-                author: 'Han Solo',
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                content: <p>{this.state.value}</p>,
-                datetime: moment().fromNow(),
-              },
-              ...this.state.comments,
-            ],
-          });
-        }, 1000);
-      };
-    
-      handleChange = e => {
+            value: null
+        };
+    }
+
+    componentDidMount() {
+        state.selmessagesData();
+    }
+
+    // 喜欢 / 不喜欢
+    handleLike = (type, index, item={} ) => {
+        let { nums, setNums02 } = state;
+        const { id } = item;
+        nums = toJS(nums);
+
         this.setState({
-          value: e.target.value,
+            [`action${index}`]: type
         });
-      };
+        let result = nums[index][type] == item[type] ? nums[index][type]+1 : nums[index][type];
+        setNums02(index, type, result);
+        if( type == 'agree' ){
+            setNums02(index, 'disagree', item['disagree']);
+        }else{
+            setNums02(index, 'agree', item['agree']);
+        }
+        nums[index][type] == item[type] && state.agreemessagesData({
+            id, type, 
+            agreeNum: type == 'agree' ? result : item['agree'],
+            disagreeNum: type == 'agree' ? item['disagree'] : result
+        });
+    }
+
+    // 发表留言
+    handleSubmit = () => {
+        const { oauthCode } = $state;
+        if( oauthCode && oauthCode == 401 ){
+            message.error('请先登录，再发表留言，谢谢！');
+            return;
+        }
+
+        if( !this.state.value ){
+            message.error('留言内容不能为空！');
+            return;
+        }
+        this.setState({
+            submitting: true,
+        });
+        setTimeout(() => {
+            state.addMessagesData({
+                uname: session.getItem('uname'),
+                content: this.state.value
+            });
+            this.setState({
+                submitting: false,
+                value: null
+            });
+        }, 1000);
+    };
+    
+    // 留言内容
+    handleChange = (e) => {
+        this.setState({
+            value: e.target.value
+        });
+    };
 
     render() {
-        const { likes, dislikes, action, submitting, value } = this.state;
-
-        const actions = [
-        <span key="comment-basic-like">
-            <Tooltip title="Like">
-            <Icon
-                type="like"
-                theme={action === 'liked' ? 'filled' : 'outlined'}
-                onClick={this.like}
-            />
-            </Tooltip>
-            <span style={{ paddingLeft: 8, cursor: 'auto' }}>{likes}</span>
-        </span>,
-        <span key=' key="comment-basic-dislike"'>
-            <Tooltip title="Dislike">
-            <Icon
-                type="dislike"
-                theme={action === 'disliked' ? 'filled' : 'outlined'}
-                onClick={this.dislike}
-            />
-            </Tooltip>
-            <span style={{ paddingLeft: 8, cursor: 'auto' }}>{dislikes}</span>
-        </span>,
-        <span key="comment-basic-reply-to">Reply to</span>,
-        ];
+        const { messageList, nums } = state;
+        const { submitting, value } = this.state;
+        const { oauthCode } = $state;
         return (
-            <div className='dm_Message'>
-                <div className='comments'>
+            <div className='common_width dm_Message'>
                 <Comment
                     content={
-                        <Editor
-                            onChange={this.handleChange}
-                            onSubmit={this.handleSubmit}
-                            submitting={submitting}
-                            value={value}
-                        />
+                        <Row>
+                            <Col span={ 24 }>
+                                <TextArea rows={ 4 } onChange={ this.handleChange } value={ value } maxLength={ 300 } />
+                            </Col>
+                            <Col span={ 24 } className='submit'>
+                                <Button htmlType="submit" loading={ submitting } onClick={ this.handleSubmit } type="primary">发表留言</Button>
+                            </Col>
+                        </Row>
                     }
+                    className='submit_comment'
                 />
-                </div>
-                <div className='messageBody'>
-                    <Comment
-                        actions={actions}
-                        author={ 'Han Solo' }
-                        content={
-                        <p>
-                            We supply a series of design principles, practical patterns and high quality design
-                            resources (Sketch and Axure), to help people create their product prototypes beautifully
-                            and efficiently.
-                        </p>
-                        }
-                        datetime={
-                          <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                              <span>{moment().fromNow()}</span>
-                          </Tooltip>
-                        }
-                    />
-                </div>
+                {
+                    messageList.length ? (
+                        <Fragment>
+                            {
+                                messageList.map((item, index) => {
+                                    return (
+                                        <Comment
+                                            key={ item.id }
+                                            actions={ oauthCode && oauthCode != 401 ? [
+                                                <span key="comment-basic-agree">
+                                                    <Icon
+                                                        type="like"
+                                                        theme={ this.state[`action${index}`] === 'agree' ? 'filled' : 'outlined' }
+                                                        onClick={ this.handleLike.bind(this, 'agree', index, item) }
+                                                    />
+                                                    <span style={{ paddingLeft: 8, cursor: 'auto' }}>{ nums[index] && nums[index]['agree'] ? nums[index]['agree'] : 0 }</span>
+                                                </span>,
+                                                <span key="comment-basic-disagree">
+                                                    <Icon
+                                                        type="dislike"
+                                                        theme={ this.state[`action${index}`] === 'disagree' ? 'filled' : 'outlined'}
+                                                        onClick={ this.handleLike.bind(this, 'disagree', index, item) }
+                                                    />
+                                                    <span style={{ paddingLeft: 8, cursor: 'auto' }}>{ nums[index] && nums[index]['disagree'] ? nums[index]['disagree'] : 0 }</span>
+                                                </span>
+                                            ] : [] }
+                                            author={ item.uname }
+                                            avatar={ <Avatar src={ item.avatar ? PUBLIC_URL + item.avatar : '' } alt="avatar" /> }
+                                            content={
+                                                <p style={{ fontSize: '14px' }}>{ item.content }</p>
+                                            }
+                                            datetime={ item.submitTime }
+                                        />
+                                    );
+                                })
+                            }
+                        </Fragment>
+                    ) : (
+                        <Empty image={ Empty.PRESENTED_IMAGE_SIMPLE } description='暂无留言' />
+                    )
+                }
             </div>
         );
     }
 }
 
-export default Message;
+export default Index;

@@ -1,12 +1,12 @@
 import axios from '@axios';
-// 购物车列表 - 数据
-const cartListUrl = 'cart/selcartuname';
-// 购物车列表 - 删除
-const delcartUrl = 'cart/delcart';
-// 购物车列表 - 加入收藏
-const addcolsUrl = 'details/addcols';
-// 购物车列表 - 更新商品数量
-const updatecartUrl = 'cart/updatecart';
+// 查询
+const cartListUrl = 'cart/select';
+// 删除
+const delcartUrl = 'cart/delete';
+// 加入收藏
+const addcolsUrl = 'collection/add';
+// 更新商品数量
+const updatecartUrl = 'cart/update/num';
 
 class Service {
     cartLisData = (req = {}) => {
@@ -18,7 +18,7 @@ class Service {
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
 
     delcartData = (req = {}) => {
@@ -28,7 +28,7 @@ class Service {
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
     
     addcolsData = (req = {}) => {
@@ -38,7 +38,7 @@ class Service {
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
     
     updatecartData = (req = {}) => {
@@ -48,7 +48,7 @@ class Service {
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
 }
 

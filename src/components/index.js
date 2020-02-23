@@ -1,6 +1,4 @@
-import HeaderBar from './headerBar';
-import FooterCopyright from './footerCopyright';
-
-export {
-    HeaderBar, FooterCopyright
-}
+export { default as HeaderBar } from './headerBar';
+export { default as FooterCopyright } from './footerCopyright';
+export { default as UploadImg } from './uploadImg';
+export { default as OrderDetails } from './orderDetails';

@@ -1,42 +1,42 @@
 import axios from '@axios';
-// 我的收藏列表 - 数据
-const selcolsListUrl = 'details/selcols';
-// 我的收藏列表 - 删除
-const delcolsUrl = 'details/delcols';
-// 我的收藏列表 - 加入购物车
-const addcartUrl = 'cart/addcart';
+// 查询
+const cartListUrl = 'cart/select';
+// 删除
+const delcartUrl = 'cart/delete';
+// 加入购物车
+const addcolsUrl = 'collection/add';
 
 class Service {
-    selcolsListData = (req = {}) => {
+    cartLisData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.get(selcolsListUrl, {
+            axios.get(cartListUrl, {
                 params: req
             }).then(res => {
                 resolve(res);
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
 
-    delcolsData = (req = {}) => {
+    delcartData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.post(delcolsUrl, req).then(res => {
+            axios.post(delcartUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
     
-    addcartData = (req = {}) => {
+    addcolsData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.post(addcartUrl, req).then(res => {
+            axios.post(addcolsUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
 }
 

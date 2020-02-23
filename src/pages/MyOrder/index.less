@@ -3,9 +3,30 @@
     background: #fff;
     margin-bottom: 30px !important;
     border: solid 1px #e6e6e6;
-    padding: 20px;
+    padding: 10px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    .table_header {
+        .ant-table-placeholder {
+            display: none;
+        }
+        padding-bottom: 10px;
+    }
+    .t_header {
+        font-weight: bold;
+        .ant-col-12 {
+            text-align: right;
+            span {                
+                cursor: pointer;
+            }
+            &:hover {
+                color: #40A9FF;
+            }
+        }
+    }
     .table_title {
+        display: flex;
+        align-items: center;
+        padding: 0px 0 6px 10px;
         h4 {
             margin-bottom: 0;
         }
@@ -20,77 +41,27 @@
         }
     }
     .operation {
-        display: flex;
-        justify-content: center;
-        a {
-            padding: 0 6px;
-            &:hover {
-                color: #40A9FF;
-                text-decoration: underline;
-            }
-        }
-    }
-    .imgs-style {
-        width: 100%;
-        cursor: pointer;
-    }
-    .title-style {
-        >p {
-            margin: 0;
+        >a {
             cursor: pointer;
+            padding: 0 4px;
             &:hover {
                 color: #40A9FF;
-                text-decoration: underline;
             }
-        }
-        >span {
-            font-size: 12px;
-            color: #999;
         }
     }
-    .ant-table-footer {
-        height: 55px;
-        line-height: 55px;
-        padding: 0;
-        .ant-row {
-            .left {
-                button {
-                    margin: 0 16px;
-                }
+    .imgs_style {
+        width: 100%;
+    }
+    .title_style {
+        text-align: left;
+        >span {
+            display: block;
+            &:first-child {
+                max-height: 36px;
+                overflow: hidden;
             }
-            .right {
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                .num {
-                    display: flex;
-                    padding-right: 20px;
-                    i {
-                        color: #40A9FF;
-                        font-weight: bold;
-                        padding: 0 3px;
-                        font-style: normal;
-                        font-size: 14px;
-                    }
-                }
-                >div {
-                    display: flex;
-                    padding-right: 20px;
-                    span {
-                        color: #40A9FF;
-                        font-size: 18px;
-                        font-weight: bold;
-                    }
-                }
-                .go-pay {
-                    width: 94px;
-                    text-align: center;
-                    font-size: 18px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    background: #40A9FF;
-                    color: #fff;
-                }
+            &:last-child {
+                color: #999;
             }
         }
     }

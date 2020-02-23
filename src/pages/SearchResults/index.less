@@ -1,3 +1,5 @@
+@import '~@com/index.less';
+
 .dm_SearchResults {
     height: 100%;
     background: #fff;
@@ -19,9 +21,24 @@
             }
         }
         border-bottom: 1px solid #E8E8E8;
+
     }
     .imgs-style {
         width: 100%;
         cursor: pointer;
+    }
+    .title_style {
+        span {
+            cursor: pointer;
+            color: #666;
+            display: block;
+        }
+        &:hover {
+            span {
+                cursor: pointer;
+                color:  @font-color-blue;
+                text-decoration: underline;
+            }
+        }
     }
 }

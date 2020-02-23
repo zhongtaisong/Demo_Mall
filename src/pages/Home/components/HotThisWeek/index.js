@@ -1,5 +1,6 @@
 import React from 'react';
-import { Row, Tooltip, Card } from 'antd';
+import { Row, Card, Typography } from 'antd';
+import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Slider from "react-slick";
@@ -10,33 +11,24 @@ import state from './state';
 // less样式
 import './index.less';
 const { Meta } = Card;
+const { Title } = Typography;
 
-// 首页推荐
+// 热门推荐
 @observer
 class HotThisWeek extends React.Component {
-
-    // 跳转到详情页
-    watchProductDetails = (lid) => {
-        this.props.history.push({
-            pathname: '/views/products/detail',
-            state: {
-                lid
-            }
-        })
-    }
-
     render() {
         const { productsList } = state;
         const settings = {
-            dots: false,
+            dots: true,
             infinite: false,
+            arrows: false,
             speed: 300,
             slidesToScroll: 1,
             slidesToShow: 5
         };
         return (
             <div className='dm_HotThisWeek'>
-                <Row className='title'>本周热门</Row>
+                <Row className='title'>热门推荐</Row>
                 <div className='common_width'>
                     <Row className='hot_content'>
                         {
@@ -47,17 +39,27 @@ class HotThisWeek extends React.Component {
                                             let price = parseFloat(item.price) && parseFloat(item.price).toFixed(2);
                                             return (
                                                 <Card
-                                                    key={ item.pid }
-                                                    hoverable
-                                                    cover={<img alt="example" src={ PUBLIC_URL + item.pic } alt={ item.title } />}
+                                                    key={ item.id }
+                                                    bordered={ false }
+                                                    cover={
+                                                        <img
+                                                            alt=''
+                                                            src={ `${ PUBLIC_URL }${ item.mainPicture }` }
+                                                            title={ item.productName }
+                                                            onClick={() => {
+                                                                this.props.history.push(`/views/products/detail/${item.id}`);
+                                                            }}
+                                                        />
+                                                    }
                                                 >
-                                                    <Meta title={ 
-                                                        <Tooltip title={ item.title }>{ item.title }</Tooltip>
-                                                    } description={ <div>
-                                                        <Tooltip className='detials' title={ item.details }>{ item.details }</Tooltip>
-                                                        <span className='price'>￥{ price }</span>
-                                                    </div> }                                                         
-                                                        onClick={ this.watchProductDetails.bind(this, item.lid) }
+                                                    <Meta
+                                                        title={ <Title level={ 4 }><span className='unit'>￥</span>{ item.price ? Number(item.price).toFixed(2) : 0 }</Title> }
+                                                        description={ 
+                                                            <Link 
+                                                                to={`/views/products/detail/${item.id}`}
+                                                                title={ item.description }
+                                                            >{ item.description }</Link> 
+                                                        }
                                                     />
                                                 </Card>
                                             );

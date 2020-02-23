@@ -1,10 +1,17 @@
 import { observable, action } from 'mobx';
+import { message } from 'antd';
 // 接口服务
 import service from './service';
-// 全局设置
-import { headPhotoState } from '@config';
 
 class State {
+
+    @observable nums = [];
+    @action setNums = (data = []) => {
+        this.nums = data;
+    }
+    @action setNums02 = (index, key, value) => {
+        this.nums[index][key] = value;
+    }
 
     // 评价列表
     @observable commentList = [];
@@ -13,14 +20,33 @@ class State {
     }
 
     // 商品评价 - 发起请求
-    selcommentsData = async (lid) => {
-        const res = await service.selcommentsData({
-            lid
-        });
+    selcommentsData = async (params = {}) => {
+        const res = await service.selcommentsData(params);
         try{
             if( res.data.code === 200 ){
-                headPhotoState.selHeadPicData();
-                res.data.data && this.setCommentList( res.data.data );
+                const { data } = res.data || {};
+                if(data){
+                    this.setCommentList( res.data.data );
+                    let nums = data.map(item => {
+                        return ({
+                            agree: item.agree,
+                            disagree: item.disagree
+                        });
+                    });
+                    this.setNums(nums);
+                }
+            }
+        }catch(err) {
+            console.log(err);
+        }
+    }
+
+    // 喜欢 / 不喜欢 - 评价
+    agreecommentsData = async (params = {}) => {
+        const res = await service.agreecommentsData(params);
+        try{
+            if( res.data.code === 200 ){
+                message.success(res.data.msg);
             }
         }catch(err) {
             console.log(err);

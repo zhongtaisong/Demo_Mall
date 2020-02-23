@@ -1,23 +1,21 @@
 import axios from '@axios';
-// 查询
-const selAddressUrl = 'users/selAddress';
+// 查询结算页，收货地址，商品详情
+const settlementUrl = 'order/select/settlement';
 // 提交订单
-const addorderUrl = 'cart/addorder';
-// 提交订单成功后删除购物车被结算商品
-const delcartUrl = 'cart/delcart';
+const addorderUrl = 'order/add';
 
 class Service {
-    selAddressData = (req = {}) => {
+
+    settlementData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.get(selAddressUrl, {
-                params: req
-            }).then(res => {
+            axios.post(settlementUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
+    
     addorderData = (req = {}) => {
         return new Promise((resolve, reject) => {
             axios.post(addorderUrl, req).then(res => {
@@ -25,16 +23,7 @@ class Service {
             }).catch(err => {
                 console.log(err);
             });
-        })
-    }
-    delcartData = (req = {}) => {
-        return new Promise((resolve, reject) => {
-            axios.post(delcartUrl, req).then(res => {
-                resolve(res);
-            }).catch(err => {
-                console.log(err);
-            });
-        })
+        });
     }
 }
 

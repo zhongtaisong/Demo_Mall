@@ -8,44 +8,41 @@ import CommodityDetails from './components/CommodityDetails';
 // 数据
 import indexState from './state';
 // 样式
-import './index.less'
+import './index.less';
 
 // 商品详情
 @observer
 class ProductsDetail extends React.Component {
 
-    async componentDidMount() {
-        try{
-            const { state } = this.props.location;
-            if( state && state.lid ){
-                await indexState.setLid( state.lid );
-                await indexState.specificationData();
-            }
-        }catch(err) {
-            console.log(err);
+    componentDidMount() {
+        const { id } = this.props.match.params;
+        id && indexState.selectProductsDetailData({ id });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if( this.props.match.params.id && nextProps.match.params.id && this.props.match.params.id != nextProps.match.params.id ){
+            nextProps.match.params.id && indexState.selectProductsDetailData({
+                id: nextProps.match.params.id
+            });
         }
     }
 
     render() {
-        const { pics, product, specs, oneSpecs, lid } = toJS( indexState );
+        const { basicInfo, imgList, specs, params, detailsPic } = indexState;
         return (
             <div className='dm_ProductsDetail'>
                 <div className='common_width'>
                     <CommoditySpecification 
                         {...this.props}
-                        pics={ pics }
-                        product={ product }
-                        specs={ specs }
+                        basicInfo={ toJS(basicInfo) || {} }
+                        imgList={ toJS(imgList) || [] }
+                        specs={ toJS(specs) || [] }
                     />
-                    {
-                        oneSpecs.length && lid ? (
-                            <CommodityDetails 
-                                {...this.props} 
-                                oneSpecs={ oneSpecs }
-                                lid={ lid }
-                            />
-                        ) : ''
-                    }
+                    <CommodityDetails 
+                        {...this.props} 
+                        params={ toJS(params) || {} }
+                        detailsPic={ toJS(detailsPic) || []}
+                    />
                 </div>
             </div>
         );

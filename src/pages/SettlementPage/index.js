@@ -1,10 +1,13 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Table, Row, Button, Typography, Col } from 'antd';
+import { Table, Row, Button, Typography, Col, Select, message } from 'antd';
 import { toJS } from 'mobx';
-import moment from 'moment';
+// 全局公共方法
+import { session } from '@utils';
+// 全局设置
+import { searchAreaState } from '@config';
 // 各种表头
-import data from './data';
+import { columns02 } from './data';
 // 数据
 import state from './state';
 // less样式
@@ -17,117 +20,107 @@ class SettlementPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource02: [],
-            pNum: 0,
-            totalPrice: 0.00,
-            ids: []
-        }
-    }
-
-    componentWillMount() {
-        let productsInfo = sessionStorage.getItem('productsInfo') ? JSON.parse( sessionStorage.getItem('productsInfo') ) : [];
-        let productsParams = sessionStorage.getItem('productsParams') ? JSON.parse( sessionStorage.getItem('productsParams') ) : {};
-        let { size, total } = productsParams;
-        if( !productsInfo.length || !Object.keys(productsParams).length ){
-            this.props.history.goBack();
-            return;
-        }
-        let ids = productsInfo.map(item => item.id);
-        this.setState({
-            dataSource02: productsInfo,
-            ids
-        })
-        this.setState({
-            pNum: size,
-            totalPrice: total
-        })
+            pid: []
+        };
     }
 
     componentDidMount() {
-        state.selAddressData();
-    }
-
-    // 选中行
-    rowSelection = () => ({
-        type: 'radio',
-        onChange: (selectedRowKeys, selectedRows) => {
-            selectedRows[0] && state.setConsigneeInfo( selectedRows[0] );
-            state.setSelectedRowKeys( selectedRowKeys );
-            state.setSelectedRows( selectedRows );
-        },
-        selectedRowKeys: toJS( state.selectedRowKeys )
-    });
-
-    // 提交订单
-    handleSubmitOrders = async () => {
-        let { dataSource02 } = this.state;
-        let date = Date.now();
-        dataSource02.map(item => {
-            item['orderNum'] = `ZTS${date}`;
-            item['orderStatus'] = 100;
-            item['payTime'] = moment(date).format('YYYY-MM-DD HH:mm:ss');
-        });
-        let addorderData = {
-            productsList: dataSource02,
-            consigneeInfo: toJS( state.selectedRows )
-        };
-        let code;
-        if( this.state.ids.includes(undefined) ){
-            code = await state.addorderData(addorderData);
-        }else{
-            code = await state.delcartData(addorderData, this.state.ids);
-        }
-        if( code === 200 ){
-            this.props.history.replace({
-                pathname: '/views/products/cart/orderDetails',
-                state: {
-                    orderNum: `ZTS${date}`
-                }
+        const { state: ste } = this.props.location;
+        if( ste && ste.id && ste.type ){
+            state.settlementData(ste.id, ste.type, ste.num);
+            this.setState({
+                pid: ste.id
             });
         }
     }
 
+    // 提交订单
+    handleSubmitOrders = async () => {
+        let { selectAddress, num, totalprice, nums } = state;
+        const orderId = await state.addorderData({
+            uname: session.getItem('uname'), 
+            pid: this.state.pid, 
+            aid: selectAddress.id,
+            num,
+            totalprice,
+            nums
+        });
+        if( orderId ){
+            // 提交订单成功后，刷新购物车商品数量
+            searchAreaState.productNumData();
+            this.props.history.replace({
+                pathname: '/views/products/cart/orderDetails',
+                state: {
+                    id: orderId
+                }
+            });
+        }else{
+            message.error('订单主键orderId不能为空！');
+        }
+    }
+
+    componentWillUnmount() {
+        state.clearMobxData();
+    }
+
     render() {
-        const { dataSource01, consigneeInfo: { consignee, region, addressDetails, phone } } = state;
-        const { columns01, columns02 } = data;
-        const { pNum, totalPrice, dataSource02 } = this.state;
+        let { dataSource02, selectAddress, dataSource01, setSelectAddress, num, totalprice } = state;
+        const { name, region, detail, phone } = selectAddress || {};
+        selectAddress = toJS(selectAddress) || {};
+        dataSource01 = toJS(dataSource01) || [];
         return (
             <div className='common_width dm_SettlementPage'>
                 <Row className='table_title'>
                     <Typography.Title level={ 4 }>结算页</Typography.Title>
                     <div></div>
                 </Row>
-                <Table 
-                    rowSelection={ this.rowSelection() } 
-                    columns={ columns01 } 
-                    dataSource={ toJS( dataSource01 ) }
-                    showHeader={ false }
-                    pagination={ false }
-                    rowKey={ (record) => record.id }
-                />
-                <Table 
-                    columns={ columns02 } 
-                    dataSource={ dataSource02 }
-                    showHeader={ false }
-                    pagination={ false }
-                    rowKey={ (record) => record.id ? record.id : record.lid }
-                />
+                {
+                    dataSource02.length ? (
+                        <Table 
+                            columns={ columns02 } 
+                            dataSource={ toJS(dataSource02) }
+                            pagination={ false }
+                            rowKey={ (record) => record.id }
+                            scroll={ dataSource02.length > 2 ? { y: 220 } : { y: false } }
+                        />
+                    ) : ''
+                }
                 <Row className='pay_info'>
-                    <Col span={ 24 }>
-                        <i>{ pNum }</i> 件商品
+                    <Col span={ 12 }>
+                        {
+                            Object.keys(selectAddress).length ? (
+                                <div title={ name }>收件人：
+                                    <Select className='pay_info_select' placeholder='请选择' 
+                                        defaultValue={ selectAddress.id } 
+                                        onChange={
+                                            (value, option) => {
+                                                let res = dataSource01.filter(item => item.id == value);
+                                                res.length && setSelectAddress(res[0]);
+                                            }
+                                        }
+                                    >
+                                        {
+                                            dataSource01.map(item => {
+                                                return (
+                                                    <Select.Option key={ item.id } value={ item.id }>{ item.name }</Select.Option>
+                                                );
+                                            })
+                                        }
+                                    </Select>
+                                </div>
+                            ) : ''
+                        }
+                        <div title={ `${region}${detail}` }>收件地址：{ `${region || ''}${detail || ''}` }</div>
+                        <div title={ phone }>联系电话：{ phone || '' }</div>
                     </Col>
-                    <Col span={ 24 }>
-                        总金额：<i>￥{ totalPrice ? totalPrice.toFixed(2) : 0.00 }</i>
-                    </Col>
-                    <Col span={ 24 }>
-                        应付金额：<i>￥{ totalPrice ? totalPrice.toFixed(2) : 0.00 }</i>
-                    </Col>
-                    <Col span={ 24 }>
-                        寄送至：<i>{ consignee } { region } { addressDetails } { phone }</i>
+                    <Col span={ 12 } className='pay_money'>
+                        <div><span>{ num }</span> 件商品</div>
+                        <div>总金额：<span>￥{ Number(totalprice) ? Number(totalprice).toFixed(2) : 0 }</span></div>
+                        <div>应付金额：<span>￥{ Number(totalprice) ? Number(totalprice).toFixed(2) : 0 }</span></div>
                     </Col>
                 </Row>
-                <Row style={{ textAlign: 'right' }}>
-                    <Button type='primary' onClick={ this.handleSubmitOrders }>提交订单</Button>
+                <Row style={{ textAlign: 'center' }}>
+                    <Button style={{ width: '10%' }} type='primary' onClick={ this.handleSubmitOrders }>提交订单</Button>
                 </Row>
             </div>
         );

@@ -5,9 +5,11 @@ import { observer } from 'mobx-react';
 // 添加收货地址
 import AddressModal from './components/addressModal';
 // 表头
-import data from './data';
+import { columns } from './data';
 // 数据
 import state from './state';
+// less样式
+import './index.less';
 
 // 收货地址
 @observer
@@ -26,13 +28,8 @@ class EditableTable extends React.Component {
     handleOk = () => {
         state.form.validateFields(async (err, values) => {
             if ( !err ) {
-                let code;
-                if( !state.id ){
-                    code = await state.addAddressData( values );
-                }else{
-                    code = await state.updateAddressData( values );
-                }
-                code === 200 && this.handleCancel();
+                state.editAddressData(values);
+                this.handleCancel();
             }
         });
     }
@@ -40,18 +37,18 @@ class EditableTable extends React.Component {
     // 取消
     handleCancel = () => {
         state.setVisible( false );
-        state.setAddressModalData01();
+        state.setAddressModalData();
     }
 
     render() {
-        const { columns } = data;
-        const { dataSource, setForm, addressModalData, setAddressModalData01, visible } = state;
+        const { dataSource, setForm, addressModalData, setAddressModalData, visible } = state;
         return (
             <div className='dm_ReceivingAddress'>
-                <Row style={{ padding: '10px 0' }}>
+                <Row style={{ paddingBottom: '6px', textAlign: 'right' }}>
                     <Button type="primary"                         
                         onClick={ this.handleAddress }
-                    >添加收货地址</Button>
+                        icon='plus'
+                    >添加</Button>
                 </Row>
                 <Row>
                     <Table
@@ -61,6 +58,7 @@ class EditableTable extends React.Component {
                         scroll={{ x: false, y: false }}
                         rowKey={ (record) => record.id }
                         pagination={ false }
+                        size='middle'
                     />
                 </Row>
                 <AddressModal 
@@ -69,7 +67,7 @@ class EditableTable extends React.Component {
                     handleCancel={ this.handleCancel } 
                     setForm={ setForm }
                     addressModalData={ toJS( addressModalData ) }
-                    setAddressModalData01={ setAddressModalData01 }
+                    setAddressModalData={ setAddressModalData }
                 />
             </div>
         );

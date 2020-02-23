@@ -1,6 +1,6 @@
 import axios from '@axios';
 // 本周热门商品 - 查询
-const productsListUrl = 'index/product';
+const productsListUrl = 'index/hot';
 
 class Service {
     productsListData = (req = {}) => {
@@ -12,7 +12,7 @@ class Service {
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
 }
 

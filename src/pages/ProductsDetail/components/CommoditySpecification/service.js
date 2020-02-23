@@ -1,6 +1,6 @@
 import axios from '@axios';
 // 加入购物车
-const addcartUrl = 'cart/addcart';
+const addcartUrl = 'cart/add';
 
 class Service {    
     addcartData = (req = {}) => {
@@ -10,7 +10,7 @@ class Service {
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
 }
 

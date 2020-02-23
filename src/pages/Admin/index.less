@@ -1,0 +1,38 @@
+@import '~@com/index.less';
+
+.dm_Admin {
+    overflow: auto;
+    .dm_Admin_main_content {
+        height: 481px;
+        max-height: 481px;
+        background: #fff;
+        border: solid 1px #e6e6e6;
+        padding: 20px 20px 20px 0;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        .dm_Admin_siderMenu {
+            height: 100%;
+            >ul {
+                width: 90%;
+                text-align: center;
+                li {
+                    margin: 10px 0;
+                    >a {
+                        width: 100%;
+                        display: inline-block;
+                        font-size: 14px;
+                        color: @font-color-555;
+                        line-height: 3rem;
+                        transition: all .1s;
+                    }
+                    &:hover, &.active {
+                        a {
+                            background: @bg-color-blue;
+                            color: #fff;
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

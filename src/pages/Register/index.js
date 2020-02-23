@@ -2,28 +2,23 @@ import React from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
-// 设置
-import { indexState } from '@config';
-
+// 全局设置
+import { indexState, PWD_KEY } from '@config';
+// 全局公共方法
+import { validatePhone } from '@utils';
 // 背景图片
 import bigImg from '@img/register/bg.png';
-
 // logo图片
 import logoImg from '@img/logo2.png';
-
 // 数据
 import state from './state';
-
-// 加密key
-import { PWD_KEY } from '@config';
-
 // less样式
 import './index.less';
 
 const loginBg = {
     background: `url(${bigImg}) no-repeat`,
     backgroundSize: 'cover'
-}
+};
 
 // 注册
 @observer
@@ -33,7 +28,7 @@ class Register extends React.Component {
         super(props);
         this.state = {
             confirmDirty: false
-        }
+        };
     }
 
     componentDidMount() {
@@ -66,16 +61,6 @@ class Register extends React.Component {
         this.setState({ 
             confirmDirty: !!value
         });
-    };
-
-    // 手机号码 - 校验
-    validatePhone = (rule, value, callback) => {
-        let reg = /^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/;
-        if ( !reg.test( value ) ) {
-            callback('请输入合法的手机号码！');
-        } else {
-            callback();
-        }
     };
 
     // 提交注册信息
@@ -164,7 +149,7 @@ class Register extends React.Component {
                                                 message: '必填', 
                                                 whitespace: true 
                                             },{
-                                                validator: this.validatePhone
+                                                validator: validatePhone
                                             }]
                                         })(
                                             <Input style={{ width: '100%' }} placeholder='请输入' />
@@ -199,7 +184,7 @@ class Register extends React.Component {
                             </Col>
                             <Col span={ 24 }>
                                 <Form.Item>
-                                    <Link to="/login">已有账号，直接登录</Link>
+                                    <Link to="/login" style={{ color: '#1890ff' }}>已有账号，直接登录</Link>
                                 </Form.Item>
                             </Col>
                         </Row>

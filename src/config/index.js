@@ -8,10 +8,8 @@ import registerState from '@pages/Register/state';
 import searchAreaState from '@com/headerBar/components/searchArea/state';
 // 商品详情 - 加入购物车 - 数据
 import commoditySpecificationState from '@pages/ProductsDetail/components/CommoditySpecification/state';
-// 用户中心 - 上传头像 - 数据
-import headPhotoState from '@pages/UserCenter/components/HeadPhoto/state';
 // url前缀
-const PUBLIC_URL = 'https://dmall.applinzi.com/api/';
+const PUBLIC_URL = 'http://127.0.0.1:8000/api/';
 // 加密key
 const PWD_KEY = 'fjreqjklnvmsn9u9084931jj雨色轻风意柔情怜花殇12612132212';
 // 路由黑名单
@@ -45,5 +43,5 @@ const WHITE_LIST_PATH = [
 
 export {
     PUBLIC_URL, PWD_KEY, BLACK_LIST_PATH, WHITE_LIST_PATH, indexState, topMenuState, registerState, searchAreaState, 
-    commoditySpecificationState, headPhotoState
-}
+    commoditySpecificationState
+};

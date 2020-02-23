@@ -1,49 +1,57 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import { observer } from "mobx-react";
-import { toJS } from "mobx";
-
+import Slider from "react-slick";
+import { toJS } from 'mobx';
 // url前缀
 import { PUBLIC_URL } from '@config';
-
-// 本周热门 - 数据
-import hotThisWeekState from './../HotThisWeek/state';
-
+// 数据
+import state from './state';
 // less样式
 import './index.less';
 
-// 首页推荐
+// 单品推广
 @observer
 class Recommend extends React.Component {
 
+    componentDidMount() {
+        state.productsListData();
+    }
+
     // 跳转到商品详情
-    watchProductDetails = (lid) => {
-        this.props.history.push({
-            pathname: '/views/products/detail',
-            state: {
-                lid
-            }
-        })
+    watchProductDetails = (id) => {
+        id && this.props.history.push(`/views/products/detail/${id}`);
     }
 
     render() {
-      const { productsList } = hotThisWeekState;
+        const { productsList } = state;
+        const settings = {
+            dots: false,
+            infinite: false,
+            speed: 300,
+            slidesToScroll: 1,
+            slidesToShow: 3
+        };
         return (
             <Row className='dm_recommend'>
                 {
-                    toJS( productsList ).slice(3).map(item => {
-                        let [t1, t2] = item.title && item.title.split(' ') || [];
-                        return (
-                            <Col span={ 8 } key={ item.pid } onClick={ this.watchProductDetails.bind(this, item.lid) }>
-                                <img src={  PUBLIC_URL + item.pic } draggable="false" />
-                                <div>
-                                    <div>{ t1 }</div>
-                                    <div>{ t2 }</div>
-                                    <p>{ item.details }</p>
-                                </div>
-                            </Col>
-                        );
-                    })
+                    toJS( productsList ).length ? (
+                        <Slider {...settings}>
+                            {
+                                toJS( productsList ).map( item => {
+                                    return (
+                                        <Col span={ 8 } key={ item.id } onClick={ this.watchProductDetails.bind(this, item.id) }>
+                                            <img src={  PUBLIC_URL + item.mainPicture } draggable="false" />
+                                            <div>
+                                                <span className='title' title={ item.productName }>{ item.productName }</span>
+                                                <span className='description' title={ item.description }>{ item.description }</span>
+                                            </div>
+                                        </Col>
+                                    );
+                                } )
+                            }
+                        </Slider>
+                    ) : ''
                 }
             </Row>
         );

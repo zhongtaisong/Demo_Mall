@@ -1,5 +1,4 @@
 import { observable, action, toJS } from "mobx";
-import { message } from 'antd';
 // 接口服务
 import service from './service';
 
@@ -29,10 +28,7 @@ class State {
                 return;
             }
         }
-        const res = await service.productNumData({
-            uname,
-            isCount: true
-        });
+        const res = await service.productNumData({ uname });
         try{
             if( res.data.code === 200 ){
                 this.setProductNum( res.data.data );
@@ -64,12 +60,7 @@ class State {
         });
         try{
             if( res.data.code === 200 ){
-                if( res.data.data ){
-                    res.data.data.forEach((item, index) =>{
-                        item['key'] = index + 1;
-                    })
-                    this.setSearchResultList( res.data.data );
-                }
+                res.data.data && this.setSearchResultList( res.data.data );
             }
         }catch(err) {
             console.log(err);

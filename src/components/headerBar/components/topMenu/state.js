@@ -15,8 +15,8 @@ class State {
                 $state.setUname( res.data.data );
                 let uname = sessionStorage.getItem('uname');
                 uname && localStorage.setItem('uname', uname);
-                sessionStorage.clear();
-                // indexState.oauthData();
+                sessionStorage.clear('uname');
+                indexState.oauthData();
             }
         }catch(err) {
             console.log(err);

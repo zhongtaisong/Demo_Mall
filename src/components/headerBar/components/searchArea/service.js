@@ -1,6 +1,6 @@
 import axios from '@axios';
 // 购物车商品数量
-const productNumUrl = 'cart/selcartuname';
+const productNumUrl = 'cart/select/num';
 // 关键字搜索
 const kwUrl = 'index/kw';
 
@@ -14,7 +14,7 @@ class Service {
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
 
     kwData = (req = {}) => {
@@ -26,7 +26,7 @@ class Service {
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
 }
 

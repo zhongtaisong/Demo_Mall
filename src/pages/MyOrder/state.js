@@ -1,4 +1,5 @@
 import { observable, action } from "mobx";
+import { message } from "antd";
 // 接口服务
 import service from './service';
 
@@ -23,10 +24,21 @@ class State {
         });
         try{
             if( res.data.code === 200 ){
-                if( res.data.data ){
-                    this.setDataSource( res.data.data );
-                }
+                const { products } = res.data.data || {};
+                products && this.setDataSource(products);
+            }
+        }catch(err) {
+            console.log(err);
+        }
+    }
 
+    // 删除订单
+    deleteOrderData = async (values) => {
+        const res = await service.deleteOrderData(values);
+        try{
+            if( res.data.code === 200 ){
+                message.success(res.data.msg);
+                this.selOrdersData();
             }
         }catch(err) {
             console.log(err);

@@ -1,12 +1,12 @@
 import React from 'react';
-import { Modal, Form, Row, Col, Input } from 'antd';
+import { Modal, Form, Row, Col, Input, Radio } from 'antd';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 // 全局公共方法
-import { formUtils } from '@utils';
+import { formUtils, validatePhone } from '@utils';
 
 const onFieldsChange = (props, changedFields) => {
-    props.setAddressModalData01({...toJS( props.addressModalData ), ...formUtils.formToMobx(changedFields)});
+    props.setAddressModalData({...toJS( props.addressModalData ), ...formUtils.formToMobx(changedFields)});
 };
 const mapPropsToFields = (props) => {
     if( toJS( props.addressModalData ) ){
@@ -19,7 +19,7 @@ const mapPropsToFields = (props) => {
 class AddressModal extends React.Component {
 
     componentDidMount() {
-        this.props.setForm && this.props.setForm( this.props.form );
+        this.props.setForm && this.props.setForm(this.props.form);
     }
 
     render() {
@@ -27,18 +27,20 @@ class AddressModal extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <Modal
+                width={ 800 }
                 title="添加收货地址"
                 visible={ visible }
                 onOk={ handleOk }
                 onCancel={ handleCancel }
-                destroyOnClose={ true }           
+                destroyOnClose={ true }
+                className='dm_ReceivingAddress_modal'
             >                    
-                <Form>
+                <Form layout='inline'>
                     <Row>
-                        <Col span={ 11 }>
+                        <Col span={ 12 }>
                             <Form.Item label="收货人">
                                 {
-                                    getFieldDecorator('consignee', {
+                                    getFieldDecorator('name', {
                                         rules: [{ 
                                             required: true, 
                                             whitespace: true,
@@ -51,8 +53,7 @@ class AddressModal extends React.Component {
                                 }
                             </Form.Item>
                         </Col>
-                        <Col span={ 2 }></Col>
-                        <Col span={ 11 }>
+                        <Col span={ 12 }>
                             <Form.Item label="所在地区">
                                 {
                                     getFieldDecorator('region', {
@@ -70,10 +71,10 @@ class AddressModal extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col span={ 11 }>
+                        <Col span={ 12 }>
                             <Form.Item label="详情地址">
                                 {
-                                    getFieldDecorator('addressDetails', {
+                                    getFieldDecorator('detail', {
                                         rules: [{ 
                                             required: true,
                                             whitespace: true,
@@ -86,18 +87,38 @@ class AddressModal extends React.Component {
                                 }
                             </Form.Item>
                         </Col>
-                        <Col span={ 2 }></Col>
-                        <Col span={ 11 }>
+                        <Col span={ 12 }>
                             <Form.Item label="联系电话">
                                 {
                                     getFieldDecorator('phone', {
+                                        rules: [{ 
+                                            required: true,
+                                            whitespace: true,
+                                            message: '必填' 
+                                        },{
+                                            validator: validatePhone
+                                        }]
+                                    }
+                                    )(
+                                        <Input placeholder='请输入' />
+                                    )
+                                }
+                            </Form.Item>
+                        </Col>
+                        <Col span={ 12 } className='radio'>
+                            <Form.Item label="设为默认地址">
+                                {
+                                    getFieldDecorator('isDefault', {
                                         rules: [{ 
                                             required: true, 
                                             message: '必填' 
                                         }]
                                     }
                                     )(
-                                        <Input placeholder='请输入' />
+                                        <Radio.Group>
+                                            <Radio value={ 1 }>是</Radio>
+                                            <Radio value={ 0 }>否</Radio>
+                                        </Radio.Group>
                                     )
                                 }
                             </Form.Item>

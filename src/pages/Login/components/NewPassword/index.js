@@ -10,7 +10,7 @@ class NewPassword extends React.Component {
         super(props);
         this.state = {
             confirmDirty: false
-        }
+        };
     }
 
     // 密码 - 校验

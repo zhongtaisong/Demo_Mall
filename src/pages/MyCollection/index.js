@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Table, Typography, Row, Col, message, Button } from 'antd';
-
+import { toJS } from 'mobx';
 // 各种表头
 import { columns } from './data';
 // 数据
@@ -17,21 +17,32 @@ class MyCollection extends React.Component {
         super(props);
         this.state = {
             selectedRowKeys: [],
-            selectedRows: []
-        }
+            selectedRows: [],
+            cartId: []
+        };
     }
 
     componentDidMount() {
-        state.selcolsListData();
+        state.cartLisData();        
     }
 
     // 选中行
     rowSelection = {
+        // fixed: true,
+        type: 'checkbox',
         onChange: (selectedRowKeys, selectedRows) => {
             this.setState(() => ({
                 selectedRowKeys,
                 selectedRows
-            }))
+            }));
+            let data = selectedRows.map(item => {
+                if( selectedRowKeys.includes(item.pid) ){
+                    return item.id;
+                }
+            });
+            this.setState({
+                cartId: data
+            });
         }
     };
 
@@ -40,8 +51,8 @@ class MyCollection extends React.Component {
         return (
             <Row>
                 <Col span={ 12 } className='left'>
-                    <Button onClick={ this.handleCancelCollection }>取消收藏选中的商品</Button>
-                    <Button onClick={ this.handleCollectionProduct }>加入购物车</Button>
+                    <Button onClick={ this.handleDeleteProduct }>批量删除</Button>
+                    <Button onClick={ this.handleCollectionProduct }>批量加入购物车</Button>
                 </Col>
                 <Col span={ 12 } className='right'>
                     <span className='num'>已选择<i>{ this.state.selectedRowKeys.length }</i>件商品</span>
@@ -50,21 +61,26 @@ class MyCollection extends React.Component {
         );
     }
 
-    // 取消收藏选中的商品
-    handleCancelCollection = () => {
-        const { selectedRowKeys } = this.state;
-        if( selectedRowKeys.length ){
-            state.delcolsData( selectedRowKeys );
+
+    // 删除
+    handleDeleteProduct = () => {
+        const { cartId } = this.state;
+        if( cartId.length ){
+            state.delcartData(cartId);
+            this.setState(() => ({
+                selectedRowKeys: [],
+                selectedRows: []
+            }));
         }else{
-            message.warning('请选择需要取消收藏的商品！');
+            message.warning('请选择需要删除的商品！');
         }
     }
 
     // 加入购物车
     handleCollectionProduct = () => {
-        const { selectedRowKeys, selectedRows } = this.state;
-        if( selectedRowKeys.length && selectedRows.length ){
-            state.addcartData( selectedRowKeys, selectedRows );
+        const { cartId } = this.state;
+        if( cartId.length ){
+            state.addcolsData(cartId);
         }else{
             message.warning('请选择需要加入购物车的商品！');
         }
@@ -76,17 +92,17 @@ class MyCollection extends React.Component {
             <div className='common_width dm_MyCollection'>
                 <Row className='table_title'>
                     <Typography.Title level={ 4 }>我的收藏</Typography.Title>
-                    <div>当前共有 <i>{ dataSource.length }</i> 件藏品</div>
+                    <div>（当前共有 <i>{ dataSource.length }</i> 件藏品）</div>
                 </Row>
                 <Table 
-                    rowSelection={ this.rowSelection } 
                     columns={ columns } 
-                    dataSource={ dataSource } 
-                    rowKey={ (record) => record.id }
+                    dataSource={ toJS(dataSource) } 
                     pagination={ false }
-                    scroll={{ x: false, y: false }}
+                    scroll={{ x: false, y: 330 }}
                     footer={ this.footer }
                     bordered
+                    rowSelection={ this.rowSelection } 
+                    rowKey={ (record) => record.pid }
                 />
             </div>
         );

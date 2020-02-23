@@ -5,44 +5,74 @@ import service from './service';
 
 class State {
 
+    // form
+    @observable form = {};
+    @action setForm = (data = {}) => {
+        this.form = data;
+    }
+
+    // 当前数据id
+    @observable id = null;
+    @action setId = (data = null) => {
+        this.id = data;
+    }
+
+    // 模态框 - 显示与隐藏
+    @observable visible = false;
+    @action setVisible = (data = false) => {
+        this.visible = data;
+    }
+
+    // 收货地址 - 表格 - 数据
     @observable dataSource = [];
     @action setDataSource = (data = []) => {
         this.dataSource = data;
     }
 
-    @observable form = {};
-    @action setForm = (data = {}) => {
-        this.form = data;
-    }
+    // 模态框 - 数据
     @observable addressModalData = {};
-    @action setAddressModalData01 = (data = {}) => {
+    @action setAddressModalData = (data = {}) => {
         this.addressModalData = data;
     }
 
-    // 添加收货地址 - 发起请求
-    addAddressData = async (values = {}) => {
-        const res = await service.addAddressData({
+    // 清除mobx数据
+    clearMobxData = () => {
+        this.setId();
+        this.setVisible();
+        this.setDataSource();
+        this.setAddressModalData();
+    }
+
+    // 添加收货地址 / 修改收货地址
+    editAddressData = async (values = {}) => {
+        let params = this.id ? {
+            id: this.id
+        } : {};
+        const res = await service.editAddressData({
             uname: sessionStorage.getItem('uname'),
-            ...values
+            ...values,
+            ...params
         });
         try{
             if( res.data.code === 200 ){
-                message.success('添加成功');
+                message.success(res.data.msg);
+                this.selAddressData();
             }
-            return res.data.code;
         }catch(err) {
             console.log(err);
         }
     }
 
-    // 查询所有收货地址
+    // 查询收货地址
     selAddressData = async () => {
+        // 清除mobx数据
+        this.clearMobxData();
         const res = await service.selAddressData({
             uname: sessionStorage.getItem('uname')
         });
         try{
             if( res.data.code === 200 ){
-                this.setDataSource( res.data.data );
+                res.data.data && this.setDataSource(res.data.data);
             }
         }catch(err) {
             console.log(err);
@@ -50,69 +80,16 @@ class State {
     }
 
     // 删除收货地址
-    delAddressData = async (id = '') => {
-        const res = await service.delAddressData({
-            uname: sessionStorage.getItem('uname'),
-            id
-        });
+    delAddressData = async (obj = {}) => {
+        const res = await service.delAddressData(obj);
         try{
             if( res.data.code === 200 ){
-                message.success('删除成功');
+                message.success(res.data.msg);
                 this.selAddressData();
             }
         }catch(err) {
             console.log(err);
         }
-    }
-
-    // 设置默认地址
-    setDefaultAddressData = async (id = '', isDefault = 0) => {
-        const res = await service.setDefaultAddressData({
-            uname: sessionStorage.getItem('uname'),
-            id,
-            isDefault
-        });
-        try{
-            if( res.data.code === 200 ){
-                message.success('默认地址设置成功');
-                this.selAddressData();
-            }
-        }catch(err) {
-            console.log(err);
-        }
-    }
-
-    // 编辑收货地址
-    updateAddressData = async (values = {}) => {
-        if( !this.id ){
-            message.error('id不能为空！');
-            return;
-        }
-        const res = await service.updateAddressData({
-            uname: sessionStorage.getItem('uname'),
-            ...values, id: this.id
-        });
-        try{
-            if( res.data.code === 200 ){
-                message.success('更新收货地址成功');
-                this.selAddressData();
-            }
-            return res.data.code;
-        }catch(err) {
-            console.log(err);
-        }
-    }
-
-    // 添加收货地址弹出框 - 显示与隐藏
-    @observable visible = false;
-    @action setVisible = (data = false) => {
-        this.visible = data;
-    }
-
-    // 当前数据id
-    @observable id = null;
-    @action setId = (data = null) => {
-        this.id = data;
     }
 }
 

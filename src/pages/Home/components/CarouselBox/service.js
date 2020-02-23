@@ -1,8 +1,7 @@
 import axios from '@axios';
-
 // 获取需要展示的图片
-const imgCarouselUrl = `index/carousel`;
-
+// const imgCarouselUrl = `index/carousel`;
+const imgCarouselUrl = `index/banner`;
 class Service {
     imgCarouselData = (req = {}) => {
         return new Promise((resolve, reject) => {
@@ -13,7 +12,7 @@ class Service {
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
 }
 

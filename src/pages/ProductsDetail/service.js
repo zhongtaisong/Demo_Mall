@@ -1,18 +1,18 @@
 import axios from '@axios';
 // 商品规格 - 查询
-const specificationUrl = 'details/productdetails';
+const selectProductsDetailUrl = 'details/select';
 
 class Service {
-    specificationData = (req = {}) => {
+    selectProductsDetailData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.get(specificationUrl, {
+            axios.get(selectProductsDetailUrl, {
                 params: req
             }).then(res => {
                 resolve(res);
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
 }
 
