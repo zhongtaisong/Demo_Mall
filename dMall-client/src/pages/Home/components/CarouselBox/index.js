@@ -27,7 +27,7 @@ class CarouselBox extends React.Component {
                 <div className='dm_CarouselBox'>
                     {
                         toJS( carouselList ).length ? (
-                            <Carousel autoplay={ false } effect="fade">
+                            <Carousel autoplay effect="fade">
                                 {
                                     toJS( carouselList ).map( item => {
                                         return (
