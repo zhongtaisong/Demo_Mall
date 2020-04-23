@@ -109,86 +109,80 @@ class Index extends Taro.Component {
     }
 
     // 加入收藏 / 删除
-    handleButton = async (_this, id) => {
-        let { checkedArr, setCheckedArr } = state;
-        let { modalObj } = this.state;
-        if(id) {
-          await setCheckedArr([id]);
-        }
-        // let ids = [];
+    handleButton = (_this, id) => {
+      let { checkedArr, setCheckedArr } = state;
+      let { modalObj } = this.state;
+      if(id) {
+        checkedArr = [...new Set([...checkedArr, id])];
+        setCheckedArr(checkedArr)
+      }
+      this.onSelectedCurrent(checkedArr);
+      if( !checkedArr.length ) {
+        Taro.showToast({
+          title: `请选择要${_this == 'del' ? '删除' : '加入收藏'}的商品`,
+          icon: 'none'
+        })
+        return;
+      }
+      this.setState({
+        isOpened: true
+      })
 
-        // for(let c in checkedObj){
-        //     if( checkedObj[c] ){
-        //         ids.push(c);
-        //     }
-        // }
-
-        if( _this == 'del' ){
-            // if( !ids.length ) {
-            //     Toast.info('请选择要删除的商品', 0.5);
-            //     return;
-            // }
-            // Modal.alert('删除', `确定要删除已选中的${ids.length}件商品`, [
-            //     { text: '取消', onPress: () => {
-            //         return;
-            //     } },
-            //     { text: '确定', onPress: () => {
-            //         state.delcartData( ids );                    
-            //         this.setState({
-            //             checkedNum: 0,
-            //             checkedPrice: 0
-            //         });
-            //         return;
-            //     } }
-            // ]);
-        }else if( _this == 'col' ){
-          console.log('666666666', toJS(checkedArr))
-            if( !checkedArr.length ) {
-                Taro.showToast({
-                  title: '请选择要加入收藏的商品',
-                  icon: 'none'
-                })
-                return;
-            }
+      if( _this == 'del' ){
+        modalObj = {
+          title: '删除',
+          content: `确定要删除这些商品？`,
+          onHandleCancel: () => {
             this.setState({
-              isOpened: true
+              isOpened: false
             })
-            modalObj = {
-              title: '加入收藏',
-              content: `确定要将已选中的 ${checkedArr.length} 件商品加入收藏`,
-              onHandleCancel: () => {
-                this.setState({
-                  isOpened: false
-                })                
-              },
-              onHandleConfirm: () => {
-                state.addcolsData(checkedArr);
-                this.setState({
-                    checkedNum: 0,
-                    checkedPrice: 0,
-                    isOpened: false
-                });
-              }
-            }
+          },
+          onHandleConfirm: () => {
+            state.delcartData(checkedArr);
+            this.setState({
+                checkedNum: 0,
+                checkedPrice: 0,
+                isOpened: false
+            });
+          }
         }
-        this.setState({ modalObj })
+      }else if( _this == 'col' ){
+          modalObj = {
+            title: '加入收藏',
+            content: `确定要将这些商品加入收藏？`,
+            onHandleCancel: () => {
+              this.setState({
+                isOpened: false
+              })
+            },
+            onHandleConfirm: () => {
+              state.addcolsData(checkedArr);
+              this.setState({
+                  checkedNum: 0,
+                  checkedPrice: 0,
+                  isOpened: false
+              });
+            }
+          }
+      }
+      this.setState({ modalObj })
     }
 
     // 结算
     handleGoPay = () => {
-      console.log('cccccccccccc', toJS(state.checkedArr))
-        // let { checkedObj={}, dataSource=[] } = state;
-        // let ids = [];
+        let { checkedArr, dataSource } = state;
+        let pids = [];
+        dataSource.map(item => {
+          if( checkedArr.includes(item.id) && item.pid ) {
+            pids.push(item.pid);
+          }
+        });
+        console.log('cccccccccccc', toJS(state.checkedArr), pids)
 
-        // dataSource.map(item => {
-        //     for(let c in checkedObj){
-        //         if( checkedObj[c] && item.id == c ){
-        //             ids.push(Number(item.pid));
-        //         }
-        //     }
-        // });
-
-        // if( ids.length ){
+        // if(pids.length) {
+        //   Taro.navigateTo({
+        //     url: ``
+        //   })
         //     this.props.history.push({
         //         pathname: '/views/products/cart/settlement',
         //         state: {
@@ -287,8 +281,8 @@ class Index extends Taro.Component {
                         </View>
                       ) : (
                           <View>
-                            <Text onClick={this.handleButton.bind(this, 'col')}>加入收藏</Text>
-                            <Text onClick={this.handleButton.bind(this, 'del')}>删除</Text>
+                            <Text onClick={this.handleButton.bind(this, 'col', null)}>加入收藏</Text>
+                            <Text onClick={this.handleButton.bind(this, 'del', null)}>删除</Text>
                           </View>
                         )
                     }

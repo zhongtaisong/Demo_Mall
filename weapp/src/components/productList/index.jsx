@@ -102,14 +102,14 @@ class Index extends Taro.Component {
     }
 
     render() {
-        const { products=[], isShowTag=false, isShowSpec=false, isShowCheckbox=false, isShowNum=false } = this.props;
+        const { products=[], isShowTag=false, isShowSpec=false, isShowSpecOther=false, isShowCheckbox=false, isShowNum=false, isShowAtSwipeAction=true } = this.props;
         const { checkedList, isOpened01, atActionSheetItem } = this.state;
         return (
           <View className='dm_productList'>
             {
               products.map((item, index) => {
                 return (
-                  <AtSwipeAction key={index} autoClose
+                  <AtSwipeAction key={index} autoClose disabled={!isShowAtSwipeAction}
                     options={[
                       { type: 'col', text: '加入收藏', style: {
                           backgroundColor: '#1890FF'
@@ -152,6 +152,14 @@ class Index extends Taro.Component {
                                 <View className='spec' onClick={this.showActionSheet.bind(this, item)}>
                                   <View>{item.spec}</View>
                                   <AtIcon value='chevron-down' size={16} color='#555' />
+                                </View>
+                              )
+                            }
+                            {
+                              isShowSpecOther && (
+                                <View className='spec'>
+                                  <View>{item.spec}</View>
+                                  <AtIcon value='' size={16} color='#555' />
                                 </View>
                               )
                             }

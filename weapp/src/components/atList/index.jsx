@@ -16,7 +16,7 @@ class Index extends Taro.Component {
             <View className={`dm_AtList ${className || ''}`}>
                 {
                   !isCustom ? (
-                    <AtList hasBorder={false}>
+                    <AtList hasBorder={false} className='atList atList_border atList_width'>
                         {
                           atListItem.map((item, index) => {
                             return (

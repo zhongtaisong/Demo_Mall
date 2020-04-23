@@ -31,6 +31,9 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/settlementPage/index',
+      'pages/orderDetails/index',
+      'pages/settlementPage/components/modal/index',
       'pages/myShoppingCart/index',
       'pages/home/index',
       'pages/products/index',

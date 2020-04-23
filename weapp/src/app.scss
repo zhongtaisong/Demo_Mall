@@ -75,7 +75,7 @@
 }
 // 列表
 .dm_AtList {
-  .at-list {
+  .atList {
     .at-list__item {
       padding-left: 0;
       padding-right: 0;
@@ -103,6 +103,16 @@
           }
         }
       }
+    }
+  }
+  .atList_border {
+    .at-list__item {
+      border-bottom: 1px solid $body-color;
+    }    
+  }
+  .atList_width {
+    .at-list__item-content {
+      max-width: 30%;
     }
   }
   .dm_custom_AtList {

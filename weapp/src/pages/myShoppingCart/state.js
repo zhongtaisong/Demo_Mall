@@ -70,6 +70,7 @@ class State {
         try{
             if( res.data.code === 200 ){
                 this.cartLisData();
+                this.setCheckedArr();
             }
         }catch(err) {
             console.log(err);
@@ -86,6 +87,7 @@ class State {
         try{
             if( res.data.code === 200 ){
                 this.cartLisData();
+                this.setCheckedArr();
             }
         }catch(err) {
             console.log(err);

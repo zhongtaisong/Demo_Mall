@@ -8,7 +8,7 @@
 // import footerCopyrightState from '@com/footerCopyright/state';
 // url前缀
 // const PUBLIC_URL = 'http://192.168.2.102:8000/api/';
-const PUBLIC_URL = 'http://172.16.92.19:8000/api/';
+const PUBLIC_URL = 'http://172.16.88.40:8000/api/';
 // const PUBLIC_URL = 'http://192.168.3.9:8000/api/';
 // 加密key
 const PWD_KEY = 'fjreqjklnvmsn9u9084931jj雨色轻风意柔情怜花殇12612132212';
