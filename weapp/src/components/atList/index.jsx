@@ -20,7 +20,7 @@ class Index extends Taro.Component {
                         {
                           atListItem.map((item, index) => {
                             return (
-                              <AtListItem key={index} {...item} hasBorder={false} />
+                              <AtListItem key={index} {...item} hasBorder={false} className={item.className || ''} />
                             );
                           })
                         }

@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro'
 import { observer } from '@tarojs/mobx'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Picker } from '@tarojs/components'
 import { AtForm, AtButton } from 'taro-ui';
 // 全局公共组件
 import { AtInput } from '@com';
@@ -12,7 +12,8 @@ class Index extends Taro.Component {
       super(props)
       this.state = {
         inputObj: {},
-        errTip: ''
+        errTip: '',
+        selectorChecked: ''
       }
     }
 
@@ -33,7 +34,7 @@ class Index extends Taro.Component {
       addGlobalClass: true
     }
 
-    handleChange = (id, value, e) => {
+    handleChange = (id, value) => {
       let { inputObj } = this.state;
       inputObj[id] = value.replace(/\s/g, '');
       this.setState({ inputObj })
@@ -68,13 +69,29 @@ class Index extends Taro.Component {
       }
     }
 
+    onChange = (e) => {
+      console.log('99999999999', e);
+      this.setState({
+        selectorChecked: e.detail.value
+      })
+    }
+
     render() {
         const { atInputArr=[], btnArr=[], otherErrTip, otherBtnArr=[] } = this.props;
-        let { inputObj, errTip } = this.state;
+        let { inputObj, errTip, selectorChecked } = this.state;
         return (
             <AtForm className='dm_AtForm'>
               {
                 atInputArr.map((item, index) => {
+                  if(item.that == 'picker') {
+                    return (
+                      <Picker key={index} mode={item.mode} range={item.range || []} onChange={this.onChange}>
+                        <View className='picker'>
+                          {item.label}{item.mode == 'selector' ? item.range[selectorChecked] || '保密' : item.mode == 'date' ? selectorChecked || '2020-04-25' : ''}
+                        </View>
+                      </Picker>
+                    );
+                  }
                   return (
                     <AtInput key={index}
                       title={item.title}

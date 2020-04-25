@@ -1,6 +1,5 @@
 export { default as HeaderBar } from './headerBar';
 export { default as FooterCopyright } from './footerCopyright';
-export { default as OrderDetails } from './orderDetails';
 export { default as NavBar } from './navBar';
 export { default as InputItem } from './inputItem';
 export { default as Modal } from './modal';
@@ -17,3 +16,5 @@ export { default as AtForm } from './atForm';
 export { default as AtCheckbox } from './atCheckbox';
 export { default as AtTag } from './atTag';
 export { default as AtModal } from './atModal';
+export { default as AtButton } from './atButton';
+export { default as AtTextarea } from './atTextarea';

@@ -1,0 +1,57 @@
+@import '~@com/index.less';
+
+.dm_MyOrder {
+  .comment_btn {
+    display: flex;
+    justify-content: flex-end;
+    .dm_atButton {
+      width: 100px;
+    }
+  }
+  .dm_MyOrder_content {
+    padding-bottom: 10Px;
+    border-bottom: 1px solid @body-color;
+    .main_content {
+      border-bottom: 0 none; 
+    }
+    .bottom_btns {
+      .p_info {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          >text {
+              margin-right: .6rem;
+              font-size: 12Px;
+          }
+          >view {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              text {
+                font-size: 12Px;
+                color: @main-color;
+                &:first-child {
+                  color: #000;
+                }
+                &:last-child {
+                  font-size: 16Px;
+                  margin: 0 0 6px 0;
+                }
+              }
+          }
+      }
+      .btns {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          margin: 10Px 0;
+          .dm_atButton {
+            margin-left: 10Px;
+            .at-button__text {
+              font-size: 12Px;
+            }
+          }
+      }
+    }
+  }
+}

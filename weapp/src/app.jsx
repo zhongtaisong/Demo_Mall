@@ -31,16 +31,41 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/settlementPage/index',
-      'pages/orderDetails/index',
-      'pages/settlementPage/components/modal/index',
-      'pages/myShoppingCart/index',
-      'pages/home/index',
-      'pages/products/index',
-      'pages/productsDetail/index',
-      'pages/login/index',
-      'pages/register/index',
-      'components/modal/index',
+      'pages/userCenter/components/info/index',
+      'pages/userCenter/index',
+      'pages/tabBar/my/index',
+      // 'pages/myCollection/index',
+      // 'pages/myEvaluation/index',
+      // 'pages/myOrder/index',
+      'pages/tabBar/myShoppingCart/index',
+      // 'pages/orderDetails/index',
+      'pages/tabBar/home/index',
+      'pages/tabBar/products/index',
+      // 'pages/settlementPage/index',
+      // 'pages/productsDetail/index',
+      // 'pages/login/index',
+      // 'pages/register/index',
+      // 'components/modal/index',
+    ],    
+    subPackages: [
+      {
+        root: 'pages/components/',
+        pages: [
+          'login/index',
+          'orderDetails/index',
+          'register/index',
+          'settlementPage/index',
+          'myOrder/index',
+          'myEvaluation/index',
+          'myCollection/index'
+        ]
+      },
+      {
+        root: 'pages/common/',
+        pages: [
+          'productsDetail/index'  
+        ]
+      }
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -55,25 +80,25 @@ class App extends Component {
       borderStyle: 'black',
       list: [
         {
-            pagePath: 'pages/home/index',
+            pagePath: 'pages/tabBar/home/index',
             iconPath: './img/tab_icon/home.png',
             selectedIconPath: './img/tab_icon/home_active.png',
             text: '首页'
         }, 
         {
-            pagePath: 'pages/products/index',
+            pagePath: 'pages/tabBar/products/index',
             iconPath: './img/tab_icon/products.png',
             selectedIconPath: './img/tab_icon/products_active.png',
             text: '杂货铺'
         }, 
         {
-            pagePath: 'pages/myShoppingCart/index',
+            pagePath: 'pages/tabBar/myShoppingCart/index',
             iconPath: './img/tab_icon/cart.png',
             selectedIconPath: './img/tab_icon/cart_active.png',
             text: '购物车'
         }, 
         {
-            pagePath: 'pages/login/index',
+            pagePath: 'pages/tabBar/my/index',
             iconPath: './img/tab_icon/my.png',
             selectedIconPath: './img/tab_icon/my_active.png',
             text: '我的'

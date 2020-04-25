@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
+import { observer } from '@tarojs/mobx'
 import { AtIcon, AtSwipeAction } from 'taro-ui'
 // 全局设置
 import { PUBLIC_URL } from '@config';
@@ -8,6 +9,7 @@ import { AtInputNumber, AtCheckbox, AtTag, ActionSheet } from '@com';
 // less样式
 import './index.less'
 
+@observer
 class Index extends Taro.Component {
 
     constructor(props) {
@@ -30,6 +32,10 @@ class Index extends Taro.Component {
           checkedList: nextProps.checkedArr || []
         })
       }
+    }
+
+    static options = {
+      addGlobalClass: true
     }
 
     // 数量
@@ -102,7 +108,18 @@ class Index extends Taro.Component {
     }
 
     render() {
-        const { products=[], isShowTag=false, isShowSpec=false, isShowSpecOther=false, isShowCheckbox=false, isShowNum=false, isShowAtSwipeAction=true } = this.props;
+        const { products=[], isShowTag=false, isShowSpec=false, isShowSpecOther=false, isShowCheckbox=false, isShowNum=false, 
+          isShowNumx=false, isShowAtSwipeAction=true, options=[
+            { type: 'col', text: '加入收藏', style: {
+                backgroundColor: '#1890FF'
+              }
+            },
+            { type: 'del', text: '删除', style: {
+                backgroundColor: '#0E80D2'
+              }
+            }
+          ]
+        } = this.props;
         const { checkedList, isOpened01, atActionSheetItem } = this.state;
         return (
           <View className='dm_productList'>
@@ -110,16 +127,7 @@ class Index extends Taro.Component {
               products.map((item, index) => {
                 return (
                   <AtSwipeAction key={index} autoClose disabled={!isShowAtSwipeAction}
-                    options={[
-                      { type: 'col', text: '加入收藏', style: {
-                          backgroundColor: '#1890FF'
-                        }
-                      },
-                      { type: 'del', text: '删除', style: {
-                          backgroundColor: '#0E80D2'
-                        }
-                      }
-                    ]}
+                    options={options}
                     onClick={this.onAtSwipeActionClick.bind(this, item.id)}
                   >
                       <View className='main_content'>
@@ -164,9 +172,25 @@ class Index extends Taro.Component {
                               )
                             }
                             <View className='price_and_other'>
-                              <View className='price'>
-                                <Text>￥</Text>
-                                { item.price ? Number(item.price).toFixed(2) : 0 }
+                                <View className='price'>
+                                    <View>
+                                      <Text>￥</Text>
+                                      { item.price ? Number(item.price).toFixed(2) : 0 }
+                                    </View>
+                                    {
+                                      isShowNumx && (
+                                        <View style={{
+                                            fontSize: '12Px',
+                                            color: '#555',
+                                            marginLeft: '6px'
+                                          }}
+                                        >x{item.num}</View>
+                                      )
+                                    }
+                                </View>
+                                <View className='renderContent'>
+                                  {this.props.renderContent}
+                                </View>
                               </View>
                               {
                                 isShowNum && (                              
@@ -181,7 +205,6 @@ class Index extends Taro.Component {
                                   </View>
                                 )
                               }
-                            </View>
                           </View>
                       </View>
                   </AtSwipeAction>

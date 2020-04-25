@@ -214,3 +214,13 @@
 .dm_atTag {
   margin-right: 4Px;
 }
+// 多行输入
+.dm_AtTextarea {
+  .at-textarea {
+    border-width: 1px;
+    border-color: $body-color;
+    .at-textarea__textarea {
+      font-size: 16Px;
+    }
+  }
+}
