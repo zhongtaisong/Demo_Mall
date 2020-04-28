@@ -9,61 +9,65 @@
     padding: 10Px 0;
     box-sizing: border-box;
     border-bottom: 1px solid @body-color;
-    >image {
-      width: 30%;
-      height: 90Px;
-      padding-right: 10Px;
-    }
-    .content {
-      flex: 1;
-      .title {      
-        display: block;
-        font-size: 14Px;
-        text-align: left;
-        word-break: break-all;
-        max-height: 40Px;
-        overflow: hidden;
+    .main_content_content {     
+      display: flex;
+      align-items: center;
+      >image {
+        width: 30%;
+        height: 90Px;
+        padding-right: 10Px;
       }
-      .tag {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-      }
-      .spec {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: @body-color;
-        padding: 2Px 4Px;
-        margin: 10px;
-        view {
-          font-size: 12Px;
-          color: @font-color-555;
-          flex: 1;
+      .content {
+        flex: 1;
+        .title {      
+          display: block;
+          font-size: 14Px;
+          text-align: left;
           word-break: break-all;
+          max-height: 40Px;
+          overflow: hidden;
         }
-        .at-icon {
-          width: 19Px;
-        }
-      }
-      .price_and_other {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 10px 0;
-        .price {
+        .tag {
           display: flex;
           justify-content: flex-start;
-          align-items: baseline;
-          color: @main-color;
-          font-size: 16Px;
-          flex: 1;
-          text {
+          align-items: center;
+        }
+        .spec {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: @body-color;
+          padding: 2Px 4Px;
+          margin: 10px;
+          view {
             font-size: 12Px;
+            color: @font-color-555;
+            flex: 1;
+            word-break: break-all;
+          }
+          .at-icon {
+            width: 19Px;
           }
         }
-        .renderContent {
-          flex: 1;
+        .price_and_other {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding: 10px 0;
+          .price {
+            display: flex;
+            justify-content: flex-start;
+            align-items: baseline;
+            color: @main-color;
+            font-size: 16Px;
+            flex: 1;
+            text {
+              font-size: 12Px;
+            }
+          }
+          .renderContent {
+            flex: 1;
+          }
         }
       }
     }

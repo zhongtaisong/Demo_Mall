@@ -67,9 +67,9 @@ class Index extends Taro.Component {
                     otherErrTip={otherErrTip}
                     otherBtnArr={[
                       { text: '已有账号，直接登录', onClick: () => {
-                        // Taro.navigateTo({
-                        //   url: '/pages/login/index'
-                        // })
+                        Taro.navigateTo({
+                          url: '/pages/components/login/index'
+                        })
                       } },
                     ]}
                   />

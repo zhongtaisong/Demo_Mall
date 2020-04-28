@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro'
 import { observer } from '@tarojs/mobx'
-import { View, Text, Picker } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import { AtForm, AtButton } from 'taro-ui';
 // 全局公共组件
 import { AtInput } from '@com';
@@ -12,13 +12,13 @@ class Index extends Taro.Component {
       super(props)
       this.state = {
         inputObj: {},
-        errTip: '',
-        selectorChecked: ''
+        errTip: ''
       }
     }
 
     componentDidMount() {
       const { atInputArr=[] } = this.props;
+      console.log('11111111111', atInputArr)
       let { inputObj } = this.state;
       atInputArr.map(item => {
         if(item.initValue) {
@@ -28,6 +28,22 @@ class Index extends Taro.Component {
         }
       })
       this.setState({ inputObj })
+    }
+
+    componentWillReceiveProps(nextProps) {
+      if(JSON.stringify(nextProps) != JSON.stringify(this.props)) {
+        const { atInputArr=[] } = nextProps;
+        console.log('22222222', atInputArr)
+        let { inputObj } = this.state;
+        atInputArr.map(item => {
+          if(item.initValue) {
+            inputObj[item.code] = item.initValue;
+          }else{
+            inputObj[item.code] = null;
+          }
+        })
+        this.setState({ inputObj })
+      }
     }
 
     static options = {
@@ -69,29 +85,13 @@ class Index extends Taro.Component {
       }
     }
 
-    onChange = (e) => {
-      console.log('99999999999', e);
-      this.setState({
-        selectorChecked: e.detail.value
-      })
-    }
-
     render() {
         const { atInputArr=[], btnArr=[], otherErrTip, otherBtnArr=[] } = this.props;
-        let { inputObj, errTip, selectorChecked } = this.state;
+        let { inputObj, errTip } = this.state;
         return (
             <AtForm className='dm_AtForm'>
               {
                 atInputArr.map((item, index) => {
-                  if(item.that == 'picker') {
-                    return (
-                      <Picker key={index} mode={item.mode} range={item.range || []} onChange={this.onChange}>
-                        <View className='picker'>
-                          {item.label}{item.mode == 'selector' ? item.range[selectorChecked] || '保密' : item.mode == 'date' ? selectorChecked || '2020-04-25' : ''}
-                        </View>
-                      </Picker>
-                    );
-                  }
                   return (
                     <AtInput key={index}
                       title={item.title}
@@ -100,30 +100,38 @@ class Index extends Taro.Component {
                       type={item.type}
                       placeholder={item.placeholder}
                       value={inputObj[item.code]}
+                      editable={item.editable}
                       onChange={this.handleChange.bind(this, item.code)}
                     />
                   );
                 })
               }
+              { this.props.renderChildren }
               <View className='err_tip'>{errTip || otherErrTip}</View>
-              <View className='handle_btn'>
-                {
-                  btnArr.map((item, index) => {
-                    return (
-                      <AtButton key={index} type={item.type} onClick={this.handleBtn.bind(this, item.onClick)}>{item.text}</AtButton>
-                    );
-                  })
-                }
-              </View>
-              <View className='other_handle' style={otherBtnArr.length <= 1 ? { justifyContent: 'center' } : { justifyContent: 'space-between' }}>
-                {
-                  otherBtnArr.map((item, index) => {
-                    return (
-                      <Text key={index} onClick={item.onClick}>{item.text}</Text>
-                    );
-                  })
-                }
-              </View>
+              {
+                btnArr.length && 
+                <View className='handle_btn'>
+                  {
+                    btnArr.map((item, index) => {
+                      return (
+                        <AtButton key={index} type={item.type} onClick={this.handleBtn.bind(this, item.onClick)}>{item.text}</AtButton>
+                      );
+                    })
+                  }
+                </View>
+              }
+              {
+                otherBtnArr.length && 
+                <View className='other_handle' style={otherBtnArr.length <= 1 ? { justifyContent: 'center' } : { justifyContent: 'space-between' }}>
+                  {
+                    otherBtnArr.map((item, index) => {
+                      return (
+                        <Text key={index} onClick={item.onClick}>{item.text}</Text>
+                      );
+                    })
+                  }
+                </View>
+              }
             </AtForm>
         );
     }

@@ -7,40 +7,38 @@ import './index.less';
 @observer
 class Index extends Taro.Component {
 
-    toggleModal = () => {
-      Taro.navigateTo({
-        url: '/components/modal/index'
-      })
-    }
+  static options = {
+    addGlobalClass: true
+  }
 
-    render() {
-      const { disabled=false, placeholder='搜索商品', isHideBtn=false } = this.props;
-      if(disabled) {
-          return (       
-            <View className='dm_AtSearchBar'
-              onClick={this.toggleModal}
-              style={{
-                width: '100%',
-                position: 'fixed',
-                left: 0,
-                top: `${Taro.topHeight}px`,
-                zIndex: 999
-              }} 
-            >
-              <AtSearchBar
-                placeholder={placeholder}
-                disabled
-              />
-            </View>
-          );
-      }
-      return (
+  toggleModal = () => {
+    Taro.navigateTo({
+      url: '/pages/common/searchModal/index'
+    })
+  }
+
+  render() {
+    const { disabled=false, placeholder='搜索商品', isHideBtn=false } = this.props;
+    return (       
+      <View className='dm_AtSearchBar'
+        onClick={disabled ? this.toggleModal : null}
+        style={disabled ? {
+          width: '100%',
+          position: 'fixed',
+          left: 0,
+          top: `${Taro.topHeight}px`,
+          zIndex: 999
+        } : {}} 
+      >
         <AtSearchBar
+          {...this.props}
           placeholder={placeholder}
-          className={!isHideBtn ? '' : 'AtSearchBar_hideBtn'}
+          disabled={disabled}
+          className={isHideBtn ? 'AtSearchBar_hideBtn' : ''}
         />
-      );
-    }
+      </View>
+    );
+  }
 }
 
 export default Index;

@@ -15,15 +15,16 @@ class Index extends Taro.Component {
     constructor(props) {
         super(props);
         this.state = {
-          type: null
+          type: null,
+          pid: null
         };
     }
 
     componentDidMount() {
       try{
-        let { id, type } = this.$router.params || {};
-        id && state.detailOrdersData({ id });
-        this.setState({ type })
+        let { id, type, pid } = this.$router.params || {};
+        state.detailOrdersData({ id });
+        this.setState({ type, pid })
       }catch(err) {
         console.log(err)
       }
@@ -34,12 +35,19 @@ class Index extends Taro.Component {
     }
 
     onClickLeftIcon = (type) => {
-      if(!type) {
-        Taro.navigateBack();
-      }else{
-        Taro.switchTab({
-          url: '/pages/tabBar/myShoppingCart/index'
-        })
+      switch(type) {
+        case 'cart':
+          Taro.switchTab({
+            url: '/pages/tabBar/myShoppingCart/index'
+          })
+          break;
+        case 'detail':
+          Taro.redirectTo({
+            url: `/pages/common/productsDetail/index?id=${this.state.pid}`
+          })
+          break;
+        default: 
+          Taro.navigateBack();
       }
     }
 
@@ -70,6 +78,7 @@ class Index extends Taro.Component {
                   <ProductList 
                     products={dataSource02} 
                     isShowSpecOther isShowAtSwipeAction={false}
+                    disabledLink
                   />
                   <AtList 
                     atListItem={[

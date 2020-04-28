@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro'
 import { observable, action } from 'mobx';
 // 全局数据
 import $state from '@store';
@@ -37,6 +38,9 @@ class State {
             if( res.data.code === 200 ){
                 $state.setUname( res.data.data );
                 session.clear();
+                Taro.redirectTo({
+                  url: '/pages/components/login/index'
+                })
             }
         }catch(err) {
             console.log(err);

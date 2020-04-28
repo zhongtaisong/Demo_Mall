@@ -1,4 +1,4 @@
-import { observable, action, toJS } from 'mobx';
+import { observable, action } from 'mobx';
 // 接口服务
 import service from './service';
 
@@ -6,12 +6,6 @@ import service from './service';
 const SIZE = 20;
 
 class State {
-
-    // 关键字
-    @observable kw = '';
-    @action setKw = (data = '') => {
-        this.kw = data;
-    }
 
     // 当前页
     @observable current = 1;
@@ -42,23 +36,6 @@ class State {
     @action setFilterList = (data = []) => {
         this.filterList = data;
     }
-    
-    // ListView行号
-    @observable genData = {};
-    @action setGenData = (data = {}) => {
-        this.genData = data;
-    }
-    
-    // 存储已选的筛选条件
-    @observable checkedObj = {};
-    @action setCheckedObj = (data = {}) => {
-        this.checkedObj = data;
-    }
-    @action setCheckedObj02 = (key, value) => {
-        let checkedObj = toJS(this.checkedObj);
-        checkedObj[key] = value;
-        this.checkedObj = checkedObj;
-    }
 
     // 查询全部商品 - 发起请求
     productsData = async () => {
@@ -71,13 +48,10 @@ class State {
         try{
             if( res.data.code === 200 ){
                 let { products=[], current, pageSize, total } = res.data.data || {};
-                let genData = {};
                 products.map((item, index) => {
-                    genData[item.id] = `row - ${item.id}`;
                     return item['key'] = index + 1;
                 });
-                this.setGenData({...toJS(this.genData), ...genData});
-                this.setProductList([...toJS(this.productList), ...products]);
+                this.setProductList(products);
                 this.setCurrent( current );
                 this.setPageSize( pageSize );
                 this.setTotal( total );
@@ -102,14 +76,11 @@ class State {
 
     // 清除mobx数据
     clearMobxData = () => {
-        this.setKw();
         this.setCurrent();
         this.setPageSize();
         this.setTotal();
         this.setProductList();
         this.setFilterList();
-        this.setGenData();
-        this.setCheckedObj();
     }
 }
 

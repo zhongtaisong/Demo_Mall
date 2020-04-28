@@ -11,6 +11,12 @@ class Index extends Taro.Component {
       addGlobalClass: true
     }
 
+    searchBarChange = (e) => {
+      if( typeof this.props.onBlur === 'function' ) {
+        this.props.onBlur(e);
+      }
+    }
+
     render() {
       const { isShowSearchBar=false } = this.props;
         return (
@@ -20,7 +26,7 @@ class Index extends Taro.Component {
             customStyle={{paddingTop:`${Taro.barHeight}px`}}
             className='dm_AtNavBar'
           >
-            {isShowSearchBar && <SearchBar isHideBtn />}
+            {isShowSearchBar && <SearchBar {...this.props} isHideBtn onBlur={this.searchBarChange} />}
           </AtNavBar>
         );
     }

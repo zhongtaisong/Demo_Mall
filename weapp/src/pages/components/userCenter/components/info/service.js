@@ -1,30 +1,33 @@
 import axios from '@axios';
-// 查询结算页，收货地址，商品详情
-const settlementUrl = 'order/select/settlement';
-// 提交订单
-const addorderUrl = 'order/add';
+// 查询 - 个人资料
+const selectUserInfoUrl = 'users/select/uname';
+// 修改 - 个人资料
+const updateUserInfoUrl = 'users/update';
 
 class Service {
 
-    settlementData = (req = {}) => {
+    selectUserInfoData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.post(settlementUrl, req).then(res => {
+            axios.get(selectUserInfoUrl, {
+                params: req
+            }).then(res => {
                 resolve(res);
             }).catch(err => {
                 reject(err);
             });
         });
     }
-    
-    addorderData = (req = {}) => {
+
+    updateUserInfoData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.post(addorderUrl, req).then(res => {
+            axios.post(updateUserInfoUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
                 reject(err);
             });
         });
     }
+
 }
 
 export default new Service();

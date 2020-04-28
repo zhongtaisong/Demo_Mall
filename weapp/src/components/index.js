@@ -18,3 +18,5 @@ export { default as AtTag } from './atTag';
 export { default as AtModal } from './atModal';
 export { default as AtButton } from './atButton';
 export { default as AtTextarea } from './atTextarea';
+export { default as AtPicker } from './atPicker';
+export { default as AtImagePicker } from './atImagePicker';

@@ -15,7 +15,7 @@ class Index extends Taro.Component {
             <View className='dm_Logins'>
                 <NavBar {...this.props} leftIconType='chevron-left' 
                   onClickLeftIcon={() => Taro.switchTab({
-                    url: '/pages/home/index'
+                    url: '/pages/tabBar/home/index'
                   })}
                   title='登录'
                 />
@@ -34,7 +34,7 @@ class Index extends Taro.Component {
                     } },
                     { text: '新用户注册', onClick: () => {
                       Taro.navigateTo({
-                        url: '/pages/register/index'
+                        url: '/pages/components/register/index'
                       })
                     } },
                   ]}

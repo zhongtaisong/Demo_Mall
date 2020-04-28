@@ -1,0 +1,31 @@
+@import '~@com/index.less';
+
+.dm_ReceivingAddress {
+  .address {
+    &.address_list {
+      .atList {
+        .item-extra__info {
+          font-size: 13Px;
+          color: @main-color;
+        }
+      }
+    }
+    .atList {
+      .item-content__info-title {
+        font-size: 14Px;
+      }
+      .item-content__info-note {
+        font-size: 12Px;
+        width: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      &.atList_width {
+        .at-list__item-content {
+          max-width: 90% !important;
+        }
+      }
+    }
+  }
+}

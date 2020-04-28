@@ -1,8 +1,8 @@
 @import '~@com/index.less';
 
-.ProductsDetail_Comment {
-    padding: 0 10Px;
+.modal_Comment {
     .comment_content {
+      padding: 0 10Px;
       .content {
         border-bottom: 1px solid @body-color;
         padding: 10Px 0;
@@ -42,16 +42,23 @@
         
       }
       .all_comment {
-        font-size: 13Px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px 0;
+        text-align: center;
       }
     }
     .no_comment {
-      font-size: 14Px;
-      text-align: center;
-      padding: 20Px 0;
+        .am-list-content {
+            font-size: 12px;
+            text-align: center;
+        }
     }
+}
+.comment_list {
+    // .item-extra__info {
+    //     font-size: 13px !important;
+    // }
+    // .am-list-line-multiple {
+    //     .am-list-content {
+    //         font-size: 13px;
+    //     }
+    // }
 }

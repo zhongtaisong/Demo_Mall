@@ -19,7 +19,8 @@ class SettlementPage extends Taro.Component {
         super(props);
         this.state = {
             pid: [],
-            visible: false
+            visible: false,
+            type: null
         };
     }
 
@@ -27,16 +28,19 @@ class SettlementPage extends Taro.Component {
       try{
         let { id, type='cart', num } = this.$router.params || {};
         if(id) {
-          id = id.split(',');
           switch(type) {
             case 'cart':
+              id = id.split(',');
               state.settlementData(id, type);
               break;
-            default:
-              state.settlementData(id, type, num);              
+            case 'detail':
+              id = [id];
+              state.settlementData(id, type, Number(num));
+              break;
           }
           this.setState({
-            pid: id
+            pid: id,
+            type
           });
         }
       }catch(err) {
@@ -61,7 +65,7 @@ class SettlementPage extends Taro.Component {
         }).then((orderId) => {
           if( orderId ){
               Taro.reLaunch({
-                url: `/pages/components/orderDetails/index?id=${orderId}&type=cart`
+                url: `/pages/components/orderDetails/index?id=${orderId}&pid=${this.state.pid}&type=${this.state.type}`
               })
           }else{
             throw new Error('订单主键orderId不能为空！')
@@ -127,6 +131,7 @@ class SettlementPage extends Taro.Component {
                         <ProductList 
                           products={dataSource02} 
                           isShowSpecOther isShowAtSwipeAction={false}
+                          disabledLink
                         />
                         <AtList 
                           atListItem={[

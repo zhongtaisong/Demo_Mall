@@ -39,6 +39,13 @@ class Index extends Taro.Component {
         state.clearMobxData();
     }
 
+    // onTabItemTap = (obj={}) => {
+    //   const { pagePath } = obj;
+    //   if() {
+
+    //   }
+    // }
+
     // 全选
     selectedAll = (value=[]) => {
         let { dataSource=[], setCheckedArr } = state;

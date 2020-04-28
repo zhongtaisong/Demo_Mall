@@ -110,15 +110,9 @@ class Index extends Taro.Component {
     render() {
         const { products=[], isShowTag=false, isShowSpec=false, isShowSpecOther=false, isShowCheckbox=false, isShowNum=false, 
           isShowNumx=false, isShowAtSwipeAction=true, options=[
-            { type: 'col', text: '加入收藏', style: {
-                backgroundColor: '#1890FF'
-              }
-            },
-            { type: 'del', text: '删除', style: {
-                backgroundColor: '#0E80D2'
-              }
-            }
-          ]
+            { type: 'col', text: '加入收藏', style: { backgroundColor: '#1890FF' } },
+            { type: 'del', text: '删除', style: { backgroundColor: '#0E80D2' } }
+          ], disabledLink=false
         } = this.props;
         const { checkedList, isOpened01, atActionSheetItem } = this.state;
         return (
@@ -143,68 +137,76 @@ class Index extends Taro.Component {
                               />
                             )
                           }
-                          <Image mode='heightFix' src={item.mainPicture ? PUBLIC_URL + item.mainPicture : ''} />          
-                          <View className='content'>
-                            <Text className='title'>{item.description}</Text>
-                            {
-                              isShowTag && (
-                                <View className='tag'>
-                                  {item.screenSize && item.screenSize != '其他' ? <AtTag size='small'>{item.screenSize}</AtTag> : ''}
-                                  {item.gpu && item.gpu != '其他' ? <AtTag size='small'>{item.gpu.length > 16 ? item.gpu.slice(0, 16) + '...' : item.gpu}</AtTag> : ''}
-                                  {item.memory && item.memory != '其他' ? <AtTag size='small'>{item.memory}</AtTag> : ''}
-                                </View>
-                              )
-                            }
-                            {
-                              isShowSpec && (
-                                <View className='spec' onClick={this.showActionSheet.bind(this, item)}>
-                                  <View>{item.spec}</View>
-                                  <AtIcon value='chevron-down' size={16} color='#555' />
-                                </View>
-                              )
-                            }
-                            {
-                              isShowSpecOther && (
-                                <View className='spec'>
-                                  <View>{item.spec}</View>
-                                  <AtIcon value='' size={16} color='#555' />
-                                </View>
-                              )
-                            }
-                            <View className='price_and_other'>
-                                <View className='price'>
-                                    <View>
-                                      <Text>￥</Text>
-                                      { item.price ? Number(item.price).toFixed(2) : 0 }
-                                    </View>
-                                    {
-                                      isShowNumx && (
-                                        <View style={{
-                                            fontSize: '12Px',
-                                            color: '#555',
-                                            marginLeft: '6px'
-                                          }}
-                                        >x{item.num}</View>
-                                      )
-                                    }
-                                </View>
-                                <View className='renderContent'>
-                                  {this.props.renderContent}
-                                </View>
-                              </View>
+                          <View className='main_content_content'
+                            onClick={!disabledLink ? () => {
+                              Taro.navigateTo({
+                                url: `/pages/common/productsDetail/index?id=${item.id}`
+                              })
+                            } : null}
+                          >
+                            <Image mode='heightFix' src={item.mainPicture ? PUBLIC_URL + item.mainPicture : ''} />          
+                            <View className='content'>
+                              <Text className='title'>{item.description}</Text>
                               {
-                                isShowNum && (                              
-                                  <View className='num'>
-                                    <AtInputNumber
-                                      min={1}
-                                      max={99}
-                                      step={1}
-                                      value={item.num || 1}
-                                      onChange={this.watchNumber.bind(this, item)}
-                                    />
+                                isShowTag && (
+                                  <View className='tag'>
+                                    {item.screenSize && item.screenSize != '其他' ? <AtTag size='small'>{item.screenSize}</AtTag> : ''}
+                                    {item.gpu && item.gpu != '其他' ? <AtTag size='small'>{item.gpu.length > 16 ? item.gpu.slice(0, 16) + '...' : item.gpu}</AtTag> : ''}
+                                    {item.memory && item.memory != '其他' ? <AtTag size='small'>{item.memory}</AtTag> : ''}
                                   </View>
                                 )
                               }
+                              {
+                                isShowSpec && (
+                                  <View className='spec' onClick={this.showActionSheet.bind(this, item)}>
+                                    <View>{item.spec}</View>
+                                    <AtIcon value='chevron-down' size={16} color='#555' />
+                                  </View>
+                                )
+                              }
+                              {
+                                isShowSpecOther && (
+                                  <View className='spec'>
+                                    <View>{item.spec}</View>
+                                    <AtIcon value='' size={16} color='#555' />
+                                  </View>
+                                )
+                              }
+                              <View className='price_and_other'>
+                                  <View className='price'>
+                                      <View>
+                                        <Text>￥</Text>
+                                        { item.price ? Number(item.price).toFixed(2) : 0 }
+                                      </View>
+                                      {
+                                        isShowNumx && (
+                                          <View style={{
+                                              fontSize: '12Px',
+                                              color: '#555',
+                                              marginLeft: '6px'
+                                            }}
+                                          >x{item.num}</View>
+                                        )
+                                      }
+                                  </View>
+                                  <View className='renderContent'>
+                                    {this.props.renderContent}
+                                  </View>
+                                </View>
+                                {
+                                  isShowNum && (                              
+                                    <View className='num'>
+                                      <AtInputNumber
+                                        min={1}
+                                        max={99}
+                                        step={1}
+                                        value={item.num || 1}
+                                        onChange={this.watchNumber.bind(this, item)}
+                                      />
+                                    </View>
+                                  )
+                                }
+                            </View>
                           </View>
                       </View>
                   </AtSwipeAction>

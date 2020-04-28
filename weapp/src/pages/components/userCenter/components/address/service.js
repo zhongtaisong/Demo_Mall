@@ -1,16 +1,16 @@
 import axios from '@axios';
-// 查询全部商品
-const productsUrl = 'products/select';
-// 商品筛选条件
-const filterUrl = 'products/select/filter';
-// 关键字搜索
-const kwUrl = 'index/kw';
+// 添加 / 修改
+const editAddressUrl = 'address/edit';
+// 查询
+const selAddressUrl = 'address/select';
+// 删除
+const delAddressUrl = 'address/delete';
 
 class Service {
 
-    productsData = (req = {}) => {
+    editAddressData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.post(productsUrl, req).then(res => {
+            axios.post(editAddressUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
                 reject(err);
@@ -18,9 +18,9 @@ class Service {
         });
     }
 
-    filterData = (req = {}) => {
+    selAddressData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.get(filterUrl, {
+            axios.get(selAddressUrl, {
                 params: req
             }).then(res => {
                 resolve(res);
@@ -30,9 +30,9 @@ class Service {
         });
     }
 
-    kwData = (req = {}) => {
+    delAddressData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.get(kwUrl, {
+            axios.get(delAddressUrl, {
                 params: req
             }).then(res => {
                 resolve(res);

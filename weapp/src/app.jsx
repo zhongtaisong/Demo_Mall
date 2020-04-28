@@ -31,21 +31,10 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/userCenter/components/info/index',
-      'pages/userCenter/index',
-      'pages/tabBar/my/index',
-      // 'pages/myCollection/index',
-      // 'pages/myEvaluation/index',
-      // 'pages/myOrder/index',
-      'pages/tabBar/myShoppingCart/index',
-      // 'pages/orderDetails/index',
       'pages/tabBar/home/index',
       'pages/tabBar/products/index',
-      // 'pages/settlementPage/index',
-      // 'pages/productsDetail/index',
-      // 'pages/login/index',
-      // 'pages/register/index',
-      // 'components/modal/index',
+      'pages/tabBar/myShoppingCart/index',
+      'pages/tabBar/my/index'
     ],    
     subPackages: [
       {
@@ -57,13 +46,18 @@ class App extends Component {
           'settlementPage/index',
           'myOrder/index',
           'myEvaluation/index',
-          'myCollection/index'
+          'myCollection/index',          
+          'userCenter/index',
+          'userCenter/components/info/index',
+          'userCenter/components/password/index',
+          'userCenter/components/address/index'
         ]
       },
       {
         root: 'pages/common/',
         pages: [
-          'productsDetail/index'  
+          'productsDetail/index',
+          'searchModal/index'
         ]
       }
     ],
@@ -104,6 +98,9 @@ class App extends Component {
             text: '我的'
         }
       ]
+    },
+    networkTimeout: {
+      request: 6000
     }
   }
 

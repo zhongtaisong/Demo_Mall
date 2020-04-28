@@ -75,13 +75,13 @@ class State {
                 this.setDataSource01(address);
 
                 // 商品总价
-                let totalprice = productsInfo.reduce((total, item, index, arr) => {
+                let totalprice = productsInfo.reduce((total, item) => {
                     return total + item.price * item.num;
                 }, 0);
                 this.setTotalprice(totalprice);
 
                 // 商品总数
-                let tNum = productsInfo.reduce((total, item, index, arr) => {
+                let tNum = productsInfo.reduce((total, item) => {
                     return total + item.num;
                 }, 0);
                 this.setNum( tNum );
@@ -101,7 +101,6 @@ class State {
         const res = await service.addorderData(values);
         try{
             if( res.data.code === 200 ){
-                // window.Toast('success', res.data.msg);
                 return res.data.data;
             }
         }catch(err) {
