@@ -1,16 +1,19 @@
 import axios from '@axios';
-
-const registerUrl = 'users/reg';
+// 查询当前商品评价
+const selcommentsUrl = 'comment/select/pid';
 
 class Service {
-    registerData = (req = {}) => {
+
+    selcommentsData = (req = {}) => {
         return new Promise((resolve, reject) => {
-            axios.post(registerUrl, req).then(res => {
+            axios.get(selcommentsUrl, {
+                params: req
+            }).then(res => {
                 resolve(res);
             }).catch(err => {
                 reject(err);
             });
-        })
+        });
     }
 }
 

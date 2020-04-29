@@ -40,7 +40,7 @@ class State {
     cartLisData = async () => {
 
         const res = await service.cartLisData({
-            uname: session.getItem('uname') || 'dangdang',
+            uname: session.getItem('uname'),
             collection: 0
         });
 
@@ -50,7 +50,7 @@ class State {
                 if( data ){
                     this.setDataSource( data );
                     let genData = {};
-                    data.map((item, index) => {
+                    data.map((item) => {
                         genData[item.id] = `row - ${item.id}`;
                     });
                     this.setGenData({...toJS(this.genData), ...genData});
@@ -64,7 +64,7 @@ class State {
     // 删除购物车指定id数据
     delcartData = async (ids = []) => {
         const res = await service.delcartData({
-            uname: session.getItem('uname') || 'dangdang',
+            uname: session.getItem('uname'),
             ids
         });
         try{
@@ -80,7 +80,7 @@ class State {
     // 加入收藏
     addcolsData = async (cartId = []) => {
         const res = await service.addcolsData({ 
-            uname: session.getItem('uname') || 'dangdang', 
+            uname: session.getItem('uname'), 
             ids: cartId,
             collection: 1
         });
@@ -97,7 +97,7 @@ class State {
     // 更新购物车数据
     updatecartData = async (id, num, totalprice) => {
         const res = await service.updatecartData({ 
-            uname: session.getItem('uname') || 'dangdang', 
+            uname: session.getItem('uname'), 
             id, num, totalprice
         });
         try{
@@ -145,7 +145,7 @@ class State {
     // 查询当前用户默认地址
     addressData = async () => {
         const res = await service.addressData({
-            uname: session.getItem('uname') || 'dangdang'
+            uname: session.getItem('uname')
         });
         try{
             if( res.data.code === 200 ){

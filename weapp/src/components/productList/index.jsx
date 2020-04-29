@@ -58,8 +58,9 @@ class Index extends Taro.Component {
     }
     
     // 打开 - 活动面板
-    showActionSheet = (currentObj={}) => {
-      const { onSelectSpec } = this.props;
+    showActionSheet = (currentObj={}, e) => {
+      const { onSelectSpec, isStopPropagation=true } = this.props;
+      isStopPropagation && e.stopPropagation && e.stopPropagation();
       if( typeof onSelectSpec === 'function' ) {
         onSelectSpec(currentObj).then((res=[]) => {
           const BUTTONS = res.map(item => {
@@ -112,7 +113,7 @@ class Index extends Taro.Component {
           isShowNumx=false, isShowAtSwipeAction=true, options=[
             { type: 'col', text: '加入收藏', style: { backgroundColor: '#1890FF' } },
             { type: 'del', text: '删除', style: { backgroundColor: '#0E80D2' } }
-          ], disabledLink=false
+          ], disabledLink=false, type, isStopPropagation=true
         } = this.props;
         const { checkedList, isOpened01, atActionSheetItem } = this.state;
         return (
@@ -140,7 +141,7 @@ class Index extends Taro.Component {
                           <View className='main_content_content'
                             onClick={!disabledLink ? () => {
                               Taro.navigateTo({
-                                url: `/pages/common/productsDetail/index?id=${item.id}`
+                                url: `/pages/common/productsDetail/index?id=${!type ? item.id : item.pid}`
                               })
                             } : null}
                           >
@@ -189,23 +190,25 @@ class Index extends Taro.Component {
                                         )
                                       }
                                   </View>
-                                  <View className='renderContent'>
+                                  <View className='renderContent'
+                                    onClick={isStopPropagation ? (e) => e.stopPropagation && e.stopPropagation() : null}
+                                  >
                                     {this.props.renderContent}
+                                    {
+                                      isShowNum && (
+                                        <View className='num'>
+                                          <AtInputNumber
+                                            min={1}
+                                            max={99}
+                                            step={1}
+                                            value={item.num || 1}
+                                            onChange={this.watchNumber.bind(this, item)}                                            
+                                          />
+                                        </View>
+                                      )
+                                    }
                                   </View>
                                 </View>
-                                {
-                                  isShowNum && (                              
-                                    <View className='num'>
-                                      <AtInputNumber
-                                        min={1}
-                                        max={99}
-                                        step={1}
-                                        value={item.num || 1}
-                                        onChange={this.watchNumber.bind(this, item)}
-                                      />
-                                    </View>
-                                  )
-                                }
                             </View>
                           </View>
                       </View>

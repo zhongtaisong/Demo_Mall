@@ -199,21 +199,6 @@
   &:after {
     border-color: $body-color;
   }
-  // align-items: center;
-  // .at-nav-bar__left-view {
-  //   flex: none;
-  //   padding-top: 0;
-  //   padding-bottom: 0;
-  // }
-  // .at-nav-bar__title {
-  //   flex: 3;
-  //   .at-search-bar {
-  //     padding-left: 0;
-  //   }
-  // }
-  // .at-nav-bar__right-view {
-  //   flex: 1;
-  // }
 }
 // 多选
 .dm_atCheckbox {
@@ -249,4 +234,14 @@
       font-size: 16Px;
     }
   }
+}
+// 数字输入框
+.dm_atInputNumber {
+  .at-input-number, .at-input-number__input {
+    border-color: $body-color;
+  }
+}
+// 选择器
+.dm_Picker {
+  
 }

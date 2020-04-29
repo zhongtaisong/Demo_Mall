@@ -2,8 +2,6 @@ import Taro from '@tarojs/taro'
 import { observable, action } from 'mobx';
 // 全局公共方法
 import { session } from '@utils';
-// 全局数据
-import $state from '@store';
 // 接口服务
 import service from './service';
 
@@ -32,14 +30,13 @@ class State {
                               grant_type: 'authorization_code'
                             }
                           }).then((info) => {
-                              const { openid, session_key } = info.data || {};
+                              const { openid } = info.data || {};
                               session.setItem('openid', openid);
-                              // session.setItem('session_key', session_key);
 
                               const { data } = res.data || {};
                               session.setItem('uname', data.uname);
                               session.setItem('token', data.token);
-                              Taro.switchTab({ url: '/pages/home/index' });
+                              Taro.reLaunch({ url: '/pages/tabBar/home/index' });
 
                           })
                       }else {

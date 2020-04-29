@@ -13,7 +13,7 @@ class State {
             if( res.data.code === 200 ){
                 const { data } = res.data || {};
                 data && session.setItem('uname', data); 
-                // Taro.navigateTo({ url: '/pages/login/index' })
+                Taro.reLaunch({ url: '/pages/components/login/index' });
             }
         }catch(err) {
             console.log(err);

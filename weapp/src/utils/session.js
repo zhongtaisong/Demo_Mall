@@ -7,14 +7,14 @@ class Index {
     }
 
     getItem = (key) => {
-      if( key == 'uname' ) {
-        return 'dangdang'
-      }
+      // if( key == 'uname' ) {
+      //   return 'dangdang'
+      // }
       return Taro.getStorageSync(key);
     }
 
-    clear = () => {
-      Taro.clearStorage();
+    clear = (key) => {
+      Taro.clearStorage(key);
     }
 
 }

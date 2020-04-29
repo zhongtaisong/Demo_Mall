@@ -1,6 +1,11 @@
 @import '~@com/index.less';
 
 .dm_cart {
+  .empty_cart {
+    font-size: 14Px;
+    text-align: center;
+    padding: 20Px 0;
+  }
   .dm_cart_header {
       position: fixed;
       left: 0;
@@ -16,12 +21,12 @@
       padding: 0 10Px;
       z-index: 999;
       text {
-        &:first-child {
+        &.left {
           color: @font-color-555;
           font-size: 14Px;
           width: 90%;
         }
-        &:last-child {
+        &.right {
           width: 10%;
           font-size: 16Px;
         }
@@ -43,17 +48,6 @@
       height: 42Px;
       line-height: 42Px;
       overflow: hidden;
-      .left {
-          // .am-checkbox-agree-label {
-          //     font-size: 14px;
-          //     margin-top: -1px;
-          //     .am-checkbox {
-          //         .am-checkbox-inner {
-          //             top: 8px;
-          //         }
-          //     }
-          // }
-      }
       .right {
           height: inherit;
           width: 80%;

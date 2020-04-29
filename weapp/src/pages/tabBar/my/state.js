@@ -37,8 +37,8 @@ class State {
         try{
             if( res.data.code === 200 ){
                 $state.setUname( res.data.data );
-                session.clear();
-                Taro.redirectTo({
+                session.clear('token');
+                Taro.reLaunch({
                   url: '/pages/components/login/index'
                 })
             }

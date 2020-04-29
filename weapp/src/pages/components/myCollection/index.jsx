@@ -32,6 +32,7 @@ class Index extends Taro.Component {
                   <ProductList
                     products={toJS(dataSource)} 
                     isShowSpecOther isShowAtSwipeAction
+                    type='collection'
                     options={[
                       { type: 'cart', text: '加入购物车', style: {
                           backgroundColor: '#1890FF'

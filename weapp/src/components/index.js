@@ -20,3 +20,4 @@ export { default as AtButton } from './atButton';
 export { default as AtTextarea } from './atTextarea';
 export { default as AtPicker } from './atPicker';
 export { default as AtImagePicker } from './atImagePicker';
+export { default as CommentList } from './commentList';

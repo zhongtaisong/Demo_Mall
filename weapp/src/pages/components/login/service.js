@@ -13,7 +13,7 @@ class Service {
             axios.post(loginUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
@@ -23,7 +23,7 @@ class Service {
             axios.post(forgetPwdUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
@@ -33,7 +33,7 @@ class Service {
             axios.post(newPwdUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }

@@ -23,7 +23,7 @@ class Service {
             }).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
@@ -33,7 +33,7 @@ class Service {
             axios.post(delcartUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
@@ -43,7 +43,7 @@ class Service {
             axios.post(addcolsUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
@@ -53,7 +53,7 @@ class Service {
             axios.post(updatecartUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
@@ -65,7 +65,7 @@ class Service {
             }).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
@@ -75,7 +75,7 @@ class Service {
             axios.post(updateSpecUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
@@ -87,7 +87,7 @@ class Service {
             }).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }

@@ -22,9 +22,9 @@ class Index extends Taro.Component {
 
     // 商品评价 - 模态框
     toggleModal = () => {
-      // Taro.navigateTo({
-      //   url: `/components/modal/index?id=${this.props.pid}&type=comment`
-      // })
+      Taro.navigateTo({
+        url: `/pages/common/commentModal/index?id=${this.props.pid}`
+      })
     }
 
     render() {

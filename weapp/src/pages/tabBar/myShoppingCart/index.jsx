@@ -18,7 +18,6 @@ class Index extends Taro.Component {
             checkedNum: 0,
             checkedPrice: 0,
             isFinished: false,
-            type: null,
             currentObj: {},
             checkedList: [],
             modalObj: {},
@@ -27,10 +26,6 @@ class Index extends Taro.Component {
     }
 
     componentDidMount() {
-        const { type } = this.props && this.props.location && this.props.location.state || {};
-        this.setState({
-            type
-        });
         state.cartLisData();
         state.addressData();
     }
@@ -39,12 +34,13 @@ class Index extends Taro.Component {
         state.clearMobxData();
     }
 
-    // onTabItemTap = (obj={}) => {
-    //   const { pagePath } = obj;
-    //   if() {
+    onTabItemTap = (obj={}) => {
+      console.log('7777777777777777', obj);
+      // const { pagePath } = obj;
+      // if() {
 
-    //   }
-    // }
+      // }
+    }
 
     // 全选
     selectedAll = (value=[]) => {
@@ -231,7 +227,7 @@ class Index extends Taro.Component {
 
     render() {
         let { dataSource=[], checkedArr, address } = state;
-        const { isFinished, type, checkedList, modalObj, isOpened } = this.state;
+        const { isFinished, checkedList, modalObj, isOpened } = this.state;
         return (
             <View className='dm_cart'>
                 <NavBar {...this.props} title='购物车' />
@@ -240,10 +236,10 @@ class Index extends Taro.Component {
                     top: `${Taro.topHeight}px`
                   }}
                 >
-                    <Text className='ellipsis'>收货地址：{ address || '暂无默认地址' }</Text>
+                    <Text className='ellipsis left'>收货地址：{ address || '暂无默认地址' }</Text>
                     {
                         dataSource.length ? (
-                            <Text onClick={this.handlebtn}>{
+                            <Text className='right' onClick={this.handlebtn}>{
                               !isFinished ? '管理' : '完成'
                             }</Text>
                         ) : ''
@@ -253,42 +249,53 @@ class Index extends Taro.Component {
                     padding:`${Taro.topHeight+42}px 10Px 50Px`
                   }}
                 >
-                  <ProductList products={dataSource} isShowCheckbox isShowSpec isShowNum 
-                    onSelectSpec={this.selectSpecData} 
-                    onHandleToggleSpecs={this.handleToggleSpecs}
-                    onGetNumber={this.onGetNumber}
-                    checkedArr={toJS(checkedArr)}
-                    onSelectedCurrent={this.onSelectedCurrent}
-                    onAtSwipeActionClick={this.handleButton}
-                  />
+                  {
+                    dataSource.length ? (
+                      <ProductList products={dataSource} isShowCheckbox isShowSpec isShowNum 
+                        onSelectSpec={this.selectSpecData} 
+                        onHandleToggleSpecs={this.handleToggleSpecs}
+                        onGetNumber={this.onGetNumber}
+                        checkedArr={toJS(checkedArr)}
+                        onSelectedCurrent={this.onSelectedCurrent}
+                        onAtSwipeActionClick={this.handleButton}
+                        type='cart'
+                      />
+                    ) : (
+                      <View className='empty_cart'>购物车是空的</View>
+                    )
+                  }
                 </View>
-                <View className='dm_cart_footer'>
-                  <AtCheckbox
-                    className='left'
-                    options={[
-                      { value: 'all', label: '全选' }
-                    ]}
-                    selectedList={checkedList}
-                    onChange={this.selectedAll}
-                  />
-                  <View className={`right${isFinished ? ' right_manage' : ''}`}>
-                    {
-                      !isFinished ? (
-                        <View>
-                          <View className='ellipsis'>合计：
-                            <Text>￥{this.state.checkedPrice.toFixed(2)}</Text>
-                          </View>
-                          <Text onClick={this.handleGoPay}>结算 ({this.state.checkedNum})</Text>
-                        </View>
-                      ) : (
-                          <View>
-                            <Text onClick={this.handleButton.bind(this, 'col', null)}>加入收藏</Text>
-                            <Text onClick={this.handleButton.bind(this, 'del', null)}>删除</Text>
-                          </View>
-                        )
-                    }
-                  </View>
-                </View>
+                {
+                  dataSource.length && (                    
+                    <View className='dm_cart_footer'>
+                      <AtCheckbox
+                        className='left'
+                        options={[
+                          { value: 'all', label: '全选' }
+                        ]}
+                        selectedList={checkedList}
+                        onChange={this.selectedAll}
+                      />
+                      <View className={`right${isFinished ? ' right_manage' : ''}`}>
+                        {
+                          !isFinished ? (
+                            <View>
+                              <View className='ellipsis'>合计：
+                                <Text>￥{this.state.checkedPrice.toFixed(2)}</Text>
+                              </View>
+                              <Text onClick={this.handleGoPay}>结算 ({this.state.checkedNum})</Text>
+                            </View>
+                          ) : (
+                              <View>
+                                <Text onClick={this.handleButton.bind(this, 'col', null)}>加入收藏</Text>
+                                <Text onClick={this.handleButton.bind(this, 'del', null)}>删除</Text>
+                              </View>
+                            )
+                        }
+                      </View>
+                    </View>
+                  )
+                }
                 <AtModal 
                   {...modalObj}
                   isOpened={isOpened}

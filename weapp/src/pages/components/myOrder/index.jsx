@@ -96,7 +96,7 @@ class Index extends Taro.Component {
                                       <ProductList
                                         products={item.content || []} 
                                         isShowSpecOther isShowAtSwipeAction={false}
-                                        isShowNumx
+                                        isShowNumx disabledLink isStopPropagation
                                       />
                                     </View>
                                     <View className='bottom_btns'>

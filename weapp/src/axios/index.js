@@ -1,11 +1,13 @@
 import Taro from '@tarojs/taro'
+// 全局公共方法
+import { session } from '@utils';
 // 设置
 import { PUBLIC_URL } from '@config';
 
 const interceptor = function (chain) {
     const requestParams = chain.requestParams
     const { method, data, url } = requestParams
-    // console.log('1111111111111111http', method, data, url)
+    // console.log('1111111111111111http', chain, requestParams, method, data, url)
     Taro.showLoading({ title: '加载中' })
     return chain.proceed(requestParams)
       .then(res => {
@@ -19,6 +21,15 @@ const interceptor = function (chain) {
                 title: msg,
                 icon: 'success',
                 mask: true
+              })
+              break;
+            case 401:
+              msg && Taro.showToast({
+                title: msg,
+                icon: 'none'
+              })
+              Taro.navigateTo({
+                url: `/pages/components/login/index`
               })
               break;
             default:
@@ -38,14 +49,20 @@ Taro.addInterceptor(interceptor)
 // Taro.addInterceptor(Taro.interceptors.timeoutInterceptor)
 
 const $axios = {
-    get(url='', data={}, header) {
+    get(url='', data={}, header={}) {
+        let setHeader = header || { 'content-type': 'application/json' }
+        if(session.getItem('token')) {
+          setHeader = {
+            ...setHeader,
+            token: session.getItem('token'),
+            type: 'wx'
+          }
+        }
         return new Promise((resolve, reject) => {
             Taro.request({
                 url: `${PUBLIC_URL}${url}`,
                 data: data.params,
-                header: header || {
-                  'content-type': 'application/json' // 默认值
-                },
+                header: setHeader,
                 method: 'GET',
                 success(res) {
                     resolve(res);
@@ -56,14 +73,20 @@ const $axios = {
             })
         })
     },
-    post(url='', data={}, header) {
+    post(url='', data={}, header={}) {
+        let setHeader = header || { 'content-type': 'application/json' }
+        if(session.getItem('token')) {
+          setHeader = {
+            ...setHeader,
+            token: session.getItem('token'),
+            type: 'wx'
+          }
+        }
         return new Promise((resolve, reject) => {
             Taro.request({
                 url: `${PUBLIC_URL}${url}`,
                 data,
-                header: header || {
-                  'content-type': 'application/json' // 默认值
-                },
+                header: setHeader,
                 method: 'POST',
                 success(res) {
                     resolve(res);

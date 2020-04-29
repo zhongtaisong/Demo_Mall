@@ -30,7 +30,7 @@ class Index extends Taro.Component {
     }
 
     componentDidMount() {
-        const { id=28 } = this.$router.params || {};
+        const { id } = this.$router.params || {};
         id && state.selectProductsDetailData({id});
         state.productNumData();
     }
@@ -121,8 +121,8 @@ class Index extends Taro.Component {
                 </View>
                 <View className='bottom_tab_btns'>
                     <View className='cart' onClick={() => {
-                        Taro.switchTab({
-                          url: '/pages/tabBar/myShoppingCart/index'
+                        Taro.reLaunch({
+                          url: `/pages/tabBar/myShoppingCart/index`
                         })
                       }}
                     >

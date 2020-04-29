@@ -57,7 +57,8 @@ class App extends Component {
         root: 'pages/common/',
         pages: [
           'productsDetail/index',
-          'searchModal/index'
+          'searchModal/index',
+          'commentModal/index'
         ]
       }
     ],

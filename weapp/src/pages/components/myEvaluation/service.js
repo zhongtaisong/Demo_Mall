@@ -13,7 +13,7 @@ class Service {
             }).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
@@ -23,7 +23,7 @@ class Service {
             axios.post(addcommentsUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
