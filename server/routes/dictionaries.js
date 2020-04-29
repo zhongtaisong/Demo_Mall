@@ -20,7 +20,7 @@ router.get('/selectDic', (req, res) => {
             res.send({
                 code: 200,
                 data: tableDic,
-                msg: 'ok'
+                
             })
         }
 	});

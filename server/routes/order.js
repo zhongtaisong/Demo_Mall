@@ -93,7 +93,7 @@ router.get('/detail', (req, res) => {
         res.send({
             code: 200,
             data: result,
-            msg: 'ok'
+            
         })
 
     })()
@@ -234,7 +234,7 @@ router.post('/select/settlement', (req,res) => {
         res.send({
             code: 200,
             data: result,
-            msg: 'ok'
+            
         })
     })()
 })
@@ -326,7 +326,7 @@ router.get('/select', (req, res) => {
         res.send({
             code: 200,
             data: result,
-            msg: 'ok'
+            
         });
     })()
 })

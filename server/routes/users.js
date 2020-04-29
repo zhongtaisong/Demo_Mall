@@ -28,27 +28,35 @@ router.get('/select/uname', (req, res) => {
         res.send({
             code: 200,
             data: data ? data[0] : {},
-            msg: 'ok'
+            
         });
     });
 });
 
 // 修改用户
 router.post('/update', upload.any(), (req, res) => {
-    let { delList=[], userInfo, uname } = req.body || {};
+    let { delList=[], userInfo, uname, type } = req.body || {};
     userInfo = JSON.parse( userInfo );
-    const files = req.files || [];
     delList = JSON.parse( delList );
     const rbody = req.body || {};
-
+    let files = [];
+    if( type == 'wx' ) {      
+      files = [{
+        buffer: Buffer.from(rbody.avatar, 'base64')
+      }];
+    }else{
+      files = req.files || [];
+    }
     (async () => {
         let avatarList = [];
         // 存储商品图片的文件夹路径
         let dirPath;
         let dirPath02;
         const timer = Date.now();
-        for(let r in rbody){
-            r.startsWith('avatar') && avatarList.push(rbody[r]);
+        if(!type) {
+          for(let r in rbody){
+              r.startsWith('avatar') && avatarList.push(rbody[r]);
+          }
         }
         if( !avatarList.length ){
             await new Promise((resolve, reject) => {
@@ -276,7 +284,7 @@ router.get('/select', (req, res) => {
             res.send({
                 code: 200,
                 data: result,
-                msg: 'ok'
+                
             });
         }
     });
@@ -464,7 +472,7 @@ router.post('/log', (req, res) => {
                             res.send({
                                 code: 200,
                                 data: null,
-                                msg: 'ok'
+                                
                             });
                         }
                     }else{

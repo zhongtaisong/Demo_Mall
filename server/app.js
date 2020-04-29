@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const pool = require('./pool');
 
 // 引入路由模块
 const index = require('./routes/index.js');
@@ -21,10 +22,24 @@ const admin = require('./routes/admin.js');
 
 let app = express();
 
+// 白名单
+const requestWhiteList = [
+  '/api/index/onepush',
+  '/api/index/banner',
+  '/api/index/hot',
+  '/api/products/select',
+  '/api/index/kw',
+  '/api/users/log',
+  '/api/users/vali/forgetPwd',
+  '/api/users/update/upwd',
+  '/api/users/reg'
+];
+
 // 配置跨域访问
 app.use(cors({
 	// 指定接收的地址
-	origin: [ 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:3001','http://127.0.0.1:3001','http://172.16.67.47:3000', 'http://192.168.2.103:3000', 'http://192.168.3.9:3000' ],
+  origin: [ 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:3001','http://127.0.0.1:3001',
+  'http://172.16.92.41:3000', 'http://192.168.2.102:3000', 'http://192.168.2.105:3000', 'http://192.168.2.100:3000' ],
 	// 指定接收的请求类型
 	methods: ['GET', 'POST'],
 	// 指定header
@@ -44,6 +59,38 @@ app.use( cookieParser() );
 
 // 托管静态资源到public目录下
 app.use('/api', express.static('public'));
+
+app.all('/*', (req, res, next) => {
+  console.log('11111111', req.body, req.query, req.params)
+  const { token, type } = req.headers || {};
+  if( type == 'wx' && !requestWhiteList.includes(req.path) ) {
+    if( !token ){
+        res.status(401).send({
+            code: 401,
+            msg: '认证token不存在，重新登录！'
+        })
+        return;
+    }
+  
+    let sql = "SELECT uname, upwd, admin FROM dm_user WHERE upwd = ?";
+    pool.query(sql, [token], (err, data) => {
+        if(err){
+            res.status(503).send({
+                code: 2,
+                msg: err
+            })
+        }else{
+            if(!data.length){
+              res.status(401).send({
+                code: 401,
+                msg: '认证token不存在，重新登录！'
+              })
+            }
+        }
+    });
+  }
+  next();
+})
 
 // 使用路由器来管理路由
 app.use('/api/index', index);

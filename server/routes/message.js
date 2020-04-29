@@ -152,7 +152,7 @@ router.get('/select', (req, res) => {
         res.send({
             code: 200,
             data: arr,
-            msg: 'ok'
+            
         });
         
     })()

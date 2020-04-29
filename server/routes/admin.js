@@ -30,7 +30,7 @@ router.get('/select/uname', (req, res) => {
         res.send({
             code: 200,
             data: data[0] || {},
-            msg: 'ok'
+            
         });
     });
 });
@@ -85,7 +85,7 @@ router.get('/select', (req, res) => {
                 total,
                 data: result
             },
-            msg: 'ok'
+            
         });
     })()
 });
@@ -232,7 +232,7 @@ router.get('/select', (req, res) => {
             res.send({
                 code: 200,
                 data: result,
-                msg: 'ok'
+                
             });
         }
     });

@@ -35,7 +35,7 @@ router.get('/select/filter', (req, res) => {
         res.send({
             code: 200,
             data: [obj],
-            msg: 'ok'
+            
         });
     })
 });
@@ -95,7 +95,7 @@ router.post('/select', (req, res) => {
             res.send({
                 code: 200,
                 data: result,
-                msg: 'ok'
+                
             });
         }
     })

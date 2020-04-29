@@ -41,7 +41,7 @@ router.get('/select/getUnameAndPid', (req, res) => {
         res.send({
             code: 200,
             data: result,
-            msg: 'ok'
+            
         });
     })()
 });
@@ -126,7 +126,7 @@ router.get('/select/pid', (req, res) => {
         res.send({
             code: 200,
             data: commentArr,
-            msg: 'ok'
+            
         });
         
     })()
@@ -148,7 +148,7 @@ router.get('/select/products', (req, res) => {
         res.send({
             code: 200,
             data: data.length ? data[0] : {},
-            msg: 'ok'
+            
         });
     });
 });
@@ -316,7 +316,7 @@ router.get('/select', (req, res) => {
         res.send({
             code: 200,
             data: result,
-            msg: 'ok'
+            
         });
     });
 });

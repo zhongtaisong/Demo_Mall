@@ -10,7 +10,7 @@ router.get('/hot', (req, res) => {
         res.send({
             code: 200,
             data,
-            msg: 'ok'
+            
         });
 	});
 });
@@ -23,7 +23,7 @@ router.get('/onepush', (req, res) => {
         res.send({
             code: 200,
             data,
-            msg: 'ok'
+            
         });
 	});
 });
@@ -36,7 +36,7 @@ router.get('/banner', (req, res) => {
         res.send({
             code: 200,
             data,
-            msg: 'ok'
+            
         });
     });
 });
@@ -51,7 +51,7 @@ router.get('/kw', (req,res) => {
         res.send({
             code: 200,
             data,
-            msg: 'ok'
+            
         })
     });
 });

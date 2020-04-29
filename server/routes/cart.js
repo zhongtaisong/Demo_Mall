@@ -75,8 +75,7 @@ router.post('/update/num', (req,res) => {
         if( result.affectedRows ){
             res.send({
                 code: 200,
-                data: null,
-                msg: '商品数量更新成功'
+                data: null
             })
         }else{
             res.send({
@@ -118,7 +117,7 @@ router.get('/select', (req, res) => {
         res.send({
             code: 200,
             data,
-            msg: 'ok'
+            
         })
     })
 })
@@ -211,13 +210,13 @@ router.get('/select/num', (req, res) => {
                 res.send({
                     code: 200,
                     data: total,
-                    msg: 'ok'
+                    
                 })
             }else{                
                 res.send({
                     code: 200,
                     data: 0,
-                    msg: 'ok'
+                    
                 })
             }
         }
@@ -246,7 +245,7 @@ router.get('/select/spec', (req, res) => {
             res.send({
                 code: 200,
                 data,
-                msg: 'ok'
+                
             })
         }
     })
@@ -296,8 +295,7 @@ router.post('/update/spec', (req, res) => {
             if( data.affectedRows ){
                 res.send({
                     code: 200,
-                    data: null,
-                    msg: '更改规格成功'
+                    data: null
                 })
             }else{
                 res.send({
@@ -326,7 +324,7 @@ router.get('/select/address', (req, res) => {
         res.send({
             code: 200,
             data: data[0] || {},
-            msg: 'ok'
+            
         })
     });
 
