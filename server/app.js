@@ -32,14 +32,17 @@ const requestWhiteList = [
   '/api/users/log',
   '/api/users/vali/forgetPwd',
   '/api/users/update/upwd',
-  '/api/users/reg'
+  '/api/users/reg',
+  '/api/details/select',
+  '/api/cart/select/num',
+  '/api/comment/select/pid'
 ];
 
 // 配置跨域访问
 app.use(cors({
 	// 指定接收的地址
   origin: [ 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:3001','http://127.0.0.1:3001',
-  'http://172.16.92.41:3000', 'http://192.168.2.102:3000', 'http://192.168.2.105:3000', 'http://192.168.2.100:3000' ],
+  'http://172.16.66.37:3000', 'http://192.168.2.102:3000', 'http://192.168.2.104:3000', 'http://192.168.2.100:3000' ],
 	// 指定接收的请求类型
 	methods: ['GET', 'POST'],
 	// 指定header
@@ -61,9 +64,16 @@ app.use( cookieParser() );
 app.use('/api', express.static('public'));
 
 app.all('/*', (req, res, next) => {
-  console.log('11111111', req.body, req.query, req.params)
-  const { token, type } = req.headers || {};
-  if( type == 'wx' && !requestWhiteList.includes(req.path) ) {
+  const { token, type, uname } = req.headers || {};
+  const { path, body, query } = req;
+  if( type == 'wx' && !requestWhiteList.includes(path) ) {
+    if( (query.hasOwnProperty('uname') && !query.uname) || (body.hasOwnProperty('uname') && !body.uname) || !uname ) {
+      res.status(401).send({
+          code: 401,
+          msg: '认证失败，重新登录！'
+      })
+      return;      
+    }
     if( !token ){
         res.status(401).send({
             code: 401,
@@ -71,25 +81,27 @@ app.all('/*', (req, res, next) => {
         })
         return;
     }
-  
-    let sql = "SELECT uname, upwd, admin FROM dm_user WHERE upwd = ?";
-    pool.query(sql, [token], (err, data) => {
-        if(err){
-            res.status(503).send({
-                code: 2,
-                msg: err
+    let sql = "SELECT * FROM dm_user WHERE upwd=? AND uname=?";
+    pool.query(sql, [token, uname], (err, data) => {
+      if(err){
+          res.status(503).send({
+              code: 2,
+              msg: err
+          })
+      }else{
+          if(!data.length){
+            res.status(401).send({
+              code: 401,
+              msg: '认证token已失效，重新登录！'
             })
-        }else{
-            if(!data.length){
-              res.status(401).send({
-                code: 401,
-                msg: '认证token不存在，重新登录！'
-              })
-            }
-        }
+            return;
+          }
+          next();
+      }
     });
+  }else{
+    next();
   }
-  next();
 })
 
 // 使用路由器来管理路由

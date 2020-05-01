@@ -141,13 +141,13 @@ router.post('/add', (req,res) => {
     }
 
     list.forEach(item => {
-        let sql = 'SELECT num, totalprice FROM dm_cart WHERE pid=?';
+        let sql = 'SELECT num, totalprice FROM dm_cart WHERE pid=? AND collection=0';
         pool.query(sql, [item.pid], (err, data) => {
             if(err) throw err;
             if( data.length ){
                 let num = data[0].num ? data[0].num+item.num : data[0].num;
                 let totalprice = data[0].totalprice ? data[0].totalprice+item.totalprice : data[0].totalprice;
-                sql = 'UPDATE dm_cart SET num=?, totalprice=? WHERE pid=?';
+                sql = 'UPDATE dm_cart SET num=?, totalprice=? WHERE pid=? AND collection=0';
                 pool.query(sql, [num, totalprice, item.pid], (err, data) => {
                     if(err) throw err;
                     if( data.affectedRows ){

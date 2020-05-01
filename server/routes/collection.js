@@ -35,7 +35,7 @@ router.post('/add', (req, res) => {
         return;
     }
     let sql = "UPDATE dm_cart SET collection=? WHERE id IN(?) AND uname=?";
-    let msg = collection == 1 ? '加入收藏' : '加入购物车'
+    let msg = collection == 1 ? '收藏' : '加入购物车'
     pool.query(sql, [collection, ids, uname], (err, data) => {
         if(err) throw err;
         if( data.affectedRows ){
