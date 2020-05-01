@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/mobx'
 import { md5 } from '@utils'
 
-import counterStore from './store/counter'
+import globalStore from './store'
 import './custom-variables.scss'
 import './app.scss'
 
@@ -13,7 +13,7 @@ import './app.scss'
 // }
 
 const store = {
-  counterStore
+  globalStore
 }
 
 Taro.getSystemInfo({
@@ -31,9 +31,10 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/tabBar/myShoppingCart/index',
       'pages/tabBar/home/index',
       'pages/tabBar/products/index',
-      'pages/tabBar/myShoppingCart/index',
+      // 'pages/tabBar/myShoppingCart/index',
       'pages/tabBar/my/index'
     ],    
     subPackages: [
@@ -63,10 +64,10 @@ class App extends Component {
       }
     ],
     window: {
-      backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTextStyle: 'black',
-      navigationStyle: 'custom'
+      navigationStyle: 'custom',
+      enablePullDownRefresh: true
     },
     tabBar: {
       color: '#949494',
@@ -115,8 +116,7 @@ class App extends Component {
   // 请勿修改此函数
   render () {
     return (
-      <Provider store={store}>
-      </Provider>
+      <Provider store={store} />
     )
   }
 }

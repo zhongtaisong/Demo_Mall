@@ -6,14 +6,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-// 首页
-.dm_Home {
-  grid-list {
-    .content-inner__text {
-      font-size: 24px !important;
-    }
-  }
-}
 // 模态框
 .dm_AtModal {
   .at-modal__container {
@@ -240,8 +232,21 @@
   .at-input-number, .at-input-number__input {
     border-color: $body-color;
   }
+  .at-input-number {
+    border-radius: 4px;
+  }
 }
 // 选择器
-.dm_Picker {
-  
+.dm_Picker {}
+// 更多
+.dm_AtLoadMore {
+  .at-load-more {
+    .at-button {
+      border: 0 none;
+    }
+    .at-activity-indicator__content {
+      font-size: 12Px;
+    }
+  }
+
 }

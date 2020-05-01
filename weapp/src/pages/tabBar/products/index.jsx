@@ -20,6 +20,22 @@ class Index extends Taro.Component {
         state.clearMobxData();
     }
 
+    // 下拉
+    async onPullDownRefresh() {
+      let { current, setCurrent } = state;
+      current++;
+      await setCurrent(current);
+      await state.productsData();
+      Taro.stopPullDownRefresh();
+    }
+
+    onAtLoadMoreClick = async () => {
+      let { current, setCurrent } = state;
+      current++;
+      await setCurrent(current);
+      return state.productsData()
+    }
+
     render() {
         const { productList=[] } = state;
         return (
@@ -27,7 +43,7 @@ class Index extends Taro.Component {
               <NavBar {...this.props} title='杂货铺' />
               <SearchBar {...this.props} disabled />
               <View style={{padding:`${Taro.topHeight+42}px 10Px 0`}}>
-                  <ProductList products={toJS(productList)} isShowTag />
+                  <ProductList products={toJS(productList)} isShowTag onAtLoadMoreClick={this.onAtLoadMoreClick} />
               </View>
             </View>
         );

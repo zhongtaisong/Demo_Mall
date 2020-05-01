@@ -10,10 +10,18 @@ import state from './state'
 @observer
 class Index extends Taro.Component {
 
+  constructor(props) {
+      super(props);
+      this.state = {
+        pid: null
+      };
+  }
+
   componentDidMount() {
     try{
-      const { id=28 } = this.$router.params || {};
+      const { id } = this.$router.params || {};
         id && state.selcommentsData({ pid: id })
+        this.setState({ pid: id })
     }catch(err) {
       console.log(err);
     }
@@ -21,6 +29,13 @@ class Index extends Taro.Component {
 
   componentWillUnmount() {
     state.setCommentList();
+  }
+
+  // 下拉
+  onPullDownRefresh() {
+    const { pid } = this.state;
+    pid && state.selcommentsData({ pid })
+    Taro.stopPullDownRefresh();
   }
 
   render() {
@@ -31,7 +46,7 @@ class Index extends Taro.Component {
             onClickLeftIcon={() => Taro.navigateBack()}
           />
           <View 
-            style={{padding:`${Taro.topHeight}px 10Px 0`}}
+            style={{padding:`${Taro.topHeight}px 10Px`}}
           >
             <CommentList {...this.props} 
               list={toJS(commentList)}

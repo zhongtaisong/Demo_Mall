@@ -1,7 +1,5 @@
 import Taro from '@tarojs/taro'
 import { observable, action } from 'mobx';
-// 全局数据
-import $state from '@store';
 // 全局公共方法
 import { session } from '@utils';
 // 接口服务
@@ -17,7 +15,6 @@ class State {
 
     // 获取当前用户信息
     selectUserInfoData = async () => {
-        if(!session.getItem('uname')) return;
         const res = await service.selectUserInfoData({
             uname: session.getItem('uname')
         });
@@ -36,7 +33,6 @@ class State {
         const res = await service.logoutData();
         try{
             if( res.data.code === 200 ){
-                $state.setUname( res.data.data );
                 session.clear('token');
                 Taro.reLaunch({
                   url: '/pages/components/login/index'

@@ -16,6 +16,7 @@ class Index extends Taro.Component {
               indicatorDots={false}
               autoplay
               vertical
+              interval={4000}
             >
               {
                 productsList.map( item => {

@@ -64,14 +64,14 @@ class Index extends Taro.Component {
               this.setState({
                 otherErrTip: ''
               });
-                let newUpwd = this.$md5( obj.confirm + PWD_KEY );
-                state.newPwdData({ newUpwd }).then((res) => {
-                  if(res == 200) {
-                    this.setState({ 
-                      code: 0
-                    });
-                  }
-                });
+              let newUpwd = this.$md5( obj.confirm + PWD_KEY );
+              state.newPwdData({ newUpwd }).then((res) => {
+                if(res == 200) {
+                  this.setState({ 
+                    code: 0
+                  });
+                }
+              });
             }
             return;
         }else{

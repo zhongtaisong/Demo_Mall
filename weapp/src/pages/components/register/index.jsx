@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { observer } from '@tarojs/mobx'
 // 全局公共组件
 import { NavBar, AtForm } from '@com';
@@ -19,10 +19,6 @@ class Index extends Taro.Component {
       this.state = {
         otherErrTip: ''
       }
-    }
-
-    componentWillUnmount() {
-        state.clearMobxData();
     }
 
     // 提交注册信息

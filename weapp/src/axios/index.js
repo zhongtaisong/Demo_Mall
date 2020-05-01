@@ -3,6 +3,8 @@ import Taro from '@tarojs/taro'
 import { session } from '@utils';
 // 设置
 import { PUBLIC_URL } from '@config';
+// 全局mobx数据
+import globalStore from '@store';
 
 const interceptor = function (chain) {
     const requestParams = chain.requestParams
@@ -22,15 +24,17 @@ const interceptor = function (chain) {
                 icon: 'success',
                 mask: true
               })
+              globalStore.setIsAuth(true);
               break;
             case 401:
+              Taro.redirectTo({
+                url: `/pages/components/login/index`
+              })
               msg && Taro.showToast({
                 title: msg,
                 icon: 'none'
               })
-              Taro.navigateTo({
-                url: `/pages/components/login/index`
-              })
+              globalStore.setIsAuth(false);
               break;
             default:
               msg && Taro.showToast({
@@ -54,9 +58,13 @@ const $axios = {
         if(session.getItem('token')) {
           setHeader = {
             ...setHeader,
-            token: session.getItem('token'),
-            type: 'wx'
+            token: session.getItem('token')
           }
+        }
+        setHeader = {
+          ...setHeader,
+          type: 'wx',
+          uname: session.getItem('uname')
         }
         return new Promise((resolve, reject) => {
             Taro.request({
@@ -78,9 +86,13 @@ const $axios = {
         if(session.getItem('token')) {
           setHeader = {
             ...setHeader,
-            token: session.getItem('token'),
-            type: 'wx'
+            token: session.getItem('token')
           }
+        }
+        setHeader = {
+          ...setHeader,
+          type: 'wx',
+          uname: session.getItem('uname')
         }
         return new Promise((resolve, reject) => {
             Taro.request({

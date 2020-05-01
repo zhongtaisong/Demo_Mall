@@ -26,20 +26,19 @@ class Index extends Taro.Component {
     }
 
     componentDidMount() {
-        state.cartLisData();
-        state.addressData();
+      state.cartLisData();
+      state.addressData();
     }
 
     componentWillUnmount() {
         state.clearMobxData();
     }
 
-    onTabItemTap = (obj={}) => {
-      console.log('7777777777777777', obj);
-      // const { pagePath } = obj;
-      // if() {
-
-      // }
+    // 下拉
+    onPullDownRefresh() {
+      state.cartLisData();
+      state.addressData();
+      Taro.stopPullDownRefresh();
     }
 
     // 全选
@@ -259,6 +258,7 @@ class Index extends Taro.Component {
                         onSelectedCurrent={this.onSelectedCurrent}
                         onAtSwipeActionClick={this.handleButton}
                         type='cart'
+                        isShowMore={false}
                       />
                     ) : (
                       <View className='empty_cart'>购物车是空的</View>

@@ -27,7 +27,6 @@ class State {
                 })
             }
         }
-        return res.data.code;
       }catch(err) {
           console.log(err);
       }

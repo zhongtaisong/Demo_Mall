@@ -21,3 +21,5 @@ export { default as AtTextarea } from './atTextarea';
 export { default as AtPicker } from './atPicker';
 export { default as AtImagePicker } from './atImagePicker';
 export { default as CommentList } from './commentList';
+export { default as AtGrid } from './atGrid';
+export { default as AtLoadMore } from './atLoadMore';

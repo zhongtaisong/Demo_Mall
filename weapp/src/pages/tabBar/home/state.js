@@ -1,7 +1,4 @@
 import { action, observable } from 'mobx';
-// url前缀
-import { PUBLIC_URL } from '@config';
-
 // 接口服务
 import service from './service';
 

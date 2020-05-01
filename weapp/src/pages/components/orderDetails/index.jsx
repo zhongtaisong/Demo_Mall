@@ -78,7 +78,7 @@ class Index extends Taro.Component {
                   <ProductList 
                     products={dataSource02} 
                     isShowSpecOther isShowAtSwipeAction={false}
-                    disabledLink
+                    disabledLink isShowMore={false}
                   />
                   <AtList 
                     atListItem={[

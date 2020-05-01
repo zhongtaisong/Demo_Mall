@@ -5,6 +5,8 @@ const selectProductsDetailUrl = 'details/select';
 const addcartUrl = 'cart/add';
 // 购物车商品数量
 const productNumUrl = 'cart/select/num';
+// 查询当前商品评价
+const selcommentsUrl = 'comment/select/pid';
 
 class Service {
 
@@ -33,6 +35,18 @@ class Service {
   productNumData = (req = {}) => {
       return new Promise((resolve, reject) => {
           axios.get(productNumUrl, {
+              params: req
+          }).then(res => {
+              resolve(res);
+          }).catch(err => {
+              reject(err);
+          });
+      });
+  }
+
+  selcommentsData = (req = {}) => {
+      return new Promise((resolve, reject) => {
+          axios.get(selcommentsUrl, {
               params: req
           }).then(res => {
               resolve(res);

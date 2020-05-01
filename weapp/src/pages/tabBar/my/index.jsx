@@ -34,7 +34,7 @@ class Index extends Taro.Component {
             <View className='dm_My'>
                 <View className='avatar_info'>
                     <View className='avatar'>
-                        <Image src={unameInfo.avatar ? PUBLIC_URL + unameInfo.avatar : require('@img/logo.png')} alt='avatar' />
+                        <Image src={unameInfo.avatar ? PUBLIC_URL + unameInfo.avatar : ''} alt='avatar' />
                     </View>
                     <Text>{ unameInfo.nickName }</Text>
                 </View>

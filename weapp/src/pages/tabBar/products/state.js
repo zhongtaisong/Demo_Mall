@@ -1,9 +1,9 @@
-import { observable, action } from 'mobx';
+import { observable, action, toJS } from 'mobx';
 // 接口服务
 import service from './service';
 
 // 一页展示多少条数据
-const SIZE = 20;
+const SIZE = 8;
 
 class State {
 
@@ -11,12 +11,6 @@ class State {
     @observable current = 1;
     @action setCurrent = (data = 1) => {
         this.current = data;
-    }
-
-    // 一页多少条数据
-    @observable pageSize = SIZE;
-    @action setPageSize = (data = SIZE) => {
-        this.pageSize = data;
     }
 
     // 数据总数
@@ -41,21 +35,16 @@ class State {
     productsData = async () => {
         const res = await service.productsData({
             current: this.current,
-            pageSize: this.pageSize,
+            pageSize: SIZE,
             onLine: 100,
             filterList: this.checkedObj
         });
         try{
             if( res.data.code === 200 ){
-                let { products=[], current, pageSize, total } = res.data.data || {};
-                products.map((item, index) => {
-                    return item['key'] = index + 1;
-                });
-                this.setProductList(products);
-                this.setCurrent( current );
-                this.setPageSize( pageSize );
+                let { products=[], total } = res.data.data || {};
+                this.setProductList([...toJS(this.productList), ...products]);
                 this.setTotal( total );
-                return products;
+                return products.length;
             }
         }catch(err) {
             console.log(err);
@@ -77,7 +66,6 @@ class State {
     // 清除mobx数据
     clearMobxData = () => {
         this.setCurrent();
-        this.setPageSize();
         this.setTotal();
         this.setProductList();
         this.setFilterList();

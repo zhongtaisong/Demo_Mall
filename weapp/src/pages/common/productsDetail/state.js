@@ -43,7 +43,10 @@ class State {
             if( res.data.code === 200 ){
                 const { basicInfo, imgList, params: ps, specs, detailsPic } = res.data.data || {};
                 basicInfo && this.setBasicInfo(basicInfo);
-                ps && this.setParams(ps);
+                if( ps ) {
+                  this.setParams(ps);
+                  ps.id && this.selcommentsData({ pid: ps.id });
+                }
                 imgList && this.setImgList(imgList);
                 specs && this.setSpecs(specs);
                 detailsPic && this.setDetailsPic(detailsPic);
@@ -77,12 +80,34 @@ class State {
 
     // 获取购物车列表数据 - 发起请求
     productNumData = async () => {
+        if(!session.getItem('uname')) return;
         const res = await service.productNumData({ 
           uname: session.getItem('uname') 
         });
         try{
             if( res.data.code === 200 ){
                 this.setProductNum( res.data.data );
+            }
+        }catch(err) {
+            console.log(err);
+        }
+    }
+
+    // 评价列表
+    @observable commentList = [];
+    @action setCommentList = (data = []) => {
+        this.commentList = data;
+    }
+
+    // 商品评价 - 发起请求
+    selcommentsData = async (params = {}) => {
+        const res = await service.selcommentsData(params);
+        try{
+            if( res.data.code === 200 ){
+                const { data } = res.data || {};
+                if(data){
+                    this.setCommentList( res.data.data );
+                }
             }
         }catch(err) {
             console.log(err);
@@ -97,6 +122,7 @@ class State {
       this.setSpecs();
       this.setDetailsPic();
       this.setProductNum();
+      this.setCommentList();
     }
 
 }

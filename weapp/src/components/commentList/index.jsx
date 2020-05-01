@@ -22,8 +22,10 @@ class Index extends Taro.Component {
             return (
               <View key={index}>
                 <View className='top'>
-                  <View>
-                    <Image mode='heightFix' src={item.avatar ? PUBLIC_URL + item.avatar : ''} alt='avatar' />
+                  <View className='top_list'>
+                    <View>
+                      <Image mode='aspectFit' src={item.avatar ? PUBLIC_URL + item.avatar : ''} alt='avatar' />
+                    </View>
                     <Text>{item.uname}</Text>
                   </View>
                   <Text>{item.commentTime}</Text>

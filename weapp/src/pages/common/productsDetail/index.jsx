@@ -5,14 +5,14 @@ import { toJS } from 'mobx'
 import { AtBadge } from 'taro-ui'
 // 公共组件
 import { NavBar } from '@com';
-// 全局数据
-import $state from '@store';
+// 全局公共方法
+import { session } from '@utils';
 // 商品
-import Products from './components/Products';
+import Products from './components/products';
 // 详情
-import Details from './components/Details';
+import Details from './components/details';
 // 评价
-import Comments from './components/Comments';
+import Comments from './components/comments';
 // 数据
 import state from './state';
 // 样式
@@ -25,7 +25,8 @@ class Index extends Taro.Component {
     constructor(props) {
         super(props);
         this.state = {
-            num: 1
+            num: 1,
+            id: null
         };
     }
 
@@ -33,10 +34,19 @@ class Index extends Taro.Component {
         const { id } = this.$router.params || {};
         id && state.selectProductsDetailData({id});
         state.productNumData();
+        this.setState({ id })
     }
 
     componentWillUnmount() {
       state.clearMobxData();
+    }
+
+    // 下拉
+    onPullDownRefresh() {
+      const { id } = this.state;
+      id && state.selectProductsDetailData({id});
+      state.productNumData();
+      Taro.stopPullDownRefresh();
     }
 
     // 加入购物车
@@ -70,6 +80,7 @@ class Index extends Taro.Component {
     // 选择规格
     handleToggleSpecs = (id) => {
       if(id) {
+        this.setState({ id })
         return new Promise((resolve, reject) => {
           state.selectProductsDetailData({id}).then((code) => {
             resolve(code);
@@ -81,8 +92,7 @@ class Index extends Taro.Component {
     }
 
     render() {
-        const { basicInfo, imgList, specs, params, detailsPic, productNum } = state;
-        const { oauthCode } = $state;
+        const { basicInfo, imgList, specs, commentList, params={}, detailsPic, productNum } = state;
         return (
             <View className='dm_ProductsDetail'>
                 <NavBar {...this.props} leftIconType='chevron-left' 
@@ -94,7 +104,7 @@ class Index extends Taro.Component {
                     }
                   })}
                 />
-                <View className='main_content'>
+                <View style={{padding:`10Px 0 60Px`}}>
                     <Products 
                       {...this.props}
                       basicInfo={toJS(basicInfo) || {}}
@@ -105,47 +115,34 @@ class Index extends Taro.Component {
                       onHandleToggleSpecs={this.handleToggleSpecs}
                     />
                     <View className='line'></View>
-                    {
-                      params.id && (
-                        <Comments
-                          {...this.props}
-                          pid={params.id || ''}
-                        />
-                      )
-                    }
+                    <Comments {...this.props} commentList={toJS(commentList)} 
+                      pid={params.id || ''}
+                    />
                     <View className='line'></View>
                     <Details 
                       {...this.props}
                       detailsPic={toJS(detailsPic) || []}
                     />
+                    <View className='line' />
                 </View>
-                <View className='bottom_tab_btns'>
-                    <View className='cart' onClick={() => {
-                        Taro.reLaunch({
-                          url: `/pages/tabBar/myShoppingCart/index`
-                        })
-                      }}
-                    >
-                      <AtBadge value={productNum} maxValue={99}>
-                        <Image mode='aspectFit' src={require('@img/svg/cart.svg')} />
-                      </AtBadge>
+                {
+                  session.getItem('uname') && session.getItem('token') ? (
+                    <View className='bottom_tab_btns'>
+                        <View className='cart' onClick={() => {
+                            Taro.reLaunch({
+                              url: `/pages/tabBar/myShoppingCart/index`
+                            })
+                          }}
+                        >
+                          <AtBadge value={productNum} maxValue={99}>
+                            <Image mode='aspectFit' src={require('@img/svg/cart.svg')} />
+                          </AtBadge>
+                        </View>
+                        <Text className='btn btn01' onClick={this.handleAddCart}>加入购物车</Text>
+                        <Text className='btn btn02' onClick={this.immediatePurchase}>立即购买</Text>
                     </View>
-                    <Text className='btn btn01' onClick={this.handleAddCart}>加入购物车</Text>
-                    <Text className='btn btn02' onClick={this.immediatePurchase}>立即购买</Text>
-                </View>
-                {/* {
-                    oauthCode && oauthCode == 200 ? (
-                      <View className='bottom_tab_btns'>
-                          <View className='cart'>
-                            <AtBadge value={10} maxValue={99}>
-                              <Image mode='aspectFit' src={require('@img/svg/cart.svg')} />
-                            </AtBadge>
-                          </View>
-                          <Text className='btn btn01' onClick={this.handleAddCart}>加入购物车</Text>
-                          <Text className='btn btn02' onClick={this.immediatePurchase}>立即购买</Text>
-                      </View>
-                    ) : ''
-                } */}
+                  ) : ''
+                }
             </View>
         );
     }

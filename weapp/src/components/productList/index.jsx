@@ -5,7 +5,7 @@ import { AtIcon, AtSwipeAction } from 'taro-ui'
 // 全局设置
 import { PUBLIC_URL } from '@config';
 // 全局公共组件
-import { AtInputNumber, AtCheckbox, AtTag, ActionSheet } from '@com';
+import { AtInputNumber, AtCheckbox, AtTag, ActionSheet, AtLoadMore } from '@com';
 // less样式
 import './index.less'
 
@@ -17,7 +17,8 @@ class Index extends Taro.Component {
         this.state = {
             checkedList: [],
             isOpened01: false,
-            atActionSheetItem: []
+            atActionSheetItem: [],
+            status: 'more'
         };
     }
 
@@ -26,6 +27,7 @@ class Index extends Taro.Component {
         checkedList: this.props.checkedArr || []
       })
     }
+
     componentWillReceiveProps(nextProps) {
       if( JSON.stringify(nextProps.checkedArr) != JSON.stringify(this.props.checkedArr)) {
         this.setState({
@@ -108,14 +110,35 @@ class Index extends Taro.Component {
       }
     }
 
+    // 点击查看更多
+    atLoadMoreClick = () => {
+      // 开始加载
+      this.setState({
+        status: 'loading'
+      })
+      if( typeof this.props.onAtLoadMoreClick === 'function' ) {
+        this.props.onAtLoadMoreClick().then((len) => {
+          if(!len) {
+            this.setState({
+              status: 'noMore'
+            })
+          }else{
+            this.setState({
+              status: 'more'
+            })
+          }
+        });
+      }
+    }
+
     render() {
         const { products=[], isShowTag=false, isShowSpec=false, isShowSpecOther=false, isShowCheckbox=false, isShowNum=false, 
           isShowNumx=false, isShowAtSwipeAction=true, options=[
             { type: 'col', text: '加入收藏', style: { backgroundColor: '#1890FF' } },
             { type: 'del', text: '删除', style: { backgroundColor: '#0E80D2' } }
-          ], disabledLink=false, type, isStopPropagation=true
+          ], disabledLink=false, type, isStopPropagation=true, isShowMore=true
         } = this.props;
-        const { checkedList, isOpened01, atActionSheetItem } = this.state;
+        const { checkedList, isOpened01, atActionSheetItem, status } = this.state;
         return (
           <View className='dm_productList'>
             {
@@ -215,6 +238,13 @@ class Index extends Taro.Component {
                   </AtSwipeAction>
                 );
               })
+            }
+            {
+              isShowMore && products.length && 
+              <AtLoadMore
+                onClick={this.atLoadMoreClick}
+                status={status}
+              />
             }
             <ActionSheet 
               {...this.props}

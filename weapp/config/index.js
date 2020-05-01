@@ -1,4 +1,5 @@
 const path = require('path')
+
 const config = {
   projectName: 'weapp',
   date: '2020-4-12',

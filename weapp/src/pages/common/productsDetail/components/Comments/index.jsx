@@ -1,24 +1,16 @@
 import Taro from '@tarojs/taro'
-import { View, Image, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { observer } from '@tarojs/mobx'
 import { AtIcon } from 'taro-ui'
-// 设置
-import { PUBLIC_URL } from '@config';
+import { toJS } from 'mobx';
 // 公共组件
-import { AtList } from '@com';
-// 数据
-import state from './state';
+import { AtList, CommentList } from '@com';
 // less样式
 import './index.less';
 
 // 商品评价
 @observer
 class Index extends Taro.Component {
-
-    componentDidMount() {
-      const { pid } = this.props;
-      pid && state.selcommentsData({ pid });
-    }
 
     // 商品评价 - 模态框
     toggleModal = () => {
@@ -28,7 +20,7 @@ class Index extends Taro.Component {
     }
 
     render() {
-        const { commentList } = state;
+        const { commentList=[] } = this.props;
         return (
             <View className='ProductsDetail_Comment'>
                 <AtList 
@@ -39,23 +31,10 @@ class Index extends Taro.Component {
                 />
                 {
                     commentList.length ? (
-                        <View className='comment_content'>                                
-                            {
-                                commentList.slice(0, 2).map((item, index) => {
-                                    return (
-                                      <View key={index} className='content'>
-                                        <View className='top'>
-                                          <View>
-                                            <Image mode='heightFix' src={item.avatar ? PUBLIC_URL + item.avatar : ''} alt='avatar' />
-                                            {item.uname}
-                                          </View>
-                                          <Text>{item.commentTime}</Text>
-                                        </View>
-                                        <View className='bottom'>{item.content}</View>
-                                      </View>
-                                    );
-                                })
-                            }
+                        <View className='comment_content'>
+                            <CommentList {...this.props} 
+                              list={toJS(commentList.slice(0, 2))}
+                            />
                             {
                                 commentList.length > 2 ? (
                                     <View className='all_comment' 

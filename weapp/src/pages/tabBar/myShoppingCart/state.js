@@ -11,12 +11,6 @@ class State {
     @action setDataSource = (data = []) => {
         this.dataSource = data;
     }
-    
-    // ListView行号
-    @observable genData = {};
-    @action setGenData = (data = {}) => {
-        this.genData = data;
-    }
 
     // 规格列表
     @observable specList = [];
@@ -49,11 +43,6 @@ class State {
                 const { data=[] } = res.data || {};
                 if( data ){
                     this.setDataSource( data );
-                    let genData = {};
-                    data.map((item) => {
-                        genData[item.id] = `row - ${item.id}`;
-                    });
-                    this.setGenData({...toJS(this.genData), ...genData});
                 }
             }
         }catch(err) {
@@ -162,7 +151,6 @@ class State {
     // 清除mobx数据
     clearMobxData = () => {
         this.setDataSource();
-        this.setGenData();
         this.setSpecList();
         this.setCheckedArr();
         this.setAddress();
