@@ -29,14 +29,16 @@ CREATE TABLE `dm_address` (
   `phone` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '电话',
   `isDefault` int(1) unsigned zerofill DEFAULT NULL COMMENT '是否为默认地址',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 /*Data for the table `dm_address` */
 
 insert  into `dm_address`(`id`,`uname`,`name`,`region`,`detail`,`phone`,`isDefault`) values 
-(1,'dangdang','闹钟太松了','上海市浦东新区','孙环路申城佳苑','18888888888',1),
-(2,'dangdang','小项项','上海浦东','上海火车站','15666666666',0),
-(4,'dangdang','高山流水','老树','昏鸦','18666666666',0);
+(15,'dangdang','钟先生','上海浦东','孙环路177号','183 1234 5678',0),
+(16,'dangdang','夏女士','江苏南京','雨花台区软件谷人才公寓','123 4567 8901',0),
+(17,'dangdang','中国平安','上海徐汇','凯宾路208号','188 1234 5678',0),
+(18,'dangdang','刘女士','江西赣州','兴国永丰凌源村','188 1234 5678',1),
+(20,'dangdang','中国','湖北武汉','武汉武汉武汉','15612345678',0);
 
 /*Table structure for table `dm_admin` */
 
@@ -106,19 +108,23 @@ CREATE TABLE `dm_cart` (
   `totalprice` decimal(10,2) DEFAULT NULL COMMENT '商品总价',
   `collection` int DEFAULT '0' COMMENT '1-已收藏，0-未收藏',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 /*Data for the table `dm_cart` */
 
 insert  into `dm_cart`(`id`,`uname`,`pid`,`num`,`totalprice`,`collection`) values 
-(60,'dangdang',27,1,9299.00,1),
-(63,'dangdang',46,1,17999.00,1),
-(66,'dangdang',52,1,8899.00,1),
-(93,'dangdang',17,2,29398.00,0),
-(94,'dangdang',20,1,4489.00,0),
-(95,'dangdang',10,1,3299.00,0),
-(96,'dangdang',6,1,21999.00,0),
-(97,'dangdang',7,1,4499.00,0);
+(111,'dangdang',2,9,73692.00,1),
+(131,'dangdang',8,19,89281.00,0),
+(134,'aaaaaa',28,3,32997.00,0),
+(142,'dangdang',4,1,7499.00,1),
+(149,'dangdang',1,1,10688.00,0),
+(150,'dangdang',2,1,8188.00,0),
+(151,'dangdang',3,1,18799.00,0),
+(152,'dangdang',4,1,7499.00,0),
+(153,'dangdang',5,1,6209.00,0),
+(154,'dangdang',6,1,21999.00,0),
+(155,'dangdang',7,1,4499.00,0),
+(156,'dangdang',8,1,4699.00,0);
 
 /*Table structure for table `dm_comment` */
 
@@ -133,7 +139,7 @@ CREATE TABLE `dm_comment` (
   `agree` int DEFAULT NULL COMMENT '喜欢次数',
   `disagree` int DEFAULT NULL COMMENT '不喜欢次数',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 /*Data for the table `dm_comment` */
 
@@ -163,7 +169,26 @@ insert  into `dm_comment`(`id`,`uname`,`pid`,`content`,`commentTime`,`agree`,`di
 (25,'dangdang',17,'雨色轻风意，柔情怜花殇','2020-04-01 21:52:31',0,0),
 (26,'dangdang',17,'旧时王谢堂前燕，飞入寻常百姓家','2020-04-01 21:52:43',0,0),
 (27,'dangdang',12,'噜噜噜噜噜','2020-04-07 10:00:04',0,0),
-(28,'dangdang',2,'摸摸','2020-04-07 10:00:26',0,0);
+(28,'dangdang',2,'摸摸','2020-04-07 10:00:26',0,0),
+(29,'dangdang',28,'111111111111111','2020-04-14 18:56:33',0,0),
+(30,'dangdang',28,'大大大大大大多多多多多多多多多多多多多多多多多多多多多多','2020-04-14 18:56:48',0,0),
+(31,'dangdang',28,'啛啛喳喳错错错错错错错错错错错错错错','2020-04-14 18:57:00',0,0),
+(32,'dangdang',28,'啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊','2020-04-14 18:57:12',0,0),
+(33,'dangdang',28,'噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢噢哦哦哦哦哦哦哦哦哦哦哦哦','2020-04-14 18:57:25',0,0),
+(34,'dangdang',28,'啦啦啦啦啦啦啦啦绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿','2020-04-14 18:57:36',0,0),
+(35,'dangdang',12,'fffffffffffffffffffffffffff反反复复付付付付付付付付付付付','2020-04-25 10:51:32',0,0),
+(36,'dangdang',12,'     ','2020-04-25 10:51:56',0,0),
+(37,'dangdang',12,'yyyyyyyyyyyyyyyyy呀呀呀呀呀呀晕晕晕晕晕晕晕晕晕晕晕晕晕','2020-04-25 10:53:48',0,0),
+(38,'dangdang',21,'ff反反复复付付付付付付付付付','2020-04-25 11:00:30',0,0),
+(39,'dangdang',32,'突突突突突突拖拖拖拖拖拖','2020-04-25 11:02:11',0,0),
+(40,'dangdang',25,'66666666666666','2020-04-25 11:04:44',0,0),
+(41,'dangdang',6,'ggggggggggg5555555555555555ggggggfdddddddddd','2020-04-29 17:00:51',0,0),
+(42,'dangdang',1,'1111111111','2020-04-29 17:02:29',0,0),
+(43,'dangdang',18,'Bbxk','2020-04-30 18:06:55',0,0),
+(44,'dangdang',53,'11111111111','2020-05-01 18:32:01',0,0),
+(45,'dangdang',53,'222222222222','2020-05-01 18:32:36',0,0),
+(46,'dangdang',47,'666666666666666','2020-05-01 18:43:44',0,0),
+(47,'dangdang',47,'kk坎坎坷坷','2020-05-01 18:44:00',0,0);
 
 /*Table structure for table `dm_message` */
 
@@ -204,40 +229,18 @@ CREATE TABLE `dm_order` (
   `totalprice` decimal(10,2) DEFAULT NULL COMMENT '商品总价',
   `nums` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '同一订单下各个商品的数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 /*Data for the table `dm_order` */
 
 insert  into `dm_order`(`id`,`uname`,`ordernum`,`status`,`aid`,`pid`,`submitTime`,`num`,`totalprice`,`nums`) values 
-(6,'dangdang','20200114183835',100,2,'16,12,25,29,21,49','2020-01-14 18:38:35',6,33883.00,'1,1,1,1,1,1'),
 (7,'dangdang','20200115162414',100,2,'2,8','2020-01-15 16:24:14',2,12887.00,'1,1'),
-(10,'dangdang','20200210220335',100,4,'16,38,39,32,2,1','2020-02-10 22:03:35',6,44451.00,'1,1,1,1,1,1'),
-(11,'dangdang','20200329144237',100,1,'35','2020-03-29 14:42:37',2,12578.00,'2'),
 (12,'dangdang','20200329144445',100,1,'17','2020-03-29 14:44:45',1,14699.00,'1'),
-(13,'dangdang','20200329144912',100,1,'17','2020-03-29 14:49:12',1,14699.00,'1'),
 (14,'dangdang','20200329144917',100,1,'17','2020-03-29 14:49:17',1,14699.00,'1'),
 (15,'dangdang','20200329144926',100,1,'17','2020-03-29 14:49:26',1,14699.00,'1'),
-(16,'dangdang','20200329144934',100,1,'17','2020-03-29 14:49:34',1,14699.00,'1'),
-(17,'dangdang','20200329144950',100,1,'1','2020-03-29 14:49:50',1,10688.00,'1'),
-(18,'dangdang','20200329192855',100,1,'17','2020-03-29 19:28:55',1,14699.00,'1'),
-(19,'dangdang','20200329192907',100,1,'1','2020-03-29 19:29:07',1,10688.00,'1'),
-(20,'dangdang','20200329192916',100,1,'3','2020-03-29 19:29:16',1,18799.00,'1'),
-(21,'dangdang','20200329192924',100,1,'24','2020-03-29 19:29:24',2,10398.00,'2'),
-(22,'dangdang','20200329193142',100,1,'17','2020-03-29 19:31:42',1,14699.00,'1'),
-(23,'dangdang','20200329193158',100,1,'17','2020-03-29 19:31:58',1,14699.00,'1'),
-(24,'dangdang','20200329220454',100,2,'17','2020-03-29 22:04:54',1,14699.00,'1'),
-(25,'dangdang','20200329221940',100,7,'17','2020-03-29 22:19:40',1,14699.00,'1'),
-(26,'dangdang','20200330213616',100,1,'17','2020-03-30 21:36:16',1,14699.00,'1'),
-(27,'dangdang','20200401215127',100,1,'17','2020-04-01 21:51:27',1,14699.00,'1'),
-(28,'dangdang','20200405205329',100,1,'28','2020-04-05 20:53:29',1,10999.00,'1'),
-(29,'dangdang','20200405205341',100,1,'28','2020-04-05 20:53:41',1,10999.00,'1'),
-(30,'dangdang','20200405205821',100,1,'28','2020-04-05 20:58:21',1,10999.00,'1'),
-(31,'dangdang','20200405211218',100,2,'28','2020-04-05 21:12:18',1,10999.00,'1'),
-(32,'dangdang','20200405211227',100,2,'28','2020-04-05 21:12:27',1,10999.00,'1'),
-(33,'dangdang','20200406103842',100,4,'28','2020-04-06 10:38:42',1,10999.00,'1'),
-(34,'dangdang','20200406134510',100,5,'50,18','2020-04-06 13:45:10',3,25297.00,'1,2'),
-(35,'dangdang','20200406135211',100,4,'5,17','2020-04-06 13:52:11',2,20908.00,'1,1'),
-(36,'dangdang','20200406140745',100,1,'21','2020-04-06 14:07:45',1,6799.00,'1');
+(49,'dangdang','20200428215108',100,15,'28','2020-04-28 21:51:08',1,10999.00,'1'),
+(55,'dangdang','20200428221858',100,15,'21','2020-04-28 22:18:58',1,6799.00,'1'),
+(57,'dangdang','20200428222206',100,15,'37','2020-04-28 22:22:06',1,9699.00,'1');
 
 /*Table structure for table `dm_products` */
 
@@ -353,12 +356,12 @@ CREATE TABLE `dm_user` (
   `nickName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '昵称',
   `admin` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '0' COMMENT '后台权限1表示有，0表示无',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 /*Data for the table `dm_user` */
 
 insert  into `dm_user`(`id`,`uname`,`upwd`,`email`,`phone`,`avatar`,`ukey`,`gender`,`birthday`,`nickName`,`admin`) values 
-(16,'dangdang','688344cb36c2be642febb3eab9a33430','zhongtaisong@sina.com','18312345678','img/avatar/6f847d49a001b86189c59ce6e9a12d31.jpg','565403042620171','0','2020-04-18','啦啦啦','1'),
+(16,'dangdang','688344cb36c2be642febb3eab9a33430','zhongtaisong@sina.com','18312345678','img/avatar/81924c5f2eb9694b46808ac5739a161b.jpg','565403042620171','0','2020-05-02','闹钟太松了','1'),
 (17,'zhong','e618f9b540c5d502af310e8cfaa88c3e','zhongtaisong@sina.com','18312345678','img/avatar/9f36612fb47a663af063fd3d5d2661e1.jpg','08132417815893','2','2019-12-01','zhong','1'),
 (35,'yuanyuan','905117d7b3063ed238f53e0d6dbf2235','zhongtaisong@sina.com','18312345678','img/avatar/8f3b2ad7834a81e6b35d51dacc435844.jpg','5846917731496786','1','2020-02-27','yuanyuan666','1'),
 (37,'zhong001','12d97549939281b005b70e07c42ce406','zhongtaisong@sina.com','18312345678',NULL,'38653085083815397','0','2020-02-22','001','1'),
@@ -366,7 +369,12 @@ insert  into `dm_user`(`id`,`uname`,`upwd`,`email`,`phone`,`avatar`,`ukey`,`gend
 (39,'zhong003','02c8b450837c0a911fae8d00af4d974c','zhongtaisong@sina.com','18312345678',NULL,'16200864139191018','0','2020-02-26','fgf','0'),
 (40,'zts','cf3f0e1fd9487a3152c3cabc58d08dcb','zhongtaisong','123 456',NULL,'11121233204706926','2','2020-04-03 11:15:46','zts','0'),
 (41,'mm','432918d6e985c7ebdc0944932389a4dc','fdaf','123 1213 1231',NULL,'7023627137799147','2','2020-04-03 11:16:56','mm','0'),
-(42,'1','a46c9fb879156c2b47ff0511b1802185','3','2',NULL,'29652236605550963','2','2020-04-03 11:20:34','1','0');
+(42,'1','a46c9fb879156c2b47ff0511b1802185','3','2',NULL,'29652236605550963','2','2020-04-03 11:20:34','1','0'),
+(43,'666','41a8d67704354af74be5e358520be7ca','2','1',NULL,'5091331847777847','2','2020-04-20 20:34:04','666','0'),
+(44,'1dddd','9e5bf13f3a3c5cb3cedff8c1eb410dd8','3','2',NULL,'9478445317324986','2','2020-04-20 20:42:46','1dddd','0'),
+(45,'kk','eb6d236b35e7029495795f5fe502c5b6','111','123456789',NULL,'10279301509920558','2','2020-04-21 10:39:41','kk','0'),
+(46,'11111111111','43f7cd80cb9fae26616360b166fc5dc1','3','2',NULL,'8546186782048073','2','2020-04-29 23:01:08','11111111111','0'),
+(47,'zzz','c62853b0f27ee3492de61064cb6649a0','fff','1831234678',NULL,'43432002372682965','2','2020-05-01 17:06:15','zzz','0');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
