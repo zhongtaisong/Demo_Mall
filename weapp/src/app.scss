@@ -170,6 +170,9 @@
     .at-input--disabled {
       opacity: 1;
     }
+    .at-input__title {
+      color: $font-color-555;
+    }
   }
 }
 // 搜索栏

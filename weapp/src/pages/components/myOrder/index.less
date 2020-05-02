@@ -6,11 +6,15 @@
     justify-content: flex-end;
     .dm_atButton {
       width: 100px;
+      .at-button {
+        height: 21Px;
+        line-height: 21Px;
+        font-size: 12Px;
+      }
     }
   }
   .dm_MyOrder_content {
-    padding-bottom: 10Px;
-    border-bottom: 1px solid @body-color;
+    padding-top: 10Px;
     .main_content {
       border-bottom: 0 none; 
     }
@@ -42,13 +46,28 @@
       }
       .btns {
           display: flex;
-          justify-content: flex-end;
+          justify-content: space-between;
           align-items: center;
           margin: 10Px 0;
-          .dm_atButton {
-            margin-left: 10Px;
-            .at-button__text {
-              font-size: 12Px;
+          .left, .right {
+            flex: 1;
+          }
+          .left {
+            font-size: 12Px;
+            color: @font-color-555;
+            text {
+              display: block;
+            }
+          }
+          .right {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            .dm_atButton {
+              margin-left: 10Px;
+              .at-button__text {
+                font-size: 12Px;
+              }
             }
           }
       }

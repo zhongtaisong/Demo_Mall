@@ -23,6 +23,12 @@ class Index extends Taro.Component {
       state.clearMobxData();
     }
 
+    // 下拉
+    onPullDownRefresh() {
+      state.selectUserInfoData();
+      Taro.stopPullDownRefresh();
+    }
+
     // 跳转到目标页面
     intoTargetPage = () => {
       state.logoutData();

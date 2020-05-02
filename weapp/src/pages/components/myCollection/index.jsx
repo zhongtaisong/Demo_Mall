@@ -18,6 +18,12 @@ class Index extends Taro.Component {
         state.clearMobxData();
     }
 
+    // 下拉
+    onPullDownRefresh() {
+      state.cartLisData();
+      Taro.stopPullDownRefresh();
+    }
+
     render() {
         let { dataSource=[] } = state;
         return (
@@ -26,12 +32,12 @@ class Index extends Taro.Component {
                   onClickLeftIcon={() => Taro.navigateBack()}
                 />
                 <View style={{
-                    padding:`${Taro.topHeight}px 10Px 0`
+                    padding:`${Taro.topHeight+10}px 10Px`
                   }}
                 >
                   <ProductList
                     products={toJS(dataSource)} 
-                    isShowSpecOther isShowAtSwipeAction
+                    isShowSpecOther isShowAtSwipeAction isShowMore={false}
                     type='collection'
                     options={[
                       { type: 'cart', text: '加入购物车', style: {

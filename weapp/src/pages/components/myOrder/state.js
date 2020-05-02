@@ -1,11 +1,11 @@
-import { observable, action } from "mobx";
+import { observable, action, toJS } from "mobx";
 // 全局公共方法
 import { session } from '@utils';
 // 接口服务
 import service from './service';
 
 // 一页展示多少条数据
-const SIZE = 20;
+const SIZE = 3;
 
 class State {
 
@@ -19,12 +19,6 @@ class State {
     @observable current = 1;
     @action setCurrent = (data = 1) => {
         this.current = data;
-    }
-
-    // 一页多少条数据
-    @observable pageSize = SIZE;
-    @action setPageSize = (data = SIZE) => {
-        this.pageSize = data;
     }
 
     // 数据总数
@@ -42,22 +36,16 @@ class State {
     // 查询订单列表 - 发起请求
     selOrdersData = async () => {
         const res = await service.selOrdersData({
-            uname: session.getItem('uname')
+          uname: session.getItem('uname'),          
+          current: this.current,
+          pageSize: SIZE
         });
         try{
             if( res.data.code === 200 ){                
-                let { products=[], current, pageSize, total } = res.data.data || {};
-
-                products.map((item, index) => {
-                    item['key'] = index + 1;
-                });
-
-                this.setDataSource(products);
-
-                this.setCurrent( current );
-                this.setPageSize( pageSize );
+                let { products=[], total } = res.data.data || {};
+                this.setDataSource([...toJS(this.dataSource), ...products]);
                 this.setTotal( total );
-                return products;
+                return products.length;
             }
         }catch(err) {
             console.log(err);
@@ -69,6 +57,8 @@ class State {
         const res = await service.deleteOrderData(values);
         try{
             if( res.data.code === 200 ){
+              this.setCurrent();
+              this.setDataSource();
               this.selOrdersData();
             }
         }catch(err) {
@@ -93,7 +83,6 @@ class State {
     clearMobxData = () => {
         this.setDataSource();
         this.setCurrent();
-        this.setPageSize();
         this.setTotal();
         this.setDataSource02();
     }

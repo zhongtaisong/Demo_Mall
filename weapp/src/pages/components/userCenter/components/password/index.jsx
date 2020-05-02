@@ -7,8 +7,6 @@ import { NavBar, AtForm } from '@com';
 import { PWD_KEY } from '@config';
 // 数据
 import state from './state';
-// less样式
-import './index.less';
 
 // 个人资料
 @observer

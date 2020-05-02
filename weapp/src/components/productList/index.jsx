@@ -17,8 +17,7 @@ class Index extends Taro.Component {
         this.state = {
             checkedList: [],
             isOpened01: false,
-            atActionSheetItem: [],
-            status: 'more'
+            atActionSheetItem: []
         };
     }
 
@@ -112,22 +111,8 @@ class Index extends Taro.Component {
 
     // 点击查看更多
     atLoadMoreClick = () => {
-      // 开始加载
-      this.setState({
-        status: 'loading'
-      })
       if( typeof this.props.onAtLoadMoreClick === 'function' ) {
-        this.props.onAtLoadMoreClick().then((len) => {
-          if(!len) {
-            this.setState({
-              status: 'noMore'
-            })
-          }else{
-            this.setState({
-              status: 'more'
-            })
-          }
-        });
+        return this.props.onAtLoadMoreClick();
       }
     }
 
@@ -138,7 +123,7 @@ class Index extends Taro.Component {
             { type: 'del', text: '删除', style: { backgroundColor: '#0E80D2' } }
           ], disabledLink=false, type, isStopPropagation=true, isShowMore=true
         } = this.props;
-        const { checkedList, isOpened01, atActionSheetItem, status } = this.state;
+        const { checkedList, isOpened01, atActionSheetItem } = this.state;
         return (
           <View className='dm_productList'>
             {
@@ -243,7 +228,6 @@ class Index extends Taro.Component {
               isShowMore && products.length && 
               <AtLoadMore
                 onClick={this.atLoadMoreClick}
-                status={status}
               />
             }
             <ActionSheet 

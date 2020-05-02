@@ -10,7 +10,7 @@ const interceptor = function (chain) {
     const requestParams = chain.requestParams
     const { method, data, url } = requestParams
     // console.log('1111111111111111http', chain, requestParams, method, data, url)
-    Taro.showLoading({ title: '加载中' })
+    Taro.showLoading({ title: '加载中', mask: true })
     return chain.proceed(requestParams)
       .then(res => {
         // console.log('22222222222http', res)

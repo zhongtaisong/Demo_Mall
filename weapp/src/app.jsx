@@ -31,11 +31,11 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/tabBar/myShoppingCart/index',
+      'pages/tabBar/my/index',
       'pages/tabBar/home/index',
       'pages/tabBar/products/index',
-      // 'pages/tabBar/myShoppingCart/index',
-      'pages/tabBar/my/index'
+      'pages/tabBar/myShoppingCart/index',
+      // 'pages/tabBar/my/index'
     ],    
     subPackages: [
       {

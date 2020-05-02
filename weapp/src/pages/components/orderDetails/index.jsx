@@ -34,6 +34,10 @@ class Index extends Taro.Component {
       state.clearMobxData();
     }
 
+    config = {
+      enablePullDownRefresh: false
+    }
+
     onClickLeftIcon = (type) => {
       switch(type) {
         case 'cart':

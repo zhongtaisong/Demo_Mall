@@ -52,6 +52,10 @@ class SettlementPage extends Taro.Component {
         state.clearMobxData();
     }
 
+    config = {
+      enablePullDownRefresh: false
+    }
+
     // 提交订单
     handleSubmitOrders = () => {
         let { selectAddress, num, totalprice, nums } = state;

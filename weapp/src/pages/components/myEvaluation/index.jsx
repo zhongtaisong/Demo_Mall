@@ -32,6 +32,10 @@ class Index extends Taro.Component {
         }
     }
 
+    config = {
+      enablePullDownRefresh: false
+    }
+
     // 提交评价
     handleSubmit = () => {
       const { value } = this.state;
@@ -64,10 +68,11 @@ class Index extends Taro.Component {
                     padding:`${Taro.topHeight}px 10Px 50Px`
                   }}
                 >
-                    <View className='p_details'>
+                    <View style={{paddingTop: '10Px'}}>
                         <ProductList
                           products={products} 
                           isShowSpecOther isShowAtSwipeAction={false}
+                          isShowMore={false}
                         />
                     </View>
                     <AtTextarea

@@ -14,9 +14,10 @@ class State {
         });
         try{
             if( res.data.code === 200 ){
-                Taro.navigateTo({
-                  url: '/pages/components/login/index'
-                })
+              session.clear('token');
+              Taro.navigateTo({
+                url: '/pages/components/login/index'
+              })
             }
         }catch(err) {
             console.log(err);

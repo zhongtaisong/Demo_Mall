@@ -18,35 +18,10 @@ class State {
         const res = await service.loginData(values);
         try{
             if( res.data.code === 200 ){
-                Taro.login({
-                  success(rs) {
-                      if(rs.code) {
-                          Taro.request({
-                            url: 'https://api.weixin.qq.com/sns/jscode2session',
-                            data: {
-                              appid: 'wxe7c5ff9508e966bd',
-                              secret: '4eeab4e514a3b1f486c2bb9da82c0b92',
-                              js_code: rs.code,
-                              grant_type: 'authorization_code'
-                            }
-                          }).then((info) => {
-                              const { openid } = info.data || {};
-                              session.setItem('openid', openid);
-
-                              const { data } = res.data || {};
-                              session.setItem('uname', data.uname);
-                              session.setItem('token', data.token);
-                              Taro.reLaunch({ url: '/pages/tabBar/home/index' });
-
-                          })
-                      }else {
-                          Taro.showToast({
-                            title: '登录失败！' + rs.errMsg,
-                            icon: 'none'
-                          })
-                      }
-                  }
-                })
+              const { data } = res.data || {};
+              session.setItem('uname', data.uname);
+              session.setItem('token', data.token);
+              Taro.reLaunch({ url: '/pages/tabBar/home/index' });
             }
         }catch(err) {
             console.log(err);

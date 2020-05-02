@@ -6,6 +6,13 @@ import service from './service';
 
 class State {
 
+    // 查询购物车数据期间，展示正在加载购物车数据
+    // 若查询结果为空，则展示购物车是空的
+    @observable emptyTip = '正在加载购物车数据...';
+    @action setEmptyTip = (data = '正在加载购物车数据...') => {
+        this.emptyTip = data;
+    }
+
     // 购物车数据
     @observable dataSource = [];
     @action setDataSource = (data = []) => {
@@ -43,6 +50,7 @@ class State {
                 const { data=[] } = res.data || {};
                 if( data ){
                     this.setDataSource( data );
+                    !data.length && this.setEmptyTip('购物车是空的');
                 }
             }
         }catch(err) {
@@ -154,6 +162,7 @@ class State {
         this.setSpecList();
         this.setCheckedArr();
         this.setAddress();
+        this.setEmptyTip();
     }
 }
 

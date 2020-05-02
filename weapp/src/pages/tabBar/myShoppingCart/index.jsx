@@ -225,7 +225,7 @@ class Index extends Taro.Component {
     }
 
     render() {
-        let { dataSource=[], checkedArr, address } = state;
+        let { dataSource=[], checkedArr, address, emptyTip } = state;
         const { isFinished, checkedList, modalObj, isOpened } = this.state;
         return (
             <View className='dm_cart'>
@@ -261,7 +261,7 @@ class Index extends Taro.Component {
                         isShowMore={false}
                       />
                     ) : (
-                      <View className='empty_cart'>购物车是空的</View>
+                      <View className='empty_cart'>{emptyTip}</View>
                     )
                   }
                 </View>

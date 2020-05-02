@@ -3,7 +3,7 @@ import { View } from '@tarojs/components'
 import { observer } from '@tarojs/mobx'
 import { toJS } from 'mobx';
 // 全局公共组件
-import { NavBar, AtList, AtButton, AtForm, AtPicker } from '@com';
+import { NavBar, AtList, AtForm, AtPicker } from '@com';
 // 数据
 import state from './state';
 // less样式
@@ -29,6 +29,12 @@ class Index extends Taro.Component {
 
     componentWillUnmount() {
         state.clearMobxData();
+    }
+
+    // 下拉
+    onPullDownRefresh() {
+      state.selAddressData();
+      Taro.stopPullDownRefresh();
     }
 
     // 保存
@@ -121,9 +127,10 @@ class Index extends Taro.Component {
                         ]}
                         onAtSwipeActionClick={this.onAtSwipeActionClick}
                       />
-                      <View style={{ padding: '30Px 0 20Px' }}>
-                        <AtButton type='primary' onClick={this.toggleModal}>添加收货地址</AtButton>
-                      </View>
+                      {
+                        dataSource.length && 
+                        <View className='add_address' onClick={this.toggleModal}>添加收货地址</View>
+                      }
                     </View>
                   ) : (
                     <AtForm 

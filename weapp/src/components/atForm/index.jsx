@@ -29,23 +29,6 @@ class Index extends Taro.Component {
       this.setState({ inputObj })
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //   if(JSON.stringify(nextProps) != JSON.stringify(this.props)) {
-    //     const { atInputArr=[] } = nextProps;
-    //     console.log('999999999999', nextProps, this.props)
-    //     let { inputObj } = this.state;
-    //     atInputArr.map(item => {
-    //       if(item.initValue) {
-    //         inputObj[item.code] = item.initValue;
-    //       }else{
-    //         inputObj[item.code] = null;
-    //       }
-    //     })
-    //     console.log('jjjjjjjjjjjjjjjjjjj', inputObj);
-    //     this.setState({ inputObj })
-    //   }
-    // }
-
     static options = {
       addGlobalClass: true
     }

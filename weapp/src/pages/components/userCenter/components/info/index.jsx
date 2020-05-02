@@ -25,7 +25,17 @@ class Index extends Taro.Component {
     }
 
     componentDidMount() {
-        state.selectUserInfoData();
+      state.selectUserInfoData();
+    }
+
+    componentWillUnmount() {
+      state.clearMobxData();
+    }
+
+    // 下拉
+    onPullDownRefresh() {
+      state.selectUserInfoData();
+      Taro.stopPullDownRefresh();
     }
 
     // 提交
@@ -102,60 +112,63 @@ class Index extends Taro.Component {
                 <NavBar {...this.props} title='个人资料' leftIconType='chevron-left'
                   onClickLeftIcon={() => Taro.navigateBack()}
                 />
-                <View style={{
-                    padding:`${Taro.topHeight}px 10Px 0`
-                  }}
-                >
-                  <AtList 
-                    isCustom
-                    title='头像'
-                    renderExtraChildren={
-                      () => {
-                        return (
-                          <AtImagePicker
-                            multiple={false}
-                            length={1}
-                            count={1}
-                            showAddBtn={!avatar.length}
-                            files={toJS(avatar)}
-                            onChange={this.atImagePickerChange}
-                          />
-                        )
-                      }
-                    }
-                  />
-                  <AtForm 
-                    {...this.props}
-                    atInputArr={[
-                      { code: 'uname', name: '用户名', title: '用户名', required: false, type: 'text', placeholder: '-', editable: false, initValue: personalInformation.uname },
-                      { code: 'nickName', name: '昵称', title: '昵称', required: true, type: 'text', placeholder: '请输入', clear: true, initValue: personalInformation.nickName },
-                      { code: 'phone', name: '手机号码', title: '手机号码', required: true, type: 'phone', placeholder: '请输入', clear: true, initValue: personalInformation.phone }
-                    ]}
-                    renderChildren={() => {
-                      return (
-                        <View>
-                          <AtPicker
-                            label='gender'
-                            mode='selector' 
-                            range={genderArr || []}
-                            atListItem={[{ title: '性别', extraText: genderArr[pickerValue['gender']] || '请选择' }]}
-                            onChange={this.atPickerChange.bind(this, 'gender')}
-                          />
-                          <AtPicker
-                            label='birthday'
-                            mode='date' 
-                            atListItem={[{ title: '生日', extraText: pickerValue['birthday'] || '请选择' }]}
-                            onChange={this.atPickerChange.bind(this, 'birthday')}
-                          />
-                        </View>
-                      );
+                {                  
+                  Object.keys(personalInformation).length && 
+                  <View style={{
+                      padding:`${Taro.topHeight}px 10Px 0`
                     }}
-                    btnArr={[
-                      { text: '保存', type: 'primary', onClick: this.handleSubmit }
-                    ]}
-                    otherErrTip={otherErrTip}
-                  />
-                </View>
+                  >
+                    <AtList 
+                      isCustom
+                      title='头像'
+                      renderExtraChildren={
+                        () => {
+                          return (
+                            <AtImagePicker
+                              multiple={false}
+                              length={1}
+                              count={1}
+                              showAddBtn={!avatar.length}
+                              files={toJS(avatar)}
+                              onChange={this.atImagePickerChange}
+                            />
+                          )
+                        }
+                      }
+                    />
+                    <AtForm 
+                      {...this.props}
+                      atInputArr={[
+                        { code: 'uname', name: '用户名', title: '用户名', required: false, type: 'text', placeholder: '-', editable: false, initValue: personalInformation.uname },
+                        { code: 'nickName', name: '昵称', title: '昵称', required: true, type: 'text', placeholder: '请输入', clear: true, initValue: personalInformation.nickName },
+                        { code: 'phone', name: '手机号码', title: '手机号码', required: true, type: 'phone', placeholder: '请输入', clear: true, initValue: personalInformation.phone }
+                      ]}
+                      renderChildren={() => {
+                        return (
+                          <View>
+                            <AtPicker
+                              label='gender'
+                              mode='selector' 
+                              range={genderArr || []}
+                              atListItem={[{ title: '性别', extraText: genderArr[pickerValue['gender']] || '请选择' }]}
+                              onChange={this.atPickerChange.bind(this, 'gender')}
+                            />
+                            <AtPicker
+                              label='birthday'
+                              mode='date' 
+                              atListItem={[{ title: '生日', extraText: pickerValue['birthday'] || '请选择' }]}
+                              onChange={this.atPickerChange.bind(this, 'birthday')}
+                            />
+                          </View>
+                        );
+                      }}
+                      btnArr={[
+                        { text: '保存', type: 'primary', onClick: this.handleSubmit }
+                      ]}
+                      otherErrTip={otherErrTip}
+                    />
+                  </View>
+                }
             </View>
         );
     }
