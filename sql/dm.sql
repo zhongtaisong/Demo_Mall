@@ -361,7 +361,7 @@ CREATE TABLE `dm_user` (
 /*Data for the table `dm_user` */
 
 insert  into `dm_user`(`id`,`uname`,`upwd`,`email`,`phone`,`avatar`,`ukey`,`gender`,`birthday`,`nickName`,`admin`) values 
-(16,'dangdang','688344cb36c2be642febb3eab9a33430','zhongtaisong@sina.com','18312345678','img/avatar/81924c5f2eb9694b46808ac5739a161b.jpg','565403042620171','0','2020-05-02','闹钟太松了','1'),
+(16,'dangdang','688344cb36c2be642febb3eab9a33430','zhongtaisong@sina.com','18312345678','img/avatar/84fc87074b94f90182008480f0f24fbe.jpg','565403042620171','0','2020-05-02','闹钟太松了666','1'),
 (17,'zhong','e618f9b540c5d502af310e8cfaa88c3e','zhongtaisong@sina.com','18312345678','img/avatar/9f36612fb47a663af063fd3d5d2661e1.jpg','08132417815893','2','2019-12-01','zhong','1'),
 (35,'yuanyuan','905117d7b3063ed238f53e0d6dbf2235','zhongtaisong@sina.com','18312345678','img/avatar/8f3b2ad7834a81e6b35d51dacc435844.jpg','5846917731496786','1','2020-02-27','yuanyuan666','1'),
 (37,'zhong001','12d97549939281b005b70e07c42ce406','zhongtaisong@sina.com','18312345678',NULL,'38653085083815397','0','2020-02-22','001','1'),
