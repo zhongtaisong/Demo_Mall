@@ -78,6 +78,9 @@ class Index extends React.Component {
         }));
         state.setAddressModalData();
         state.setErrTip();
+        this.setState({ 
+            id: null
+        });
     }
 
     componentWillUnmount() {
