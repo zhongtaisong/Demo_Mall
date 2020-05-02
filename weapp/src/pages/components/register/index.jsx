@@ -21,6 +21,10 @@ class Index extends Taro.Component {
       }
     }
 
+    config = {
+      enablePullDownRefresh: false
+    }
+
     // 提交注册信息
     handleSubmit = (e, values) => {
       let { upwd, confirm } = values || {};

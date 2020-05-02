@@ -25,71 +25,6 @@ class Index extends Taro.Component {
     componentDidMount() {
         this.props.history && state.setHistory( this.props.history );
     }
-
-    // 选择规格
-    // handleToggleSpecs = (id) => {
-    //     if( id ){
-    //         this.props.history.push(`/views/products/detail/${id}`);
-    //         this.setState(() => ({
-    //             num: 1,
-    //             actionIndex: 0
-    //         }));
-    //     }
-    // }
-
-    // // 加入购物车
-    // handleAddCart = () => {
-    //     const { basicInfo } = this.props;
-    //     if( basicInfo ){
-    //         state.addcartData([{
-    //             pid: basicInfo.id,
-    //             num: this.state.num,
-    //             totalprice: basicInfo.price ? Number(basicInfo.price) * this.state.num : basicInfo.price
-    //         }]);
-    //     }
-    // }
-
-    // // 立即购买
-    // immediatePurchase = () => {
-    //     let { basicInfo={} } = this.props;
-    //     const { id } = basicInfo;
-    //     id && this.props.history.replace({
-    //         pathname: '/views/products/cart/settlement',
-    //         state: {
-    //             id,
-    //             num: this.state.num,
-    //             type: 'detail'
-    //         }
-    //     });
-    // }
-
-    // // 获取活动面板 - 按钮索引
-    // getBtnsIndex = (index) => {
-    //     const { specs=[] } = this.props;
-    //     if( specs.length != index ){
-    //         this.handleToggleSpecs(specs[index].id);
-    //     }
-    // }
-    
-    // showActionSheet = async () => {
-    //     this.setState({
-    //       isOpened: true
-    //     })
-    //     // let BUTTONS = obj.map(item => item.spec);
-    //     // BUTTONS.push('关闭');
-
-    //     // let View = BUTTONS.indexOf(spec);
-    //     // let activeIndex = View > -1 ? View : 0;
-
-    //     // ActionSheet({ 
-    //     //     props: this.props, 
-    //     //     btns: BUTTONS, 
-    //     //     className: 'ProductsDetail_Products_sheet', 
-    //     //     params: {}, 
-    //     //     getBtnsIndex: this.getBtnsIndex, 
-    //     //     activeIndex
-    //     // });
-    // }
     
     // 选择规格 - 活动面板
     showActionSheet = (arr=[], id) => {
@@ -124,6 +59,18 @@ class Index extends Taro.Component {
       }
     }
 
+    // 预览图片
+    previewImageClick = (avatar) => {
+      let { imgList=[] } = this.props;
+      imgList.forEach((item, index) => {
+        imgList[index] = `${PUBLIC_URL}${item}`;
+      })
+      imgList.length && avatar && Taro.previewImage({
+        urls: imgList,
+        current: `${PUBLIC_URL}${avatar}`
+      });
+    }
+
     render() {
         const { basicInfo={}, imgList, specs=[], watchNumber, num } = this.props;
         const { isOpened, atActionSheetItem } = this.state
@@ -134,12 +81,12 @@ class Index extends Taro.Component {
                   indicatorActiveColor='#1890ff'
                   circular
                   indicatorDots
-                  className='big_img'
+                  className='big_img'                  
                 >
                     {
                         imgList.map( (item, index) => {
                             return (
-                                <SwiperItem key={index}>
+                                <SwiperItem key={index} onClick={this.previewImageClick.bind(this, item)}>
                                   <Image mode='aspectFit' src={PUBLIC_URL + item} />
                                 </SwiperItem>
                             );
@@ -149,7 +96,7 @@ class Index extends Taro.Component {
                 <View className='content'>
                     <View className='price'>
                         <View>￥</View>
-                        <Text>{!isNaN(Number(basicInfo.price)) ? Number(basicInfo.price).toFixed(2) : 0 }</Text>
+                        <Text>{!isNaN(Number(basicInfo.price)) ? Number(basicInfo.price).toFixed(2) : 0}</Text>
                     </View>
                     <View className='product_info'>
                         <View>{ basicInfo.description ? basicInfo.description : '敬请期待~~~' }</View>

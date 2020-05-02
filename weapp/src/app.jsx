@@ -31,11 +31,10 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/tabBar/my/index',
       'pages/tabBar/home/index',
       'pages/tabBar/products/index',
       'pages/tabBar/myShoppingCart/index',
-      // 'pages/tabBar/my/index'
+      'pages/tabBar/my/index'
     ],    
     subPackages: [
       {
@@ -100,9 +99,6 @@ class App extends Component {
             text: '我的'
         }
       ]
-    },
-    networkTimeout: {
-      request: 6000
     }
   }
 

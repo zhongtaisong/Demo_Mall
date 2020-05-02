@@ -31,6 +31,10 @@ class Index extends Taro.Component {
         state.clearMobxData();
     }
 
+    config = {
+      enablePullDownRefresh: false
+    }
+
     // 登录
     loginSubmit = (e, values={}) => {
       let obj = JSON.parse(JSON.stringify(values));

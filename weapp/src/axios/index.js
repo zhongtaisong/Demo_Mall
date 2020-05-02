@@ -46,11 +46,14 @@ const interceptor = function (chain) {
           console.log(err);
         }
         return res
+      }).catch((err) => {
+        Taro.hideLoading()
+        console.log(err);
       })
 }
 Taro.addInterceptor(interceptor)
 // Taro.addInterceptor(Taro.interceptors.logInterceptor)
-// Taro.addInterceptor(Taro.interceptors.timeoutInterceptor)
+Taro.addInterceptor(Taro.interceptors.timeoutInterceptor)
 
 const $axios = {
     get(url='', data={}, header={}) {
