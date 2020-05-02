@@ -40,10 +40,12 @@ router.post('/update', upload.any(), (req, res) => {
     delList = JSON.parse( delList );
     const rbody = req.body || {};
     let files = [];
-    if( type == 'wx' ) {      
-      files = [{
-        buffer: Buffer.from(rbody.avatar, 'base64')
-      }];
+    if( type == 'wx' ) {
+      if( rbody.avatar && !rbody.avatar.includes('avatar') ) {
+        files = [{
+          buffer: Buffer.from(rbody.avatar, 'base64')
+        }];
+      }
     }else{
       files = req.files || [];
     }
@@ -57,7 +59,12 @@ router.post('/update', upload.any(), (req, res) => {
           for(let r in rbody){
               r.startsWith('avatar') && avatarList.push(rbody[r]);
           }
+        }else{
+          if( !files.length ) {
+            avatarList.push(rbody.avatar);
+          }
         }
+
         if( !avatarList.length ){
             await new Promise((resolve, reject) => {
                 if( files.length ){

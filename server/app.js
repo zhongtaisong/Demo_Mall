@@ -51,10 +51,12 @@ app.use(cors({
 }))
 
 // 使用body-parser中间件
-app.use( bodyParser.json() );
+app.use( bodyParser.json({
+  limit: '50mb'
+}) );
 app.use( bodyParser.urlencoded({
 	extended: false,
-	limit: '10000kb'
+	limit: '50mb'
 }) );
 
 // cookie
