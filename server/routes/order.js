@@ -282,21 +282,25 @@ router.get('/select', (req, res) => {
 
             const arr = await new Promise((resolve, reject) => {
                 let result = [];
-                orders.map((item, index) => {
-                    sql = `SELECT id, mainPicture, description, spec, price FROM dm_products WHERE id IN (${item.pid})`;
-                    pool.query(sql, null, (err, data) => {
-                        if(err) throw err;
-                        let nums = item.nums ? item.nums.split(',') : [];
-                        data.map((d, i) => {
-                            d['ordernum'] = item.ordernum;
-                            d['num'] = Number(nums[i]);
-                            d['totalprice'] = d['num'] * d['price'];
-                            d['orderId'] = item.id;
-                        });
-                        result.push(data);
-                        result.length == orders.length && resolve(result);
-                    })
-                })
+                if(orders.length) {
+                  orders.map((item, index) => {
+                      sql = `SELECT id, mainPicture, description, spec, price FROM dm_products WHERE id IN (${item.pid})`;
+                      pool.query(sql, null, (err, data) => {
+                          if(err) throw err;
+                          let nums = item.nums ? item.nums.split(',') : [];
+                          data.map((d, i) => {
+                              d['ordernum'] = item.ordernum;
+                              d['num'] = Number(nums[i]);
+                              d['totalprice'] = d['num'] * d['price'];
+                              d['orderId'] = item.id;
+                          });
+                          result.push(data);
+                          result.length == orders.length && resolve(result);
+                      })
+                  })
+                }else{
+                  resolve(result);
+                }
             })
 
             let obj = [];
