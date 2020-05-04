@@ -14,7 +14,7 @@ const data = [
   },
   {
     key: 'collection',
-    title: '我的收藏',
+    title: '商品收藏',
     thumb: require('@img/svg/collection.svg'),
     arrow: 'right',
     onClick: () => {

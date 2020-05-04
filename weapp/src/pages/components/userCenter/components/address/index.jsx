@@ -127,10 +127,7 @@ class Index extends Taro.Component {
                         ]}
                         onAtSwipeActionClick={this.onAtSwipeActionClick}
                       />
-                      {
-                        dataSource.length && 
-                        <View className='add_address' onClick={this.toggleModal}>添加收货地址</View>
-                      }
+                      <View className='add_address' onClick={this.toggleModal}>添加收货地址</View>
                     </View>
                   ) : (
                     <AtForm 

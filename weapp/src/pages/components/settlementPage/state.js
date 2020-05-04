@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro'
 import { observable, action } from "mobx";
 // 全局公共方法
 import { session } from '@utils';
@@ -50,19 +51,28 @@ class State {
         });
         try{
             if( res.data.code === 200 ){
-                let { address, productsInfo=[] } = res.data.data || {};
+                let { address=[], productsInfo=[] } = res.data.data || {};
                 if( type == 'detail' ){
                     productsInfo[0].num = num;
                 }
                 this.setDataSource02(productsInfo);
                 // 默认收件人
                 let df = address.filter(item => item.isDefault == 1);
-                df.length && this.setSelectAddress({
-                  id: df[0].id,
-                  title: `${df[0].name || ''} ${df[0].phone ? df[0].phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1****$3') : df[0].phone}`,
-                  note: `${df[0].region || ''} ${df[0].detail || ''}`,
-                  arrow: 'right'
-                });
+                if(df.length) {
+                  this.setSelectAddress({
+                    id: df[0].id,
+                    title: `${df[0].name || ''} ${df[0].phone ? df[0].phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1****$3') : df[0].phone}`,
+                    note: `${df[0].region || ''} ${df[0].detail || ''}`,
+                    arrow: 'right'
+                  });
+                }else{
+                  this.setSelectAddress({
+                    id: address[0].id,
+                    title: `${address[0].name || ''} ${address[0].phone ? address[0].phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1****$3') : address[0].phone}`,
+                    note: `${address[0].region || ''} ${address[0].detail || ''}`,
+                    arrow: 'right'
+                  });
+                }
 
                 address = address.map(item => {
                   return {

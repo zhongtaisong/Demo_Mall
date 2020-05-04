@@ -27,8 +27,12 @@ class Index extends Taro.Component {
 
     // 提交注册信息
     handleSubmit = (e, values) => {
-      let { upwd, confirm } = values || {};
+      let { upwd, confirm, uname } = values || {};
       let obj = JSON.parse(JSON.stringify(values));
+      if( !(/\w/g.test(uname)) ) {
+        this.setState({ otherErrTip: '亲，用户名只能由英文、数字、"_"组成' })
+        return;
+      }
       if( upwd != confirm ) {
           this.setState({ otherErrTip: '密码和确认密码不一致！' })
       }else{

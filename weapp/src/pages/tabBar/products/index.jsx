@@ -43,7 +43,7 @@ class Index extends Taro.Component {
               <NavBar {...this.props} title='杂货铺' />
               <SearchBar {...this.props} disabled />
               <View style={{padding:`${Taro.topHeight+42}px 10Px 0`}}>
-                  <ProductList products={toJS(productList)} isShowTag onAtLoadMoreClick={this.onAtLoadMoreClick} />
+                  <ProductList products={toJS(productList)} isShowTag onAtLoadMoreClick={this.onAtLoadMoreClick} isShowAtSwipeAction={false} />
               </View>
             </View>
         );

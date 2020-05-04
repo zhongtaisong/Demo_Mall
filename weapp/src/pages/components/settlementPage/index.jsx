@@ -13,18 +13,18 @@ import './index.less';
 
 // 结算页
 @observer
-class SettlementPage extends Taro.Component {
+class Index extends Taro.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            pid: [],
-            visible: false,
-            type: null
+          pid: [],
+          visible: false,
+          type: null
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
       try{
         let { id, type='cart', num } = this.$router.params || {};
         if(id) {
@@ -59,6 +59,14 @@ class SettlementPage extends Taro.Component {
     // 提交订单
     handleSubmitOrders = () => {
         let { selectAddress, num, totalprice, nums } = state;
+        if(!selectAddress.id) {
+          Taro.showToast({
+            title: '你还没有收货地址，请先到：我的-用户中心-收货地址添加',
+            icon: 'none',
+            duration: 3000
+          })
+          return;
+        }
         state.addorderData({
             uname: session.getItem('uname'), 
             pid: this.state.pid, 
@@ -121,48 +129,54 @@ class SettlementPage extends Taro.Component {
               <NavBar {...this.props} title={!visible ? '结算页' : '收货地址'} leftIconType='chevron-left' 
                 onClickLeftIcon={this.onClickLeftIcon}
               />
-              <View style={{
-                  padding:`${Taro.topHeight}px 10Px 50Px`
-                }}
-              >
-                {
-                  !visible ? (
-                    <View>
-                        <AtList 
-                          atListItem={[selectAddress]}
-                          className='address address_one'
-                        />
-                        <ProductList 
-                          products={dataSource02} 
-                          isShowSpecOther isShowAtSwipeAction={false}
-                          disabledLink isShowMore={false}
-                        />
-                        <AtList 
-                          atListItem={[
-                            { title: '商品总数：', extraText: `${num} 件` },
-                            { title: '商品金额', extraText: `￥${totalprice ? Number(totalprice).toFixed(2) : 0}` },
-                          ]}
-                          className='info'
-                        />
-                        <View className='bottom_tab_btns'>
-                            <View>
-                                <Text>￥</Text>
-                                { totalprice ? Number(totalprice).toFixed(2) : 0 }
-                            </View>
-                            <View onClick={this.handleSubmitOrders}>提交订单</View>
-                        </View>
-                    </View>
-                  ) : (
-                    <AtList 
-                      atListItem={toJS(dataSource01)}
-                      className='address address_list'
-                    />
-                  )
-                }
-              </View>                
+              {
+                dataSource02.length && 
+                <View style={{
+                    padding:`${Taro.topHeight}px 10Px 50Px`
+                  }}
+                >
+                  {
+                    !visible ? (
+                      <View>
+                          {
+                            Object.keys(selectAddress).length > 1 && 
+                            <AtList 
+                              atListItem={[selectAddress]}
+                              className='address address_one'
+                            />
+                          }
+                          <ProductList 
+                            products={dataSource02} 
+                            isShowSpecOther isShowAtSwipeAction={false}
+                            disabledLink isShowMore={false}
+                          />
+                          <AtList 
+                            atListItem={[
+                              { title: '商品总数：', extraText: `${num} 件` },
+                              { title: '商品金额', extraText: `￥${totalprice ? Number(totalprice).toFixed(2) : 0}` },
+                            ]}
+                            className='info'
+                          />
+                          <View className='bottom_tab_btns'>
+                              <View>
+                                  <Text>￥</Text>
+                                  { totalprice ? Number(totalprice).toFixed(2) : 0 }
+                              </View>
+                              <View onClick={this.handleSubmitOrders}>提交订单</View>
+                          </View>
+                      </View>
+                    ) : (
+                      <AtList 
+                        atListItem={toJS(dataSource01)}
+                        className='address address_list'
+                      />
+                    )
+                  }
+                </View>
+              }
             </View>
         );
     }
 }
 
-export default SettlementPage;
+export default Index;

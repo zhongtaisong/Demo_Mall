@@ -46,7 +46,7 @@ class State {
                 const { data } = res.data || {};
                 if(data) {
                     this.setPersonalInformation(data);
-                    this.setAvatar([{ url: `${PUBLIC_URL}${data.avatar}` }]);
+                    data.avatar && this.setAvatar([{ url: `${PUBLIC_URL}${data.avatar}` }]);
                     this.setPickerValue({
                       gender: data.gender, 
                       birthday: data.birthday
