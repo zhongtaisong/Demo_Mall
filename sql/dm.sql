@@ -29,7 +29,7 @@ CREATE TABLE `dm_address` (
   `phone` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '电话',
   `isDefault` int(1) unsigned zerofill DEFAULT NULL COMMENT '是否为默认地址',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 /*Data for the table `dm_address` */
 
@@ -38,7 +38,14 @@ insert  into `dm_address`(`id`,`uname`,`name`,`region`,`detail`,`phone`,`isDefau
 (16,'dangdang','夏女士','江苏南京','雨花台区软件谷人才公寓','123 4567 8901',0),
 (17,'dangdang','中国平安','上海徐汇','凯宾路208号','188 1234 5678',0),
 (18,'dangdang','刘女士','江西赣州','兴国永丰凌源村','188 1234 5678',1),
-(20,'dangdang','中国','湖北武汉','武汉武汉武汉','15612345678',0);
+(20,'dangdang','中国','湖北武汉','武汉武汉武汉','15612345678',0),
+(22,'z','zhong','jiangjiangsu江苏','suzhsuzhou苏州','1831234678',1),
+(23,'z','1','2','3','4',0),
+(24,'z','22','33','44','55',0),
+(25,'1q','Ztb','Jx','Nj南京南京基金基金','11111113333',0),
+(26,'1q','zdb','sh','sh','99966663333',0),
+(27,'ts','钟太松','江苏苏州','丁香巷','18312345678',0),
+(28,'xiayuanyuan','xiayuanyuan','jsnj','njtxq','77788889999',0);
 
 /*Table structure for table `dm_admin` */
 
@@ -108,23 +115,20 @@ CREATE TABLE `dm_cart` (
   `totalprice` decimal(10,2) DEFAULT NULL COMMENT '商品总价',
   `collection` int DEFAULT '0' COMMENT '1-已收藏，0-未收藏',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 /*Data for the table `dm_cart` */
 
 insert  into `dm_cart`(`id`,`uname`,`pid`,`num`,`totalprice`,`collection`) values 
 (111,'dangdang',2,9,73692.00,1),
-(131,'dangdang',8,19,89281.00,0),
 (134,'aaaaaa',28,3,32997.00,0),
 (142,'dangdang',4,1,7499.00,1),
-(149,'dangdang',1,1,10688.00,0),
 (150,'dangdang',2,1,8188.00,0),
-(151,'dangdang',3,1,18799.00,0),
-(152,'dangdang',4,1,7499.00,0),
+(152,'dangdang',4,2,14998.00,0),
 (153,'dangdang',5,1,6209.00,0),
 (154,'dangdang',6,1,21999.00,0),
-(155,'dangdang',7,1,4499.00,0),
-(156,'dangdang',8,1,4699.00,0);
+(160,'1q',1,24,256512.00,0),
+(161,'z',1,1,10688.00,0);
 
 /*Table structure for table `dm_comment` */
 
@@ -139,7 +143,7 @@ CREATE TABLE `dm_comment` (
   `agree` int DEFAULT NULL COMMENT '喜欢次数',
   `disagree` int DEFAULT NULL COMMENT '不喜欢次数',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 /*Data for the table `dm_comment` */
 
@@ -188,7 +192,9 @@ insert  into `dm_comment`(`id`,`uname`,`pid`,`content`,`commentTime`,`agree`,`di
 (44,'dangdang',53,'11111111111','2020-05-01 18:32:01',0,0),
 (45,'dangdang',53,'222222222222','2020-05-01 18:32:36',0,0),
 (46,'dangdang',47,'666666666666666','2020-05-01 18:43:44',0,0),
-(47,'dangdang',47,'kk坎坎坷坷','2020-05-01 18:44:00',0,0);
+(47,'dangdang',47,'kk坎坎坷坷','2020-05-01 18:44:00',0,0),
+(48,'ts',21,'头呜呜呜','2020-05-04 22:10:09',0,0),
+(49,'xiayuanyuan',8,'儿童英语破除不了几种语言能力是维生素矿物质微量元素、这些东西是我们一起走过最难走进我们宿舍都要的人了……这么多年一直坚持到这个地步、一个人走下去……在于他们自己也有能力改变了我们的命运？一定可以做到这个世界没有意义，我们可以看到自己所说了什么叫我起床夜里睡觉都没有意义，我们是朋友就好的地方也不算多人喜欢他喜欢她这样会影响他们休息的地方是哪里吗……我们在这了！我们可以在一开始我以为是自己一场轰轰烈烈地恋爱是为了什么。一直以为是一部电视剧免费看完演唱会了、你说什么都没有发生在我们身边人过了今天早上才是你最爱吃零食大礼包一份感情上好吗、你就这样对我的感觉真不错？一次又开始做作业吧、这样可以接受我自己','2020-05-04 22:27:01',0,0);
 
 /*Table structure for table `dm_message` */
 
@@ -229,7 +235,7 @@ CREATE TABLE `dm_order` (
   `totalprice` decimal(10,2) DEFAULT NULL COMMENT '商品总价',
   `nums` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '同一订单下各个商品的数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 /*Data for the table `dm_order` */
 
@@ -240,7 +246,13 @@ insert  into `dm_order`(`id`,`uname`,`ordernum`,`status`,`aid`,`pid`,`submitTime
 (15,'dangdang','20200329144926',100,1,'17','2020-03-29 14:49:26',1,14699.00,'1'),
 (49,'dangdang','20200428215108',100,15,'28','2020-04-28 21:51:08',1,10999.00,'1'),
 (55,'dangdang','20200428221858',100,15,'21','2020-04-28 22:18:58',1,6799.00,'1'),
-(57,'dangdang','20200428222206',100,15,'37','2020-04-28 22:22:06',1,9699.00,'1');
+(57,'dangdang','20200428222206',100,15,'37','2020-04-28 22:22:06',1,9699.00,'1'),
+(75,'z','20200504204930',100,22,'1','2020-05-04 20:49:30',1,10688.00,'1'),
+(76,'z','20200504205332',100,22,'7','2020-05-04 20:53:32',1,4499.00,'1'),
+(77,'ts','20200504220829',100,27,'8','2020-05-04 22:08:29',1,4699.00,'1'),
+(78,'ts','20200504220933',100,27,'21','2020-05-04 22:09:33',3,20397.00,'3'),
+(79,'ts','20200504221615',100,27,'3','2020-05-04 22:16:15',1,18799.00,'1'),
+(80,'xiayuanyuan','20200504222337',100,28,'8','2020-05-04 22:23:37',1,4699.00,'1');
 
 /*Table structure for table `dm_products` */
 
@@ -356,7 +368,7 @@ CREATE TABLE `dm_user` (
   `nickName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '昵称',
   `admin` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '0' COMMENT '后台权限1表示有，0表示无',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 /*Data for the table `dm_user` */
 
@@ -374,7 +386,17 @@ insert  into `dm_user`(`id`,`uname`,`upwd`,`email`,`phone`,`avatar`,`ukey`,`gend
 (44,'1dddd','9e5bf13f3a3c5cb3cedff8c1eb410dd8','3','2',NULL,'9478445317324986','2','2020-04-20 20:42:46','1dddd','0'),
 (45,'kk','eb6d236b35e7029495795f5fe502c5b6','111','123456789',NULL,'10279301509920558','2','2020-04-21 10:39:41','kk','0'),
 (46,'11111111111','43f7cd80cb9fae26616360b166fc5dc1','3','2',NULL,'8546186782048073','2','2020-04-29 23:01:08','11111111111','0'),
-(47,'zzz','c62853b0f27ee3492de61064cb6649a0','fff','1831234678',NULL,'43432002372682965','2','2020-05-01 17:06:15','zzz','0');
+(47,'zzz','c62853b0f27ee3492de61064cb6649a0','fff','1831234678',NULL,'43432002372682965','2','2020-05-01 17:06:15','zzz','0'),
+(48,'圆圆','58fcd0cf69698b3bb94801e24e9007ee','3844307302@qq.com','1529784828',NULL,'31443186078007046','2','2020-05-04 10:06:20','圆圆','0'),
+(49,'12334','a797881a02322ff1fe6c776a0f0586b9','2','1',NULL,'015132531124486315','2','2020-05-04 10:06:59','12334','0'),
+(50,'22','100cdc2488b796fdb7d7367ceb0c1169','22','22',NULL,'36739493053132777','2','2020-05-04 10:07:52','22','0'),
+(51,'z','6f8aaaf7b91ba75c26fe6c2da005ada3','2','1',NULL,'12730783096993736','2','2020-05-04 10:10:28','z','0'),
+(52,'1q','714d1e0e26172fbfc993069b6674a435','a','1','img/avatar/e8e87b7639e96bfedf6263fae440a441.jpg','8984534767978931','2','2020-05-04 20:54:43','1q','0'),
+(53,'ts','0bf522fd351e8af15c67cdb20e8fd860','z','18312345678',NULL,'19200169483107454','2','2020-05-04 21:05:32','ts','0'),
+(54,'夏媛媛','4ada77e339a4a628cb28d9b8a75a3671','xia','15297847828',NULL,'1978013590040566','2','2020-05-04 22:17:12','夏媛媛','0'),
+(55,'xiayuanyuan','d3ee68a377f38d7d8450fe899a2bb82a','xia','88877779999','img/avatar/370d3d1c45f404452873cdd6baab3766.jpg','23738063374510832','2','1992-09-06','xiayuanyuan','0'),
+(56,'Cos-b','780e0b059c460fcd3c97f15e49e19f8f','q','11122233344',NULL,'054940462329719164','2','2020-05-04 22:35:21','Cos-b','0'),
+(57,'cvm_hh','5d944547debfba9ca86c359d6952fe20','a','12345678',NULL,'4868742592948212','2','2020-05-04 22:36:33','cvm_hh','0');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
